@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="checkbox"] {
+  accent-color: #5871eb;
+}
+
+input[type="range"] {
+  accent-color: #D9D9D9;
+}
+
+input[type="range"] {
+  background: linear-gradient(to right, #5871EB 0%, #5871EB 50%, #D9D9D9 50%, #D9D9D9 100%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  background: #5871EB;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #5871EB;
+}
+
+select {
+  background: url(../images/caret.svg) 95% center no-repeat;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* react-toastify */
+.Toastify__toast--success {
+  background-color: #80CBA6 !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  color: white !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+.Toastify__toast--error {
+  background-color: #EF4637 !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  color: white !important;
+  font-family: "Inter", sans-serif !important;
+}
