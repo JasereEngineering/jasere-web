@@ -8,7 +8,7 @@ import left from "../assets/images/scroll-left-focus.svg";
 import right from "../assets/images/scroll-right-focus.svg";
 import image from "../assets/images/full-logo.svg";
 
-const JoinGame = () => {
+const Landing = () => {
   return (
     <AppLayout className="font-lato flex flex-col">
       <Navbar className="mb-5" />
@@ -66,4 +66,4 @@ const JoinGame = () => {
   );
 };
 
-export default JoinGame;
+export default Landing;

@@ -31,6 +31,10 @@ export default function App() {
       <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       <Route path={ROUTES.PLAY.LEADERBOARD} element={<Leaderboard />} />
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
+      <Route
+          path={ROUTES.SCRAMBLED_WORDS.GAME}
+          element={<ScrambledWordsGame />}
+        />
 
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
@@ -50,10 +54,6 @@ export default function App() {
         <Route
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
           element={<CreateScrambledWordsNewGame />}
-        />
-        <Route
-          path={ROUTES.SCRAMBLED_WORDS.GAME}
-          element={<ScrambledWordsGame />}
         />
         <Route path={ROUTES.PLAY.PLAY_NOW} element={<PlayNow />} />
         <Route path={ROUTES.PLAY.START_GAME} element={<StartGame />} />

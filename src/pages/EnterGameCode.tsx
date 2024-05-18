@@ -1,16 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
-
 import Input from "../components/forms/Input";
 
-const EnterGameCode = () => {
+import { AppDispatch } from "../store";
+import { addGuest } from "../store/features/auth";
+import { joinGame } from "../store/features/game";
+import * as ROUTES from "../routes";
+
+const JoinGame = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const gamePin = searchParams.get("code");
 
@@ -18,32 +26,30 @@ const EnterGameCode = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
-
   const handleSubmit = () => {
-    socket.emit("join", { game_pin: code, player_name: name });
     setLoading(true);
+    const socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
+    socket.emit("join", { game_pin: code, player_name: name });
+    socket.on("join", handleJoin);
+    socket.on("disconnect", () => showError("unable to join game"));
+  };
+
+  const showError = (message: string) => {
+    setTimeout(() => {
+      toast.error(message);
+      setLoading(false);
+    }, 2000);
   };
 
   const handleJoin = (response: any) => {
-    console.log({ response });
+    if (response.statusCode !== "00") return showError(response.statusMessage);
+
+    const game = response.game.replaceAll(" ", "-").toLowerCase();
+    dispatch(addGuest(name));
+    dispatch(joinGame({ ...response, game, game_pin: code }));
+
+    navigate(ROUTES.PLAY.BEGIN_GAME_FOR(game, response.game_session_id));
   };
-
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected!");
-    });
-
-    socket.on("disconnect", () => {
-      console.log("disconnected");
-    });
-
-    socket.on("join", handleJoin);
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
 
   return (
     <AppLayout className="font-lato flex flex-col">
@@ -82,4 +88,4 @@ const EnterGameCode = () => {
   );
 };
 
-export default EnterGameCode;
+export default JoinGame;

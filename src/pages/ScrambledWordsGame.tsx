@@ -82,7 +82,7 @@ const ScrambledWordsGame = () => {
   const handleSubmit = () => {
     if (!started) {
       setStarted(true);
-      setSeconds(5);
+      setSeconds(3);
     } else if (hurray) {
       dispatch(updateTrivia(currentTrivia));
     } else {
@@ -151,14 +151,6 @@ const ScrambledWordsGame = () => {
   }, [word]);
 
   useEffect(() => {
-    // socket.on("connect", () => {
-    //   console.log("connected!");
-    // });
-
-    // socket.on("disconnect", () => {
-    //   console.log("disconnected");
-    // });
-
     return () => {
       socket.disconnect();
     };
@@ -194,7 +186,7 @@ const ScrambledWordsGame = () => {
             <div className="mb-12 flex justify-center">
               <CountdownCircleTimer
                 isPlaying={seconds > 0}
-                duration={5}
+                duration={3}
                 colors="#F28C0D"
                 size={89}
                 strokeWidth={1}

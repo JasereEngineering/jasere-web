@@ -108,6 +108,16 @@ export const gameSlice = createSlice({
       state.currentTrivia = 0;
       state.trivia = [];
     },
+    joinGame: (state, { payload }) => {
+      state.trivia = JSON.parse(payload.trivia).map((item: any) => ({
+        ...item,
+        completed: false,
+      }));
+      state.gameSession = payload.game_session_id;
+      state.gameName = payload.game_name;
+      state.gameTitle = payload.game;
+      state.gamePin = payload.game_pin;
+    },
   },
   extraReducers(builder) {
     builder
@@ -137,7 +147,9 @@ export const gameSlice = createSlice({
             );
             break;
           case "game/result/fulfilled":
-            state.results = action.payload.results;
+            state.results = action.payload.results.sort(
+              (a: any, b: any) => b.point - a.point
+            );
             break;
         }
 
@@ -146,7 +158,13 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { selectGame, selectCategory, clearGameSession, updateTrivia, endGame } =
-  gameSlice.actions;
+export const {
+  selectGame,
+  selectCategory,
+  clearGameSession,
+  updateTrivia,
+  endGame,
+  joinGame,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;
