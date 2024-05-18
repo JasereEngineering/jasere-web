@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,10 +17,11 @@ const SelectGame = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-
   const { loading, games } = useSelector<RootState>(
     ({ game }) => game
   ) as GameState;
+
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     dispatch(fetchGames());
@@ -35,10 +36,11 @@ const SelectGame = () => {
           CHOOSE A GAME
         </h1>
         <p className="font-medium text-[1rem] text-center mb-8">
-          TAKE A SHOT is an exhilarating and fast-paced party game designed for
+          {description ||
+            `THIS GAME is an exhilarating and fast-paced party game designed for
           bringing fun and excitement to social gatherings or casual play with
           friends. This word-based game is perfect for those who love a mix of
-          creativity, quick thinking, and friendly competition.
+          creativity, quick thinking, and friendly competition.`}
         </p>
         <div className="grid grid-cols-2 gap-x-3 gap-y-8">
           {games.map((game) => (
@@ -56,6 +58,7 @@ const SelectGame = () => {
                 );
                 navigate("/" + game.name.toLowerCase().replaceAll(" ", "-"));
               }}
+              onMouseEnter={() => setDescription(game.description)}
             />
           ))}
         </div>

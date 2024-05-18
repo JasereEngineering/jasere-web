@@ -4,7 +4,7 @@ import UnauthedLayout from "./components/layouts/UnauthedLayout";
 import AuthedLayout from "./components/layouts/AuthedLayout";
 
 import GetStarted from "./pages/GetStarted";
-import Play from "./pages/Play";
+// import Play from "./pages/Play";
 import PlayNow from "./pages/PlayNow";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -17,16 +17,17 @@ import CreateScrambledWordsGame from "./pages/CreateScrambledWordsGame";
 import CreateScrambledWordsNewGame from "./pages/CreateScrambledWordsNewGame";
 import Leaderboard from "./pages/Leaderboard";
 import StartGame from "./pages/StartGame";
-import JoinGame from "./pages/EnterGameCode";
+import JoinGame from "./pages/JoinGame";
 
 import * as ROUTES from "./routes";
+import Landing from "./pages/Landing";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<GetStarted />} />
       <Route path={ROUTES.PLAY.GET_STARTED} element={<GetStarted />} />
-      <Route path={ROUTES.PLAY.PLAY_GAME} element={<Play />} />
+      <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
       <Route path={ROUTES.PLAY.HURRAY} element={<Hurray />} />
       <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       <Route path={ROUTES.PLAY.LEADERBOARD} element={<Leaderboard />} />

@@ -204,7 +204,7 @@ const ScrambledWordsGame = () => {
                 {scrambled.map((letter, i) => (
                   <div
                     key={i}
-                    className={`text-[#FFF7ED] text-[3rem] font-black ${
+                    className={`text-[#FFF7ED] text-[3rem] font-black cursor-pointer ${
                       scrambled.length > 7 ? "text-[2.25rem]" : ""
                     } ${selectedLetter?.index === i ? "opacity-50" : ""}`}
                     onClick={() => handleLetterClick(letter, i)}
@@ -217,7 +217,8 @@ const ScrambledWordsGame = () => {
                 {result.map((item, i) => (
                   <div
                     key={i}
-                    className="bg-[#0F2026] border border-white flex justify-center items-center text-[1.3rem] font-black grow h-[46px]"
+                    // className="bg-[#0F2026] border border-white flex justify-center items-center text-[1.3rem] font-black grow h-[46px] cursor-pointer"
+                    className="bg-[#0F2026] border border-white flex justify-center items-center text-[1.3rem] font-black grow aspect-square cursor-pointer"
                     onClick={() => handleSpaceClick(item, i)}
                   >
                     {item.letter}

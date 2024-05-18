@@ -3,15 +3,25 @@ const GameCard = ({
   image,
   pending,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
 }: {
   name: string;
   image: string;
   pending?: boolean;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }) => {
   return (
-    <div className="font-lato" onClick={onClick}>
-      <div className="bg-gradient-to-r from-[#E1E1E1] to-purple h-[7.5rem] p-0.5 rounded-[4px] flex mb-2">
+    <div
+      className="font-lato cursor-pointer"
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {/* <div className="bg-gradient-to-r from-[#E1E1E1] to-purple h-[7.5rem] p-0.5 rounded-[4px] flex mb-2"> */}
+      <div className="bg-gradient-to-r from-[#E1E1E1] to-purple aspect-video p-0.5 rounded-[4px] flex mb-2">
         <div className="rounded-[2px] grow relative bg-[#2C2F48]">
           <img src={image} alt={name} className="h-full w-full" />
           {pending ? (
