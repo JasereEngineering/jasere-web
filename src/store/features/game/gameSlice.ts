@@ -104,6 +104,10 @@ export const gameSlice = createSlice({
         state.currentTrivia = 0;
       }
     },
+    endGame: (state) => {
+      state.currentTrivia = 0;
+      state.trivia = [];
+    },
   },
   extraReducers(builder) {
     builder
@@ -142,7 +146,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { selectGame, selectCategory, clearGameSession, updateTrivia } =
+export const { selectGame, selectCategory, clearGameSession, updateTrivia, endGame } =
   gameSlice.actions;
 
 export default gameSlice.reducer;

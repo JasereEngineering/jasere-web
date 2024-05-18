@@ -25,7 +25,21 @@ const EnterGameCode = () => {
     setLoading(true);
   };
 
+  const handleJoin = (response: any) => {
+    console.log({ response });
+  };
+
   useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected!");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+    });
+
+    socket.on("join", handleJoin);
+
     return () => {
       socket.disconnect();
     };

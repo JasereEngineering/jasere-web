@@ -9,7 +9,7 @@ import Button from "../components/forms/Button";
 import avatar from "../assets/images/avatar.svg";
 
 import { RootState, AppDispatch } from "../store";
-import { fetchGameResult } from "../store/features/game";
+import { endGame, fetchGameResult } from "../store/features/game";
 import { GameState } from "../types";
 import * as ROUTES from "../routes";
 import Loader from "../components/misc/Loader";
@@ -59,7 +59,10 @@ const Leaderboard = () => {
         <Button
           text="NEXT GAME"
           className="border border-violet !bg-inherit !p-4 !font-extrabold"
-          onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+          onClick={() => {
+            dispatch(endGame())
+            navigate(ROUTES.PLAY.PICK_GAME);
+          }}
         />
       </div>
     </AppLayout>
