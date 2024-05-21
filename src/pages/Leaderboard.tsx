@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 
 import avatar from "../assets/images/avatar.svg";
@@ -28,8 +27,7 @@ const Leaderboard = () => {
   }, [dispatch, gameSession]);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-6" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-6">
       <div className="grow pb-[2.5rem] px-[1.875rem] flex flex-col justify-center">
         {loading ? <Loader /> : null}
         <h1 className="text-center text-orange text-[2.25rem] font-black">

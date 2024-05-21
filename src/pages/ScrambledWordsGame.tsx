@@ -6,7 +6,6 @@ import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 
 import correct from "../assets/images/correct.svg";
@@ -157,8 +156,7 @@ const ScrambledWordsGame = () => {
   }, [socket]);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-6" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-6">
       <div className="grow pb-[2.5rem] px-[1.875rem] flex flex-col">
         <div className="rounded-[6px] bg-orange border border-white w-[10rem] h-[3rem] font-black text-[1rem] flex items-center justify-center shadow-inner uppercase">
           {gameName}

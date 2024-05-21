@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
 import GameCard from "../components/misc/GameCard";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 
 import party from "../assets/images/party.jpg";
@@ -29,8 +28,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-5" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-5">
       <div className="flex flex-col grow px-7 pb-[2.625rem]">
         <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[6px] mb-7">
           <div className="rounded-[4px] bg-[#D78001] p-4">
@@ -63,7 +61,7 @@ const Landing = () => {
             </div>
             <div className="px-8">
               <Button
-                text="JOIN A GAME"
+                text="START A GAME"
                 className="font-lato p-[0.875rem] text-[1.375rem] !bg-violet"
                 onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
               />
@@ -93,12 +91,12 @@ const Landing = () => {
           <GameCard
             name="JOIN GAME"
             image={image}
-            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
           />
           <GameCard
             name="JOIN GAME"
             image={image}
-            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
           />
         </div>
       </div>

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
@@ -39,8 +38,7 @@ const Dashboard = () => {
   }, [dispatch]);
 
   return (
-    <AppLayout className="flex flex-col">
-      <Navbar className="mb-12" />
+    <AppLayout className="flex flex-col" navClassName="mb-12">
       <div className="grow px-7 pb-[3.125rem]">
       {loading ? <Loader /> : null}
         <div className="flex mb-[3.25rem]">

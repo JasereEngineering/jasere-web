@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
 
@@ -31,8 +30,7 @@ const CreateScrambledWordsGame = () => {
   }, [gameSession, sessionCreated, dispatch, navigate]);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-12" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-12">
       <div className="grow pb-[2.5rem] px-[2.375rem]">
         <h1 className="font-pop font-semibold text-[2.125rem]">Hello,</h1>
         <p className="font-pop text-[1.125rem] mb-[1.625rem]">

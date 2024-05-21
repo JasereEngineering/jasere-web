@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 import Checkbox from "../components/forms/Checkbox";
 import CategoryRadio from "../components/forms/CategoryRadio";
@@ -39,8 +38,7 @@ const ScrambledWords = () => {
   }, [dispatch, game]);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-12" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-12">
       <div className="grow pb-[2.5rem] px-[2.375rem]">
         {loading ? <Loader /> : null}
         <div className="bg-[#F28C0D] border border-white p-[0.938rem] font-black text-[1.375rem] text-center shadow-inner mb-3">

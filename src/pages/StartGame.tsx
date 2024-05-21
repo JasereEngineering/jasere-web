@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 
 import { RootState } from "../store";
@@ -17,10 +16,9 @@ const StartGame = () => {
     ({ game }) => game
   ) as GameState;
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-5" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-5">
       <div className="flex flex-col items-center grow p-11">
-        <h1 className="font-semibold text-[1.75rem] text-center max-w-[10.875rem] mb-3">
+        <h1 className="font-semibold text-[1.75rem] text-center max-w-[10.875rem] md:max-w-[16.875rem] mb-3">
           TO JOIN GAME SCAN CODE
         </h1>
         <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] w-[12.813rem] h-[12.813rem] mb-3">
@@ -42,7 +40,7 @@ const StartGame = () => {
         <h2 className="font-medium text-[1.438rem] text-center leading-[1.875rem] mb-4">
           COPY CODE
         </h2>
-        <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] w-full mb-8">
+        <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] w-full mb-8 md:max-w-[12rem]">
           <div className="rounded-[18px] bg-gradient-to-r from-[#1E1E1E] to-[#18365E] p-3 uppercase font-black text-[3rem] text-center leading-[1.875rem]">
             {gamePin}
           </div>
@@ -57,6 +55,7 @@ const StartGame = () => {
               )
             )
           }
+          className="md:max-w-[12rem]"
         />
       </div>
     </AppLayout>

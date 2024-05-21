@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import GameCard from "../components/misc/GameCard";
 import Loader from "../components/misc/Loader";
 
@@ -28,8 +27,7 @@ const SelectGame = () => {
   }, [dispatch]);
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-12" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-12">
       <div className="grow px-7 pb-10">
         {loading ? <Loader /> : null}
         <h1 className="font-bold text-[1.5rem] text-center mb-[0.875rem]">
@@ -50,6 +48,7 @@ const SelectGame = () => {
               image={image}
               pending={!game.isActive}
               onClick={() => {
+                if (!game.isActive) return;
                 dispatch(
                   selectGame({
                     id: game.id,

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 
 import { RootState, AppDispatch } from "../store";
@@ -20,8 +19,7 @@ const PlayNow = () => {
   ) as GameState;
 
   return (
-    <AppLayout className="flex flex-col">
-      <Navbar className="mb-5" />
+    <AppLayout className="flex flex-col" navClassName="mb-5">
       <div className="flex justify-center items-center grow p-4">
         <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] mb-7 w-full">
           <div className="rounded-[18px] bg-gradient-to-r from-[#1E1E1E] to-[#18365E] px-[1.375rem] py-[2.5rem]">

@@ -5,7 +5,6 @@ import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Navbar from "../components/navigation/Navbar";
 import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
 
@@ -52,8 +51,7 @@ const JoinGame = () => {
   };
 
   return (
-    <AppLayout className="font-lato flex flex-col">
-      <Navbar className="mb-5" />
+    <AppLayout className="font-lato flex flex-col" navClassName="mb-5">
       <div className="flex flex-col justify-center items-center grow p-[2.5rem]">
         <Input
           type="text"
