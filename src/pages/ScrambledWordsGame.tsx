@@ -28,8 +28,7 @@ const ScrambledWordsGame = () => {
 
   const [word, setWord] = useState(trivia[currentTrivia].answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
-  const [started, setStarted] = useState(false);
-  const [seconds, setSeconds] = useState<number | null>(null);
+  const [seconds, setSeconds] = useState(60);
   const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
   const [selectedLetter, setSelectedLetter] = useState<{
     letter: string;
@@ -45,105 +44,101 @@ const ScrambledWordsGame = () => {
   );
 
   const handleLetterClick = (letter: string, index: number) => {
-    if (seconds || !started) return;
+    if (!seconds) return;
     setSelectedLetter({ letter, index });
+    const resultIndex = result.findIndex((item) => item.index === null);
+    const newResult = [...result];
+    const newScrambled = [...scrambled];
+    console.log({ resultIndex, result });
+
+    newResult[resultIndex] = { letter, index };
+    setResult(newResult);
+
+    newScrambled[index] = "";
+    setScrambled(newScrambled);
+
+    setSelectedLetter(null);
   };
 
   const handleSpaceClick = (
     item: { letter: string; index: number },
     index: number
   ) => {
-    if (selectedLetter) {
+    if (item.index !== null) {
       const newResult = [...result];
       const newScrambled = [...scrambled];
-      if (item.index !== null) newScrambled[item.index] = item.letter;
-      newResult[index] = selectedLetter;
-      setResult(newResult);
 
-      newScrambled[selectedLetter.index] = "";
+      newScrambled[item.index] = item.letter;
       setScrambled(newScrambled);
 
-      setSelectedLetter(null);
-    } else {
-      if (item.index !== null) {
-        const newResult = [...result];
-        const newScrambled = [...scrambled];
-
-        newScrambled[item.index] = item.letter;
-        setScrambled(newScrambled);
-
-        newResult[index] = { letter: "", index: null };
-        setResult(newResult);
-      }
+      newResult[index] = { letter: "", index: null };
+      setResult(newResult);
     }
   };
 
   const handleSubmit = () => {
-    if (!started) {
-      setStarted(true);
-      setSeconds(3);
-    } else if (hurray) {
-      dispatch(updateTrivia(currentTrivia));
+    if (scrambled.join("")) return toast.error("incomplete solution");
+
+    const solution = result
+      .map((item) => item.letter)
+      .join("")
+      .toLowerCase();
+    if (solution !== word.toLowerCase()) {
+      setHurray(false);
+      setScrambled(shuffleArray(word.split("")));
+      setResult(Array(word.length).fill({ letter: "", index: null }));
+      socket.emit("poll", {
+        game_session_id: gameSession,
+        selected_answer: solution,
+        transition: currentTrivia + 1,
+        trivia_id: trivia[currentTrivia].id,
+        is_correct: false,
+        player_name: username,
+      });
     } else {
-      if (scrambled.join("")) return toast.error("incomplete solution");
-
-      const solution = result
-        .map((item) => item.letter)
-        .join("")
-        .toLowerCase();
-      if (solution !== word.toLowerCase()) {
-        setHurray(false);
-        setScrambled(shuffleArray(word.split("")));
-        setResult(Array(word.length).fill({ letter: "", index: null }));
-
-        socket.emit("poll", {
-          game_session_id: gameSession,
-          selected_answer: solution,
-          transition: currentTrivia + 1,
-          trivia_id: trivia[currentTrivia].id,
-          is_correct: false,
-          player_name: username,
-        });
-      } else {
-        setHurray(true);
-        socket.emit("poll", {
-          game_session_id: gameSession,
-          selected_answer: solution,
-          transition: currentTrivia + 1,
-          trivia_id: trivia[currentTrivia].id,
-          is_correct: true,
-          player_name: username,
-        });
-      }
+      setHurray(true);
+      socket.emit("poll", {
+        game_session_id: gameSession,
+        selected_answer: solution,
+        transition: currentTrivia + 1,
+        trivia_id: trivia[currentTrivia].id,
+        is_correct: true,
+        player_name: username,
+      });
+      setTimeout(() => {
+        dispatch(updateTrivia(currentTrivia));
+      }, 1000);
     }
   };
 
   useEffect(() => {
     let intervalId: any;
-    if (seconds !== null) {
+    if (seconds) {
       intervalId = setInterval(() => {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }
       }, 1000);
+    } else {
+      navigate(
+        ROUTES.PLAY.LEADERBOARD_FOR("scrambed-words", gameSession as string)
+      );
     }
 
     return () => clearInterval(intervalId);
-  }, [seconds]);
+  }, [seconds, gameSession, navigate]);
 
   useEffect(() => {
     const gameCompleted = trivia.every((item) => item.completed);
-    
     if (gameCompleted)
       navigate(
-        ROUTES.PLAY.LEADERBOARD_FOR("scarmbled-words", gameSession as string)
+        ROUTES.PLAY.LEADERBOARD_FOR("scrambled-words", gameSession as string)
       );
+
     setWord(trivia[currentTrivia].answer.toUpperCase());
   }, [currentTrivia, gameSession, navigate]);
 
   useEffect(() => {
-    setStarted(false);
-    setSeconds(null);
     setHurray(null);
     setScrambled(shuffleArray(word.split("")));
     setResult(Array(word.length).fill({ letter: "", index: null }));
@@ -158,7 +153,7 @@ const ScrambledWordsGame = () => {
   return (
     <AppLayout className="font-lato flex flex-col" navClassName="mb-6">
       <div className="grow pb-[2.5rem] px-[1.875rem] flex flex-col">
-        <div className="rounded-[6px] bg-orange border border-white w-[10rem] h-[3rem] font-black text-[1rem] flex items-center justify-center shadow-inner uppercase">
+        <div className="rounded-[6px] bg-orange border border-white w-[10rem] h-[3rem] font-black text-[1rem] flex items-center justify-center shadow-inner uppercase px-2 overflow-x-auto no-scrollbar">
           {gameName}
         </div>
         <div className="grow flex flex-col justify-center">
@@ -172,26 +167,30 @@ const ScrambledWordsGame = () => {
           >
             SCRAMBLED WORDS
           </h3>
-          {hurray !== null ? (
-            <div className="flex justify-center items-center mb-[3.75rem]">
-              <span className="font-semibold text-[1.5rem]">
-                {hurray ? "Hurray!!!" : "Try again"}
-              </span>
-              <img src={correct} alt="correct" />
-            </div>
-          ) : null}
           {seconds ? (
-            <div className="mb-12 flex justify-center">
+            <div
+              className={`flex justify-center ${
+                hurray !== null ? "mb-4" : "mb-12"
+              }`}
+            >
               <CountdownCircleTimer
                 isPlaying={seconds > 0}
-                duration={3}
+                duration={60}
                 colors="#F28C0D"
-                size={89}
+                size={120}
                 strokeWidth={1}
                 onComplete={() => ({ shouldRepeat: true, delay: 1 })}
               >
                 {renderTime}
               </CountdownCircleTimer>
+            </div>
+          ) : null}
+          {hurray !== null ? (
+            <div className="flex justify-center items-center mb-4">
+              <span className="font-semibold text-[1.5rem]">
+                {hurray ? "Hurray!!!" : "Try again"}
+              </span>
+              <img src={correct} alt="correct" />
             </div>
           ) : null}
           <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[6px] mb-[1.125rem] w-full">
@@ -230,13 +229,7 @@ const ScrambledWordsGame = () => {
             HINT: {trivia[currentTrivia].question}
           </h2>
           <Button
-            text={
-              hurray
-                ? "NEXT"
-                : started && seconds === 0
-                ? "SUBMIT"
-                : "CLICK TO PLAY"
-            }
+            text={trivia.every((item) => item.completed) ? "NEXT" : "SUBMIT"}
             className="border border-violet !bg-inherit !p-4 !font-extrabold"
             onClick={handleSubmit}
           />
