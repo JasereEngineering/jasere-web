@@ -75,7 +75,7 @@ const AppLayout = ({
           <div className="flex grow max-w-[83.25rem] mr-9 border-b border-[#8692A6] font-lato font-black text-[1.75rem]">
             <div
               className={`cursor-pointer pb-2 mr-3 ${
-                [ROUTES.PLAY.GET_STARTED, ROUTES.PLAY.PLAY_GAME].includes(
+                [ROUTES.PLAY.PLAY_GAME].includes(
                   pathname
                 )
                   ? "border-b border-white"
@@ -110,7 +110,7 @@ const AppLayout = ({
               <span>{user ? "PROFILE" : "LOGIN"}</span>
             </div>
           </div>
-          <img src={altLogo} alt="logo" />
+          <img src={altLogo} alt="logo" className="cursor-pointer" onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)} />
         </div>
         <div className={`flex grow z-10 h-full ${className ? className : ""}`}>
           {children}
