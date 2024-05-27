@@ -40,7 +40,9 @@ const ScrambledWordsGame = () => {
   const socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
 
   const renderTime = () => (
-    <span className="font-lato font-black text-[4.688rem]">{seconds}</span>
+    <span className="font-lato font-black text-[4.688rem] lg:text-[11.688rem]">
+      {seconds}
+    </span>
   );
 
   const handleLetterClick = (letter: string, index: number) => {
@@ -151,8 +153,11 @@ const ScrambledWordsGame = () => {
   }, [socket]);
 
   return (
-    <AppLayout className="font-lato flex flex-col" navClassName="mb-6">
-      <div className="grow pb-[2.5rem] px-[1.875rem] flex flex-col">
+    <AppLayout
+      className="font-lato flex flex-col"
+      navClassName="mb-6 md:mb-[5rem]"
+    >
+      <div className="grow pb-[2.5rem] px-[1.875rem] flex flex-col lg:hidden">
         <div className="rounded-[6px] bg-orange border border-white w-[10rem] h-[3rem] font-black text-[1rem] flex items-center justify-center shadow-inner uppercase px-2 overflow-x-auto no-scrollbar">
           {gameName}
         </div>
@@ -233,6 +238,77 @@ const ScrambledWordsGame = () => {
             className="border border-violet !bg-inherit !p-4 !font-extrabold"
             onClick={handleSubmit}
           />
+        </div>
+      </div>
+      <div className="grow pb-15 px-[3.75rem] hidden lg:flex flex-col overflow-x-auto no-scrollbar">
+        <h1 className="font-black text-[5.625rem] text-orange text-center">
+          MOVIE STARS
+        </h1>
+        <h3 className="font-black text-[1.75rem] text-center mb-[5.313rem]">
+          SCRAMBLED WORDS
+        </h3>
+        <div className="flex items-center">
+          <div className="grow flex flex-col mr-5">
+            <div className="bg-[#FFFFFF30] border border-[#AFAFAF] p-[3.75rem] rounded-[25px] mb-5">
+              {hurray !== null ? (
+                <div className="flex justify-center items-center">
+                  <span className="font-semibold text-[2.5rem] uppercase">
+                    {hurray ? "Hurray!!!" : "Try again"}
+                  </span>
+                  <img src={correct} alt="correct" className="ml-2" />
+                </div>
+              ) : null}
+              <div className="flex justify-center items-center gap-x-5 mb-4 overflow-x-auto no-scrollbar">
+                {scrambled.map((letter, i) => (
+                  <div
+                    key={i}
+                    className="text-[#FFF7ED] text-[8rem] font-black cursor-pointer"
+                    onClick={() => handleLetterClick(letter, i)}
+                  >
+                    {letter}
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center items-center gap-x-5">
+                {result.map((item, i) => (
+                  <div
+                    key={i}
+                    className="bg-[#0F2026] border border-white flex justify-center items-center text-[2.5rem] font-black w-[7.063rem] h-[7.063rem] cursor-pointer"
+                    onClick={() => handleSpaceClick(item, i)}
+                  >
+                    {item.letter}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <h2 className="text-[1.75rem] font-black uppercase">
+              HINT: {trivia[currentTrivia].question}
+            </h2>
+          </div>
+          <div className="flex flex-col items-center w-[30%]">
+            {seconds ? (
+              <>
+                <h4 className="mb-6 font-black text-[2.75rem]">COUNTDOWN</h4>
+                <div className="flex justify-center mb-[3.25rem]">
+                  <CountdownCircleTimer
+                    isPlaying={seconds > 0}
+                    duration={60}
+                    colors="#F28C0D"
+                    size={250}
+                    strokeWidth={1}
+                    onComplete={() => ({ shouldRepeat: true, delay: 1 })}
+                  >
+                    {renderTime}
+                  </CountdownCircleTimer>
+                </div>
+              </>
+            ) : null}
+            <Button
+              text={trivia.every((item) => item.completed) ? "NEXT" : "SUBMIT"}
+              className="border border-white !bg-inherit !p-4 !font-black shadow-inner max-w-[21.25rem]"
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </AppLayout>

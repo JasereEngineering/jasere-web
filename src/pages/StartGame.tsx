@@ -55,7 +55,7 @@ const StartGame = () => {
               )
             )
           }
-          className="md:max-w-[12rem]"
+          className="md:max-w-[12rem] md:p-4 bg-purple"
         />
       </div>
     </AppLayout>

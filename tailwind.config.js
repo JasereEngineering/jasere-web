@@ -15,6 +15,7 @@ module.exports = {
         raj: ["Rajdhani"],
         pop: ["Poppins"],
         lato: ["Lato"],
+        sansita: ["Sansita"]
       },
       boxShadow: {
         inner: "inset 0 50px 50px 0 rgba(0, 0, 0, 0.25)",

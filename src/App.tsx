@@ -18,15 +18,14 @@ import CreateScrambledWordsNewGame from "./pages/CreateScrambledWordsNewGame";
 import Leaderboard from "./pages/Leaderboard";
 import StartGame from "./pages/StartGame";
 import JoinGame from "./pages/JoinGame";
-// import StartGame from "./pages/StartGame";
+import Landing from "./pages/Landing";
 
 import * as ROUTES from "./routes";
-import Landing from "./pages/Landing";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<GetStarted />} />
+      <Route path="/" element={<Landing />} />
       <Route path={ROUTES.PLAY.GET_STARTED} element={<GetStarted />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
       <Route path={ROUTES.PLAY.HURRAY} element={<Hurray />} />
@@ -37,7 +36,7 @@ export default function App() {
         path={ROUTES.SCRAMBLED_WORDS.GAME}
         element={<ScrambledWordsGame />}
       />
-      <Route path="/current" element={<JoinGame />} />
+      <Route path="/current" element={<PlayNow />} />
 
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />

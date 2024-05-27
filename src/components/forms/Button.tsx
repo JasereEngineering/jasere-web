@@ -7,8 +7,10 @@ const Button = ({
   loading,
   onClick,
   disabled,
+  type,
 }: {
   text: string;
+  type?: "submit" | "button";
   className?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -26,6 +28,7 @@ const Button = ({
       } ${disabled ? "opacity-75" : ""}`}
       onClick={onClick}
       disabled={loading || disabled}
+      type={type}
     >
       {loading ? (
         <PacmanLoader cssOverride={override} size={15} color="#FFFFFF" />

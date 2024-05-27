@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 import help from "../../assets/images/help.svg";
-import logout from "../../assets/images/logout.svg";
+import logoutIcon from "../../assets/images/logout.svg";
 import avatar from "../../assets/images/pic.svg";
 import video from "../../assets/images/video.svg";
 import library from "../../assets/images/library.svg";
@@ -24,27 +24,46 @@ const AppLayout = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { user } = useAuth() as AuthContextType;
+  const { user, logout } = useAuth() as AuthContextType;
 
   return (
     <div className="flex grow bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-white relative overflow-hidden">
       <div className="hidden md:flex flex-col justify-between items-center pt-[12rem] pb-[3.375rem] border-r border-[#8692A6] absolute h-screen z-30">
         <div className="flex flex-col grow items-center">
           <div className="px-6 mb-4">
-            <img src={avatar} alt="avatar" className="h-[3rem] w-[2.5rem" />
+            <img
+              src={avatar}
+              alt="avatar"
+              className="h-[3rem] w-[2.5rem] cursor-pointer"
+            />
           </div>
           <div className="border-l-[3px] border-orange px-6 mb-4">
-            <img src={avatar} alt="avatar" className="h-[3rem] w-[2.5rem" />
+            <img
+              src={avatar}
+              alt="avatar"
+              className="h-[3rem] w-[2.5rem] cursor-pointer"
+            />
           </div>
           <div className="px-6 mb-6">
-            <img src={avatar} alt="avatar" className="h-[3rem] w-[2.5rem" />
+            <img
+              src={avatar}
+              alt="avatar"
+              className="h-[3rem] w-[2.5rem] cursor-pointer"
+            />
           </div>
-          <img src={video} alt="watch" className="mb-6" />
-          <img src={library} alt="library" />
+          <img src={video} alt="watch" className="mb-6 cursor-pointer" />
+          <img src={library} alt="library cursor-pointer" />
         </div>
         <div className="flex flex-col items-center">
-          <img src={help} alt="help" className="mb-7" />
-          <img src={logout} alt="logout" />
+          <img src={help} alt="help" className="mb-7 cursor-pointer" />
+          {user ? (
+            <img
+              src={logoutIcon}
+              alt="logout"
+              className="cursor-pointer"
+              onClick={() => logout()}
+            />
+          ) : null}
         </div>
       </div>
       <div className="grow md:ml-[5.68rem] overflow-y-auto no-scrollbar">
@@ -75,9 +94,7 @@ const AppLayout = ({
           <div className="flex grow max-w-[83.25rem] mr-9 border-b border-[#8692A6] font-lato font-black text-[1.75rem]">
             <div
               className={`cursor-pointer pb-2 mr-3 ${
-                [ROUTES.PLAY.PLAY_GAME].includes(
-                  pathname
-                )
+                [ROUTES.PLAY.PLAY_GAME].includes(pathname)
                   ? "border-b border-white"
                   : "font-medium font-raj opacity-75"
               }`}
@@ -110,7 +127,12 @@ const AppLayout = ({
               <span>{user ? "PROFILE" : "LOGIN"}</span>
             </div>
           </div>
-          <img src={altLogo} alt="logo" className="cursor-pointer" onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)} />
+          <img
+            src={altLogo}
+            alt="logo"
+            className="cursor-pointer"
+            onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
+          />
         </div>
         <div className={`flex grow z-10 h-full ${className ? className : ""}`}>
           {children}
