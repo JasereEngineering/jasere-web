@@ -23,7 +23,7 @@ const Landing = () => {
       setNum((prevNumber) => {
         return prevNumber === 2 ? 0 : prevNumber + 1;
       });
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -98,7 +98,7 @@ const Landing = () => {
           />
         </div>
       </div>
-      <div className="hidden lg:grid grid-cols-4 gap-x-[5rem] px-10 pb-10">
+      <div className="hidden lg:grid grid-cols-4 gap-x-[5rem] px-10 md:px-[5.375rem] pb-10">
         <div className="col-span-3">
           <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[20px] mb-[3.5rem] aspect-video">
             <div className="rounded-[18px] bg-[#D78001] p-5 flex h-full">
@@ -112,7 +112,7 @@ const Landing = () => {
                   className="w-[13.75rem] h-[3.313rem] rounded-[27px] !bg-violet font-black text-[1.5rem]"
                 />
               </div>
-              <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[20px] h-full aspect-square max-w-[40%] flex mb-6 shadow-sm">
+              <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[20px] h-full aspect-square max-w-[50%] flex mb-6 shadow-sm">
                 <div className="rounded-[18px] flex grow bg-[#2C2F48] overflow-hidden">
                   <img
                     src={party}

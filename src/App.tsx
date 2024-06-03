@@ -36,7 +36,7 @@ export default function App() {
         path={ROUTES.SCRAMBLED_WORDS.GAME}
         element={<ScrambledWordsGame />}
       />
-      <Route path="/current" element={<PlayNow />} />
+      <Route path="/current" element={<StartGame />} />
 
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />

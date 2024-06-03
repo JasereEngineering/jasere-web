@@ -8,7 +8,7 @@ import AltGameCard from "../components/misc/AltGameCard";
 import Loader from "../components/misc/Loader";
 
 import image from "../assets/images/full-logo.svg";
-import imageAlt from "../assets/images/lemon.svg";
+import imageAlt from "../assets/images/party.jpg";
 
 import { AppDispatch, RootState } from "../store";
 import { fetchGames, selectGame } from "../store/features/game";
@@ -63,7 +63,7 @@ const SelectGame = () => {
             />
           ))}
         </div>
-        <div className={`hidden md:grid grid-cols-${games.length > 2 ? 3 : 2} gap-x-2 gap-y-8`}>
+        <div className={`hidden md:grid grid-cols-${games.length > 2 ? 3 : 2} gap-x-4 gap-y-8`}>
           {games.map((game) => (
             <AltGameCard
               key={game.id}

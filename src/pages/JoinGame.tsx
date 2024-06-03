@@ -53,21 +53,25 @@ const JoinGame = () => {
   return (
     <AppLayout className="font-lato flex flex-col" navClassName="mb-5">
       <div className="flex flex-col justify-center items-center grow p-[2.5rem]">
-        <Input
-          type="text"
-          value={name}
-          placeholder="ENTER NAME"
-          onChange={setName}
-          className="text-center mb-4"
-        />
-        <Input
-          type="text"
-          value={code}
-          placeholder="ENTER GAME PIN"
-          onChange={setCode}
-          className="text-center mb-[1.625rem]"
-        />
-        {/* <div className="flex h-[4.5rem] w-[12rem] items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="md:bg-gradient-to-r from-[#1E1E1E] to-[#18365E] rounded-[36px] md:py-[5.125rem] md:px-[11.5rem] w-full md:max-w-[50.313rem]"
+        >
+          <Input
+            type="text"
+            value={name}
+            placeholder="ENTER NAME"
+            onChange={setName}
+            className="text-center mb-4"
+          />
+          <Input
+            type="text"
+            value={code}
+            placeholder="ENTER GAME PIN"
+            onChange={setCode}
+            className="text-center mb-[1.625rem]"
+          />
+          {/* <div className="flex h-[4.5rem] w-[12rem] items-center">
           <hr className="border border-white grow" />
           <span className="font-raj font-medium text-[0.938rem] px-2">OR</span>
           <hr className="border border-white grow" />
@@ -75,12 +79,12 @@ const JoinGame = () => {
         <h2 className="font-lato font-black text-[2rem] text-center mb-[1.625rem]">
           SCAN QR CODE
         </h2> */}
-        <Button
-          text="LET'S PLAY"
-          onClick={handleSubmit}
-          disabled={!name || !code}
-          loading={loading}
-        />
+          <Button
+            text="LET'S PLAY"
+            disabled={!name || !code}
+            loading={loading}
+          />
+        </form>
       </div>
     </AppLayout>
   );

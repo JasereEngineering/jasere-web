@@ -7,7 +7,7 @@ import Input from "../components/forms/Input";
 import Checkbox from "../components/forms/Checkbox";
 import Button from "../components/forms/Button";
 
-import googleIcon from "../assets/images/google.svg";
+// import googleIcon from "../assets/images/google.svg";
 
 import { useAuth } from "../hooks/useAuth";
 import { signin } from "../store/features/auth";
@@ -95,17 +95,11 @@ const Login = () => {
             </span>
             <hr className="border border-[#F5F5F5] grow" />
           </div>
-          <button
-            className="bg-[#545559] w-full p-[0.813rem] flex justify-center items-center text-center rounded-[6px] font-inter text-[1rem] font-medium relative mb-4"
-            disabled
-          >
-            <img
-              src={googleIcon}
-              alt="google icon"
-              className="absolute left-[2.25rem]"
-            />
-            Login with Google
-          </button>
+          <Button
+            text="Sign Up"
+            className="!bg-[#545559] font-medium mb-4"
+            onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
+          />
           <div className="flex pl-2 mb-[2.688rem]">
             <input
               type="checkbox"

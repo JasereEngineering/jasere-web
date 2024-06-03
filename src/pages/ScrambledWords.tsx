@@ -141,7 +141,7 @@ const ScrambledWords = () => {
         </div>
         <div className="grow flex items-center">
           <div className="w-[1px] h-[70%] bg-[#8692A6] mr-[6.25rem]"></div>
-          <div>
+          <div className="grow">
             <div className="bg-[#F28C0D] border border-white p-4 font-black text-[2.25rem] text-center shadow-inner mb-5">
               SCRAMBLED WORDS
             </div>

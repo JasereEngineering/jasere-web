@@ -129,9 +129,21 @@ const SignUp = () => {
           />
           <Button
             text="Register"
-            className="font-medium mb-5 md:bg-purple"
+            className="font-medium md:bg-purple"
             loading={loading}
             disabled={!canSubmit}
+          />
+          <div className="flex h-[1.875rem] items-center">
+            <hr className="border border-[#F5F5F5] grow" />
+            <span className="font-inter text-[0.75rem] text-[#BABABA] px-2">
+              Or
+            </span>
+            <hr className="border border-[#F5F5F5] grow" />
+          </div>
+          <Button
+            text="Log In"
+            className="!bg-[#545559] font-medium mb-4"
+            onClick={() => navigate(ROUTES.AUTH.SIGNIN)}
           />
           <div className="flex pl-2">
             <input

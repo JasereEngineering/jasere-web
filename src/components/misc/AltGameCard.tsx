@@ -24,7 +24,7 @@ const AltGameCard = ({
         <img
           src={image}
           alt={name}
-          className="absolute top-0 h-full w-full"
+          className="absolute top-0 h-full w-full object-cover"
         />
         {pending ? (
           <p className="font-bold text-[0.375rem] absolute left-[0.375rem] top-[0.375rem]">
