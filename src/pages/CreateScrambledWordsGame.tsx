@@ -47,7 +47,7 @@ const CreateScrambledWordsGame = () => {
           <p className="font-pop text-[1.125rem] mb-[1.625rem] md:mb-[4.25rem]">
             Create your game
           </p>
-          <div className="mb-8 w-[26.625rem]">
+          <div className="mb-8 md:w-[26.625rem]">
             <Input
               label="Title of game"
               placeholder="Enter game title"

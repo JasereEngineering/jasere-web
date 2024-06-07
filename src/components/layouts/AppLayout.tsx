@@ -70,7 +70,7 @@ const AppLayout = ({
         </div>
       </div> */}
       <div
-        className={`md:hidden absolute top-0 left-0 bottom-0 bg-orange w-[13.75rem] z-50 px-[1.313rem] pt-[5.813rem] font-lato transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed top-0 left-0 bottom-0 bg-orange w-[13.75rem] z-50 px-[1.313rem] pt-[5.813rem] font-lato transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
         }`}
       >

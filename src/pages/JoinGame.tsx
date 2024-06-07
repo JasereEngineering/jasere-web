@@ -25,7 +25,8 @@ const JoinGame = () => {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
     const socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
     socket.emit("join", { game_pin: code, player_name: name });

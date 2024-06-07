@@ -41,21 +41,24 @@ const StartGame = () => {
         <h1 className="text-center text-[0.813] font-semibold mb-8">
           TO JOIN GAME, SCAN QR CODE
         </h1>
-        <div className="flex justify-between mb-[4.688rem]">
-          <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[6px] aspect-square max-w-[6.25rem]">
-            <div className="rounded-[4px] bg-[#2C2F48] p-1.5">
-              <QRCode
-                style={{ height: "100%", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
-                fgColor="#2C2F48"
-              />
+        <div className="grid grid-cols-2 gap-x-8 mb-[4.688rem]">
+          <div className="flex gap-x-8">
+            {/* <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[6px] aspect-square max-w-[6.25rem]"> */}
+            <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[6px] aspect-square">
+              <div className="rounded-[4px] bg-[#2C2F48] p-1.5">
+                <QRCode
+                  style={{ height: "100%", maxWidth: "100%", width: "100%" }}
+                  value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
+                  fgColor="#2C2F48"
+                />
+              </div>
             </div>
-          </div>
-          <div className="relative bg-gradient-to-r from-[#1E1E1E] to-[#18365E]">
-            <div className="w-[1px] h-full bg-[#F5F5F5]"></div>
-            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-raj text-[0.563rem] font-medium p-1">
-              OR
-            </span>
+            <div className="relative bg-gradient-to-r from-[#1E1E1E] to-[#18365E]">
+              <div className="w-[1px] h-full bg-[#F5F5F5]"></div>
+              <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-raj text-[0.563rem] font-medium p-1">
+                OR
+              </span>
+            </div>
           </div>
           <div className="flex flex-col justify-between items-center">
             <p className="font-medium text-[1rem]">Copy Code</p>
@@ -72,13 +75,26 @@ const StartGame = () => {
               PLAYERS LOBBY
             </div>
           </div>
-          <div className="pt-5">
+          <div className="pt-5 flex flex-col items-center gap-y-4">
+            <AltPlayerCard name={username as string} image={avatar} />
             <p className="text-center text-[0.813rem] font-semibold leading-[1rem] tracking-[0.1rem]">
               Waiting for players
               {Array.from({ length: num }).map((_, i) => (
                 <span key={i}>.</span>
               ))}
             </p>
+            <Button
+              text="START GAME"
+              onClick={() =>
+                navigate(
+                  ROUTES.PLAY.BEGIN_GAME_FOR(
+                    gameTitle as string,
+                    gameSession as string
+                  )
+                )
+              }
+              className="!text-[1.5rem] mt-5"
+            />
           </div>
         </div>
       </div>

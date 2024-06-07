@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import GameCard from "../components/misc/GameCard";
 import Button from "../components/forms/Button";
+import Loader from "../components/misc/Loader";
 
 import party from "../assets/images/party.jpg";
 import left from "../assets/images/scroll-left-focus.svg";
@@ -11,12 +13,24 @@ import right from "../assets/images/scroll-right-focus.svg";
 import image from "../assets/images/full-logo.svg";
 import avatar from "../assets/images/pic.svg";
 
+import { AppDispatch, RootState } from "../store";
+import { fetchGames } from "../store/features/game";
+import { GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Landing = () => {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, games } = useSelector<RootState>(
+    ({ game }) => game
+  ) as GameState;
+
   const [num, setNum] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchGames());
+  }, [dispatch]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -30,6 +44,7 @@ const Landing = () => {
 
   return (
     <AppLayout className="font-lato flex flex-col" navClassName="mb-5 md:mb-10">
+      {loading ? <Loader /> : null}
       <div className="flex flex-col grow px-7 pb-[2.625rem] lg:hidden">
         <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[6px] mb-7">
           <div className="rounded-[4px] bg-[#D78001] p-4">
@@ -59,9 +74,9 @@ const Landing = () => {
             </div>
             <div className="px-8">
               <Button
-                text="START A GAME"
+                text="JOIN A GAME"
                 className="font-lato p-[0.875rem] text-[1.375rem] !bg-violet"
-                onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+                onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
               />
             </div>
           </div>
@@ -86,16 +101,18 @@ const Landing = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-3 gap-y-8">
-          <GameCard
-            name="JOIN GAME"
-            image={image}
-            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-          />
-          <GameCard
-            name="JOIN GAME"
-            image={image}
-            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-          />
+          {games.map((game) => (
+            <GameCard
+              key={game.id}
+              name={game.name}
+              image={image}
+              pending={!game.isActive}
+              onClick={() => {
+                if (!game.isActive) return;
+                navigate(ROUTES.PLAY.PICK_GAME);
+              }}
+            />
+          ))}
         </div>
       </div>
       <div className="hidden lg:grid grid-cols-4 gap-x-[5rem] px-10 md:px-[5.375rem] pb-10">
@@ -108,8 +125,9 @@ const Landing = () => {
                 </h1>
                 <p className="mb-8">Over 100 games created and counting</p>
                 <Button
-                  text="START A GAME"
+                  text="JOIN A GAME"
                   className="w-[13.75rem] h-[3.313rem] rounded-[27px] !bg-violet font-black text-[1.5rem]"
+                  onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
                 />
               </div>
               <div className="bg-gradient-to-r from-[#E1E1E1] to-purple p-0.5 rounded-[20px] h-full aspect-square max-w-[50%] flex mb-6 shadow-sm">
@@ -151,31 +169,18 @@ const Landing = () => {
             </div>
           </div>
           <div className="grid grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-5">
-            <GameCard
-              name="JOIN GAME"
-              image={image}
-              onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-            />
-            <GameCard
-              name="JOIN GAME"
-              image={image}
-              onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-            />
-            <GameCard
-              name="JOIN GAME"
-              image={image}
-              onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-            />
-            <GameCard
-              name="JOIN GAME"
-              image={image}
-              onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-            />
-            <GameCard
-              name="JOIN GAME"
-              image={image}
-              onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-            />
+            {games.map((game) => (
+              <GameCard
+                key={game.id}
+                name={game.name}
+                image={image}
+                pending={!game.isActive}
+                onClick={() => {
+                  if (!game.isActive) return;
+                  navigate(ROUTES.PLAY.PICK_GAME);
+                }}
+              />
+            ))}
           </div>
         </div>
         <div className="col-span-1">

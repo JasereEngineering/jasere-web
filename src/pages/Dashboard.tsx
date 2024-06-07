@@ -140,7 +140,7 @@ const Dashboard = () => {
           <Button
             text="JOIN A GAME"
             className="p-[0.875rem] border border-[#555CF6] font-lato text-[1.188rem] font-bold mb-3 !bg-inherit"
-            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
           />
           <Button
             text="CREATE NEW GAME"
