@@ -74,7 +74,7 @@ const AppLayout = ({
           open ? "" : "-translate-x-full"
         }`}
       >
-        <div
+        {/* <div
           className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
           onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
         >
@@ -87,7 +87,7 @@ const AppLayout = ({
             <span className="font-bold text-[0.875rem]">Leaderboard</span>
           </div>
           <img src={caret} alt="leaderboard" />
-        </div>
+        </div> */}
         <div
           className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
           onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
