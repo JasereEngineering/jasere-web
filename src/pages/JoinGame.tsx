@@ -48,7 +48,8 @@ const JoinGame = () => {
     dispatch(addGuest(name));
     dispatch(joinGame({ ...response, game, game_pin: code }));
 
-    navigate(ROUTES.PLAY.BEGIN_GAME_FOR(game, response.game_session_id));
+    // navigate(ROUTES.PLAY.BEGIN_GAME_FOR(game, response.game_session_id));
+    navigate(ROUTES.PLAY.START_GAME_FOR(game, response.game_session_id));
   };
 
   return (

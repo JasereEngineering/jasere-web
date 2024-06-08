@@ -12,14 +12,14 @@ export const PLAY = {
     `/${gameTitle}/play-now/${gameSession}`,
   PICK_GAME: "/pick-game",
   START_GAME: "/:gameTitle/game/:gameSession/start",
-  START_GAME_FOR: (gameTitle: string, gameSession: string) =>
-    `/${gameTitle}/game/${gameSession}/start`,
+  START_GAME_FOR: (gameTitle: string, gameSession: string, player?: string) =>
+    `/${gameTitle}/game/${gameSession}/start${player ? "?player=true" : ""}`,
   BEGIN_GAME_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
   LEADERBOARD: "/:gameTitle/game/:gameSession/leaderboard",
   LEADERBOARD_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}/leaderboard`,
-  JOIN_GAME: "/join"
+  JOIN_GAME: "/join",
 };
 
 export const DASHBOARD = {

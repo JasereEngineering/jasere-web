@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
 
@@ -15,6 +15,9 @@ import * as ROUTES from "../routes";
 
 const StartGame = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const notCreator = searchParams.get("player");
 
   const { gameSession, gameTitle, gamePin } = useSelector<RootState>(
     ({ game }) => game
@@ -83,7 +86,7 @@ const StartGame = () => {
                 <span key={i}>.</span>
               ))}
             </p>
-            <Button
+            {!notCreator ? <Button
               text="START GAME"
               onClick={() =>
                 navigate(
@@ -94,7 +97,7 @@ const StartGame = () => {
                 )
               }
               className="!text-[1.5rem] mt-5"
-            />
+            /> : null}
           </div>
         </div>
       </div>
@@ -129,7 +132,7 @@ const StartGame = () => {
               {gamePin}
             </div>
           </div>
-          <Button
+          {!notCreator ? <Button
             text="START GAME"
             onClick={() =>
               navigate(
@@ -140,7 +143,7 @@ const StartGame = () => {
               )
             }
             className="max-w-[25rem] !p-5 !bg-purple text-[2rem]"
-          />
+          />: null}
         </div>
         <div className="flex flex-col items-center">
           <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] mb-[8.313rem]">
