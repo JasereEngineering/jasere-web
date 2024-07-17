@@ -7,7 +7,9 @@ import Input from "../components/forms/Input";
 import Checkbox from "../components/forms/Checkbox";
 import Button from "../components/forms/Button";
 
-// import googleIcon from "../assets/images/google.svg";
+import google from "../assets/images/google.svg";
+import apple from "../assets/images/apple.svg";
+import facebook from "../assets/images/facebook.svg";
 
 import { useAuth } from "../hooks/useAuth";
 import { signin } from "../store/features/auth";
@@ -27,7 +29,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberUser, setRememberUser] = useState(false);
-  const [receiveCommunications, setReceiveCommunications] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ const Login = () => {
       signin({
         username,
         password,
-        onSuccess: () => navigate(ROUTES.DASHBOARD.PROFILE),
+        onSuccess: () => navigate(ROUTES.PLAY.PICK_GAME),
       })
     );
   };
@@ -45,85 +46,82 @@ const Login = () => {
   }, [id, login]);
 
   return (
-    <AppLayout className="flex flex-col font-pop" navClassName="mb-16">
-      <div className="grow px-[2.375rem] pb-[4.563rem] md:flex md:justify-center md:items-center">
-        <form
-          onSubmit={handleSubmit}
-          className="md:bg-gradient-to-r from-[#1E1E1E] to-[#18365E] rounded-[36px] md:py-[3.125rem] md:px-[11.5rem] md:max-w-[50.313rem]"
-        >
-          <h1 className="text-[1.563rem] font-semibold">Welcome Back 👋</h1>
-          <p className="text-[0.75rem] text-[#E1E1E1] text-[#8692A6] leading-7 mb-[1.875rem]">
-            We are happy to have you back
-          </p>
-          <div className="mb-[0.625rem]">
-            <Input
-              label="Username"
-              placeholder="Enter username"
-              type="text"
-              value={username}
-              onChange={setUsername}
-              required
-            />
-          </div>
-          <div className="mb-[0.625rem]">
-            <Input
-              label="Password"
-              placeholder="Enter password"
-              type="password"
-              value={password}
-              onChange={setPassword}
-              required
-            />
-          </div>
-          <Checkbox
-            label="Remember me"
-            id="remember"
-            checked={rememberUser}
-            onChange={() => setRememberUser(!rememberUser)}
-            className="mb-5 pl-2"
-          />
-          <Button
-            text="Login"
-            className="font-medium md:bg-purple"
-            loading={loading}
-            disabled={!username || !password}
-          />
-          <div className="flex h-[1.875rem] items-center">
-            <hr className="border border-[#F5F5F5] grow" />
-            <span className="font-inter text-[0.75rem] text-[#BABABA] px-2">
-              Or
-            </span>
-            <hr className="border border-[#F5F5F5] grow" />
-          </div>
-          <Button
-            text="Sign Up"
-            className="!bg-[#545559] font-medium mb-4"
-            onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
-          />
-          <div className="flex pl-2 mb-[2.688rem]">
-            <input
-              type="checkbox"
-              id="newsletter"
-              checked={receiveCommunications}
-              onChange={() => setReceiveCommunications(!receiveCommunications)}
-              className="h-[1.25rem] min-w-[1.25rem]"
-            />
-            <label
-              htmlFor="newsletter"
-              className="font-inter text-[0.75rem] text-[#666666] ml-2"
-            >
-              I would like to receive your newsletter and other promotional
-              information
-            </label>
-          </div>
-          <a
-            href="/forgot-password"
-            className="text-center text-purple text-[1rem] font-inter font-semibold"
-          >
-            Forgot your password?
-          </a>
-        </form>
+    <AppLayout
+      className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]"
+    >
+      <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
+        SIGN IN TO CONTINUE
+      </h1>
+      <p className="font-lex text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-4">
+        Please sign in to your account to host a game
+      </p>
+      <div className="mb-6 w-full">
+        <Input
+          label="Username"
+          type="text"
+          value={username}
+          onChange={setUsername}
+        />
       </div>
+      <div className="mb-6 w-full">
+        <Input
+          label="Password"
+          type="password"
+          value={password}
+          onChange={setPassword}
+          password
+        />
+      </div>
+      <Checkbox
+        label="Keep me signed in"
+        id="remember-user"
+        checked={rememberUser}
+        onChange={() => setRememberUser(!rememberUser)}
+        className="mb-6"
+      />
+      <Button
+        text="Sign In"
+        className="!text-[1.375rem] !p-2 mb-4"
+        loading={loading}
+        disabled={!username || !password}
+        onClick={handleSubmit}
+      />
+      <div className="flex h-[2rem] items-center justify-center mb-2">
+        <hr className="border border-white w-[1.5rem]" />
+        <span className="font-medium font-lex text-[0.875rem] text-white leading-[1.094rem] px-1">
+          or sign in with
+        </span>
+        <hr className="border border-white w-[1.5rem]" />
+      </div>
+      <div className="flex gap-x-1 mb-8">
+        <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
+          <img src={google} alt="google" />
+          <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
+            Google
+          </span>
+        </button>
+        <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
+          <img src={apple} alt="apple" />
+          <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
+            Apple
+          </span>
+        </button>
+        <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
+          <img src={facebook} alt="facebook" />
+          <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
+            Facebook
+          </span>
+        </button>
+      </div>
+      <p className="text-white text-center text-[0.875rem] leading-[1.094rem] font-lex">
+        Don't have an account?{" "}
+        <span
+          className="font-bold text-[#E6A101]"
+          onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
+        >
+          Sign up here
+        </span>
+      </p>
     </AppLayout>
   );
 };

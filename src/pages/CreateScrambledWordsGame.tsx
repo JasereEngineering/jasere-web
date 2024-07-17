@@ -6,6 +6,8 @@ import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
 
+import helpIcon from "../assets/images/help-icon.svg";
+
 import { AppDispatch, RootState } from "../store";
 import { clearGameSession, createGame } from "../store/features/game";
 import { GameState } from "../types";
@@ -28,46 +30,41 @@ const CreateScrambledWordsGame = () => {
 
   useEffect(() => {
     if (gameSession && sessionCreated)
-      navigate(ROUTES.PLAY.PLAY_NOW_FOR("scrambled-words", gameSession));
+      navigate(ROUTES.PLAY.START_GAME_FOR("scrambled-words", gameSession));
     return () => {
       dispatch(clearGameSession());
     };
   }, [gameSession, sessionCreated, dispatch, navigate]);
 
   return (
-    <AppLayout className="font-lato flex flex-col" navClassName="mb-12">
-      <div className="grow pb-[2.5rem] px-[2.375rem] md:flex md:justify-center md:items-center">
-        <form
-          onSubmit={handleSubmit}
-          className="md:bg-gradient-to-r from-[#1E1E1E] to-[#18365E] rounded-[36px] md:py-[3.125rem] md:px-[11.5rem] md:max-w-[50.313rem]"
-        >
-          <h1 className="font-pop font-semibold text-[2.125rem] md:text-[1.875rem] md:mb-1.5">
-            Hello,
-          </h1>
-          <p className="font-pop text-[1.125rem] mb-[1.625rem] md:mb-[4.25rem]">
-            Create your game
-          </p>
-          <div className="mb-8 md:w-[26.625rem]">
-            <Input
-              label="Title of game"
-              placeholder="Enter game title"
-              type="text"
-              value={name}
-              onChange={setName}
-              required
-            />
+    <AppLayout className="font-lal flex flex-col justify-between px-4 pt-[8rem] pb-[4.25rem]">
+      <div>
+        <div className="flex justify-between mb-6">
+          <div>
+            <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
+              SCRAMBLED WORDS
+            </h1>
+            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+              Choose Category
+            </p>
           </div>
-          <Button
-            text="NEXT"
-            className="!bg-pumpkin !font-extrabold mb-3 md:!bg-purple"
-            loading={loading}
-            disabled={!name}
+          <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+        </div>
+        <div className="w-full">
+          <Input
+            label="Name of Game"
+            type="text"
+            value={name}
+            onChange={setName}
           />
-          <h6 className="font-pop italic text-[0.813rem] md:text-[1rem] text-center">
-            Note: All the fields with (*) are compulsory
-          </h6>
-        </form>
+        </div>
       </div>
+      <Button
+        text="Next"
+        onClick={handleSubmit}
+        disabled={!name}
+        loading={loading}
+      />
     </AppLayout>
   );
 };

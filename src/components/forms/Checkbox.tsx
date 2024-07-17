@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
+import check from "../../assets/images/checkmark.svg";
 
 const Checkbox = ({
   label,
@@ -25,9 +27,20 @@ const Checkbox = ({
           setChecked(!checked);
           onChange();
         }}
-        className="h-[1.25rem] w-[1.25rem]"
+        className="hidden"
       />
-      <label htmlFor={id} className="font-pop font-medium text-[1rem] ml-2">
+      <label
+        htmlFor={id}
+        className={`h-[1rem] w-[1rem] flex justify-center items-center rounded-[10%] ${
+          checked ? "bg-[#f7941d]" : "bg-white"
+        }`}
+      >
+        <img src={check} alt="checkbox" />
+      </label>
+      <label
+        htmlFor={id}
+        className="font-lex text-[0.875rem] text-white leading-[1.094rem] ml-2"
+      >
         {label}
       </label>
     </div>

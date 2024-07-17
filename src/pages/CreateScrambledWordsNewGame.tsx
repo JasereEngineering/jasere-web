@@ -7,7 +7,7 @@ import Input from "../components/forms/Input";
 import Select from "../components/forms/Select";
 import Range from "../components/forms/Range";
 
-const CreateScrambledWordsGame = () => {
+const CreateScrambledWordsNewGame = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [questions, setQuestions] = useState(5);
@@ -82,4 +82,4 @@ const CreateScrambledWordsGame = () => {
   );
 };
 
-export default CreateScrambledWordsGame;
+export default CreateScrambledWordsNewGame;

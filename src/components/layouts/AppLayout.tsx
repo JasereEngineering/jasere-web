@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../../assets/images/full-logo.svg";
-import games from "../../assets/images/side-games.svg";
-import join from "../../assets/images/side-join.svg";
-import logoutIcon from "../../assets/images/side-logout.svg";
-import newGame from "../../assets/images/side-new.svg";
-import profile from "../../assets/images/side-profile.svg";
-import setings from "../../assets/images/side-settings.svg";
-import caret from "../../assets/images/side-right.svg";
+import create from "../../assets/images/create-game.svg";
+import games from "../../assets/images/my-games.svg";
+import profile from "../../assets/images/profile.svg";
+import helpIcon from "../../assets/images/help-icon.svg";
+import leaderboards from "../../assets/images/leaderboards.svg";
+import logoutIcon from "../../assets/images/logout-icon.svg";
+import avatar from "../../assets/images/avatar2.svg";
+import premium from "../../assets/images/premium.svg";
 
 import { useAuth } from "../../hooks/useAuth";
 import { AuthContextType } from "../../types";
@@ -18,10 +19,12 @@ const AppLayout = ({
   children,
   className,
   navClassName,
+  help,
 }: {
   children: any;
   className?: string;
   navClassName?: string;
+  help?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -30,155 +33,85 @@ const AppLayout = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-white relative overflow-y-auto no-scrollbar h-full">
-      {/* <div className="hidden md:flex flex-col justify-between items-center pt-[12rem] pb-[3.375rem] border-r border-[#8692A6] absolute h-screen z-30">
-        <div className="flex flex-col grow items-center">
-          <div className="px-6 mb-4">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[3rem] w-[2.5rem] cursor-pointer"
-            />
-          </div>
-          <div className="border-l-[3px] border-orange px-6 mb-4">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[3rem] w-[2.5rem] cursor-pointer"
-            />
-          </div>
-          <div className="px-6 mb-6">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[3rem] w-[2.5rem] cursor-pointer"
-            />
-          </div>
-          <img src={video} alt="watch" className="mb-6 cursor-pointer" />
-          <img src={library} alt="library cursor-pointer" />
-        </div>
-        <div className="flex flex-col items-center">
-          <img src={help} alt="help" className="mb-7 cursor-pointer" />
-          {user ? (
-            <img
-              src={logoutIcon}
-              alt="logout"
-              className="cursor-pointer"
-              onClick={() => logout()}
-            />
-          ) : null}
-        </div>
-      </div> */}
+    // <div className="bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-white relative overflow-y-auto no-scrollbar h-full">
+    <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full">
       <div
-        className={`md:hidden fixed top-0 left-0 bottom-0 bg-orange w-[13.75rem] z-50 px-[1.313rem] pt-[5.813rem] font-lato transform transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
-        }`}
-      >
-        {/* <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
-        >
-          <div className="flex items-center">
-            <img
-              src={setings}
-              alt="leaderboard"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">Leaderboard</span>
-          </div>
-          <img src={caret} alt="leaderboard" />
-        </div> */}
-        <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
-        >
-          <div className="flex items-center">
-            <img
-              src={profile}
-              alt="profile"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">My Profile</span>
-          </div>
-          <img src={caret} alt="profile" />
-        </div>
-        <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-        >
-          <div className="flex items-center">
-            <img
-              src={join}
-              alt="join game"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">Join New Game</span>
-          </div>
-          <img src={caret} alt="join game" />
-        </div>
-        <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
-        >
-          <div className="flex items-center">
-            <img
-              src={newGame}
-              alt="start game"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">Start New Game</span>
-          </div>
-          <img src={caret} alt="start game" />
-        </div>
-        <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
-        >
-          <div className="flex items-center">
-            <img
-              src={games}
-              alt="my games"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">My Games</span>
-          </div>
-          <img src={caret} alt="my games" />
-        </div>
-        <div
-          className="pb-3 mb-3 border-b border-[#FFB457] flex justify-between items-center"
-          onClick={() => {
-            if (user) {
-              logout();
-            } else {
-              navigate(ROUTES.AUTH.SIGNIN);
-            }
-          }}
-        >
-          <div className="flex items-center">
-            <img
-              src={logoutIcon}
-              alt="logout"
-              className="mr-3 w-[1.875rem] h-[1.875rem]"
-            />
-            <span className="font-bold text-[0.875rem]">
-              {user ? "Log Out" : "Log In"}
-            </span>
-          </div>
-          <img src={caret} alt="logout" />
-        </div>
-      </div>
-      {/* <div className="grow md:ml-[5.68rem] overflow-y-auto no-scrollbar"> */}
-      <div
-        className={`flex md:hidden justify-between items-center pr-5 pt-5 sticky top-0 bg-gradient-to-r from-[#1E1E1E] to-[#18365E] z-40 ${
-          navClassName ? navClassName : ""
         }`}
       >
         <img
           src={logo}
           alt="logo"
-          className="w-[12.25rem] h-[3.5rem] cursor-pointer"
-          onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
+          className="w-[14.313rem] h-[4.063rem] mb-[1.875rem]"
+          onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
+        <div className="pl-[1.85rem] max-w-[15rem] flex flex-col">
+          <div className="flex">
+            <img
+              src={avatar}
+              alt="avatar"
+              className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
+            />
+            <div className="flex flex-col justify-between">
+              <h5 className="text-[1.25rem] text-white leading-[1.959rem] font-lal">
+                VictorTheKree
+              </h5>
+              <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
+                <img src={premium} alt="premium" className="mr-1" />
+                <span className="text-black text-[0.493rem] leading-[0.616rem] font-semibold font-lex">
+                  Premium
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <div className="h-[1px] w-[5.938rem] my-6 bg-[#DADADA]"></div>
+          </div>
+          <div className="flex items-center rounded-[15px] bg-white p-[0.625rem] mb-6">
+            <img src={create} alt="create a game" className="mr-5" />
+            <p className="font-lal text-black text-[1.25rem] leading-[1.959rem]">
+              Create a Game
+            </p>
+          </div>
+          <div
+            className="flex items-center mb-5"
+            onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
+          >
+            <img src={profile} alt="profile" className="mr-5" />
+            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+              Profile
+            </p>
+          </div>
+          <div
+            className="flex items-center mb-5"
+            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+          >
+            <img src={games} alt="my games" className="mr-5" />
+            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+              My Games
+            </p>
+          </div>
+          <div className="flex items-center">
+            <img src={leaderboards} alt="leaderboards" className="mr-5" />
+            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+              Leaderboards
+            </p>
+          </div>
+          <div className="flex items-center mt-[9.375rem]">
+            <img src={logoutIcon} alt="log out" className="mr-5" />
+            <p className="font-lal text-[#F34348] text-[1.25rem] leading-[1.959rem]">
+              Sign out
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* <div className="grow md:ml-[5.68rem] overflow-y-auto no-scrollbar"> */}
+      <div
+        className={`flex md:hidden justify-between items-center px-4 pt-[2.375rem] pb-1 fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
+          navClassName ? navClassName : ""
+        }`}
+      >
         <button className="group" onClick={() => setOpen(!open)}>
           <div className="grid justify-items-center gap-1">
             <span
@@ -198,9 +131,28 @@ const AppLayout = ({
             ></span>
           </div>
         </button>
+        <img
+          src={logo}
+          alt="logo"
+          className="w-[14.313rem] h-[4.063rem] cursor-pointer"
+          onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
+        />
+        <button className="min-w-[1.5rem] min-h-[1.5rem]">
+          <img
+            src={helpIcon}
+            alt="help"
+            className={`${help ? "block" : "hidden"}`}
+            onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
+          />
+          <img
+            src={avatar}
+            alt="avatar"
+            className={`h-[1.875rem] w-[1.875rem] ${user ? "block" : "hidden"}`}
+          />
+        </button>
       </div>
       <div
-        className={`hidden md:flex items-center justify-between pl-[3.438rem] pt-[2.625rem] pr-[3.875rem] sticky top-0 bg-gradient-to-r from-[#1E1E1E] to-[#18365E] z-20 font-lato font-bold overflow-x-auto no-scrollbar ${
+        className={`hidden md:flex items-center justify-between pl-[3.438rem] pt-[2.625rem] pr-[3.875rem] sticky top-0 bg-black z-20 font-lal font-bold overflow-x-auto no-scrollbar ${
           navClassName ? navClassName : ""
         }`}
       >
@@ -208,7 +160,7 @@ const AppLayout = ({
           src={logo}
           className="cursor-pointer w-[20.563rem] h-[6rem]"
           alt="logo"
-          onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
+          onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
         <div className="flex items-center gap-x-[0.875rem]">
           <button

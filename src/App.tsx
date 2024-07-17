@@ -3,15 +3,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import UnauthedLayout from "./components/layouts/UnauthedLayout";
 import AuthedLayout from "./components/layouts/AuthedLayout";
 
-import GetStarted from "./pages/GetStarted";
-// import Play from "./pages/Play";
-import PlayNow from "./pages/PlayNow";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Hurray from "./pages/Hurray";
 import Dashboard from "./pages/Dashboard";
 import SelectGame from "./pages/SelectGame";
-import ScrambledWords from "./pages/ScrambledWords";
+import ScrambledWordsCategory from "./pages/ScrambledWordsCategory";
 import ScrambledWordsGame from "./pages/ScrambledWordsGame";
 import CreateScrambledWordsGame from "./pages/CreateScrambledWordsGame";
 import CreateScrambledWordsNewGame from "./pages/CreateScrambledWordsNewGame";
@@ -19,6 +16,8 @@ import Leaderboard from "./pages/Leaderboard";
 import StartGame from "./pages/StartGame";
 import JoinGame from "./pages/JoinGame";
 import Landing from "./pages/Landing";
+import Play from "./pages/Play";
+import ScrambledWordsDifficulty from "./pages/ScrambledWordsDifficulty";
 
 import * as ROUTES from "./routes";
 
@@ -26,17 +25,16 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path={ROUTES.PLAY.GET_STARTED} element={<GetStarted />} />
+      <Route path={ROUTES.PLAY.GET_STARTED} element={<Play />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
       <Route path={ROUTES.PLAY.HURRAY} element={<Hurray />} />
-      <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       <Route path={ROUTES.PLAY.LEADERBOARD} element={<Leaderboard />} />
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
       <Route
         path={ROUTES.SCRAMBLED_WORDS.GAME}
         element={<ScrambledWordsGame />}
       />
-      <Route path="/current" element={<StartGame />} />
+      {/* <Route path="/current" element={<Dashboard />} /> */}
 
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
@@ -47,7 +45,11 @@ export default function App() {
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />
         <Route
           path={ROUTES.SCRAMBLED_WORDS.CATEGORY}
-          element={<ScrambledWords />}
+          element={<ScrambledWordsCategory />}
+        />
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.DIFFICULTY}
+          element={<ScrambledWordsDifficulty />}
         />
         <Route
           path={ROUTES.SCRAMBLED_WORDS.CREATE_GAME}
@@ -57,11 +59,14 @@ export default function App() {
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
           element={<CreateScrambledWordsNewGame />}
         />
-        <Route path={ROUTES.PLAY.PLAY_NOW} element={<PlayNow />} />
         <Route path={ROUTES.PLAY.START_GAME} element={<StartGame />} />
+        <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route
+        path="*"
+        element={<Navigate to={ROUTES.PLAY.GET_STARTED} replace />}
+      />
     </Routes>
   );
 }

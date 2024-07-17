@@ -41,10 +41,13 @@ export interface GameState {
   trivia: any[];
   currentTrivia: number;
   categories: any[];
+  levels: any[];
   category: string | null;
+  level: string | null;
   loading: boolean;
   sessionCreated: boolean;
-  results: any[]
+  results: any[]; 
+  players: any[]; 
 }
 
 export interface RequestArgs {

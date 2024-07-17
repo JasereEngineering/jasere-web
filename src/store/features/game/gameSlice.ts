@@ -15,8 +15,11 @@ const initialState: GameState = {
   trivia: [],
   currentTrivia: 0,
   categories: [],
+  levels: [],
   results: [],
+  players: [],
   category: null,
+  level: null,
   loading: false,
   sessionCreated: false,
 };
@@ -25,29 +28,18 @@ export const createGame = createAsyncThunk(
   "game/create",
   async (name: string, { getState }) => {
     const {
-      game: { game, category },
+      game: { game, category, level },
     } = getState() as RootState;
 
     return await request({
       url: "/game/create",
       method: "post",
-      body: { name, game_id: game, category_id: category },
-    });
-  }
-);
-
-export const startGame = createAsyncThunk(
-  "game/start",
-  async ({ onSuccess }: { onSuccess: () => void }, { getState }) => {
-    const {
-      game: { gameSession },
-    } = getState() as RootState;
-
-    return await request({
-      url: "/game/start",
-      method: "post",
-      body: { game_session_id: gameSession },
-      onSuccess,
+      body: {
+        name,
+        game_id: game,
+        category_id: category,
+        difficulty_level: level,
+      },
     });
   }
 );
@@ -65,6 +57,13 @@ export const fetchGameCategories = createAsyncThunk(
 export const fetchGames = createAsyncThunk("game/all", async () => {
   return await request({
     url: "/game/all",
+    method: "get",
+  });
+});
+
+export const fetchGameLevels = createAsyncThunk("game/levels", async () => {
+  return await request({
+    url: "/game/levels",
     method: "get",
   });
 });
@@ -89,6 +88,9 @@ export const gameSlice = createSlice({
     },
     selectCategory: (state, { payload }) => {
       state.category = payload;
+    },
+    selectLevel: (state, { payload }) => {
+      state.level = payload;
     },
     clearGameSession: (state) => {
       state.sessionCreated = false;
@@ -132,6 +134,9 @@ export const gameSlice = createSlice({
           case "game/all/fulfilled":
             state.games = action.payload;
             break;
+          case "game/levels/fulfilled":
+            state.levels = action.payload;
+            break;
           case "game/categories/fulfilled":
             state.categories = action.payload;
             break;
@@ -139,8 +144,6 @@ export const gameSlice = createSlice({
             state.gameName = action.payload.name;
             state.gameSession = action.payload.game_session_id;
             state.sessionCreated = true;
-            break;
-          case "game/start/fulfilled":
             state.gamePin = action.payload.game_pin;
             state.trivia = JSON.parse(action.payload.trivia).map(
               (item: any) => ({ ...item, completed: false })
@@ -161,6 +164,7 @@ export const gameSlice = createSlice({
 export const {
   selectGame,
   selectCategory,
+  selectLevel,
   clearGameSession,
   updateTrivia,
   endGame,

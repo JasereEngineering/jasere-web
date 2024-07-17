@@ -37,16 +37,23 @@ const Input = ({
   return (
     <div className="w-full flex flex-col">
       {label ? (
-        <label className="font-pop font-medium text-[0.875rem] pl-2 mb-1">
-          {label}
-          {required ? "*" : ""}
-        </label>
+        <div className="font-lex font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
+          <span>{label}</span>
+          {password ? (
+            <span
+              className="text-[#E6A101] text-[0.75rem] font-lex font-bold leading-[0.938rem]"
+              onClick={() => {}}
+            >
+              Forgot Password
+            </span>
+          ) : null}
+        </div>
       ) : null}
       <div className="relative">
         <input
-          className={`rounded-[6px] border border-[#8692A6] bg-[#282A2F] p-3 font-pop font-medium text-[1rem] text-[#8692A6] w-full ${
-            className ? className : ""
-          }`}
+          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[0.875rem] leading-[1.094rem] text-white w-full ${
+            type === "password" ? "font-man" : "font-lex"
+          } ${className ? className : ""}`}
           type={type}
           value={value}
           onChange={handleChange}
@@ -57,7 +64,7 @@ const Input = ({
           <img
             src={passwordIcon}
             alt="password icon"
-            className="right-[0.75rem] bottom-[0.75rem] absolute"
+            className="right-[0.75rem] bottom-[0.725rem] absolute"
             onClick={() => setType(type === "password" ? "text" : "password")}
           />
         ) : null}

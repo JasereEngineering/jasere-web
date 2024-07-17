@@ -4,15 +4,24 @@ import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
 import GameCard from "../components/misc/GameCard";
-import AltGameCard from "../components/misc/AltGameCard";
 import Loader from "../components/misc/Loader";
 
-import image from "../assets/images/full-logo.svg";
-import imageAlt from "../assets/images/party.jpg";
+import charades from "../assets/images/charades.svg";
+import lemon from "../assets/images/lemons.svg";
+import words from "../assets/images/words.svg";
+import scrambled from "../assets/images/scrambled.svg";
+import check from "../assets/images/check-sign.svg";
 
 import { AppDispatch, RootState } from "../store";
 import { fetchGames, selectGame } from "../store/features/game";
-import { GameState } from "../types";
+import { AuthState, GameState } from "../types";
+
+const imageMap = {
+  charades,
+  lemon,
+  words,
+  "scrambled-words": scrambled,
+};
 
 const SelectGame = () => {
   const navigate = useNavigate();
@@ -21,33 +30,50 @@ const SelectGame = () => {
   const { loading, games } = useSelector<RootState>(
     ({ game }) => game
   ) as GameState;
+  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
-  const [description, setDescription] = useState("");
+  const [count, setCount] = useState(3);
+
+  useEffect(() => {
+    if (count <= 0) return;
+
+    const timer = setTimeout(() => {
+      setCount(count - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [count]);
 
   useEffect(() => {
     dispatch(fetchGames());
   }, [dispatch]);
 
   return (
-    <AppLayout className="font-lato flex flex-col md:items-center" navClassName="mb-12">
-      <div className="grow px-7 pb-10 md:flex md:flex-col md:items-center md:w-[46rem]">
-        {loading ? <Loader /> : null}
-        <h1 className="font-bold text-[1.5rem] text-center mb-[0.875rem] md:font-raj md:font-semibold md:text-[3.5rem] md:mb-1">
-          CHOOSE A GAME
+    <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12">
+      {loading ? <Loader /> : null}
+      <div>
+        <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
+          HOST A GAME
         </h1>
-        <p className="font-medium text-[1rem] text-center mb-8 md:font-raj md:text-[1.5rem]">
-          {description ||
-            `THIS GAME is an exhilarating and fast-paced party game designed for
-          bringing fun and excitement to social gatherings or casual play with
-          friends. This word-based game is perfect for those who love a mix of
-          creativity, quick thinking, and friendly competition.`}
+        <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
+          Select from our list of popular party games
         </p>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:hidden">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+          {/* <GameCard name="Charades" image={charades} />
+          <GameCard name="Scrambled words" image={scrambled} />
+          <GameCard name="Lemon lemon" image={lemons} />
+          <GameCard name="what word?" image={words} /> */}
           {games.map((game) => (
             <GameCard
-              key={game.id}
+              key={game.name}
               name={game.name}
-              image={image}
+              image={
+                imageMap[
+                  game.name
+                    .toLowerCase()
+                    .replaceAll(" ", "-") as keyof typeof imageMap
+                ]
+              }
               pending={!game.isActive}
               onClick={() => {
                 if (!game.isActive) return;
@@ -57,32 +83,26 @@ const SelectGame = () => {
                     title: game.name.toLowerCase().replaceAll(" ", "-"),
                   })
                 );
-                navigate("/" + game.name.toLowerCase().replaceAll(" ", "-"));
+                navigate(
+                  "/" +
+                    game.name.toLowerCase().replaceAll(" ", "-") +
+                    "/category"
+                );
               }}
-              onMouseEnter={() => setDescription(game.description)}
             />
           ))}
         </div>
-        <div className={`hidden md:grid grid-cols-${games.length > 2 ? 3 : 2} gap-x-4 gap-y-8`}>
-          {games.map((game) => (
-            <AltGameCard
-              key={game.id}
-              name={game.name}
-              image={imageAlt}
-              pending={!game.isActive}
-              onClick={() => {
-                if (!game.isActive) return;
-                dispatch(
-                  selectGame({
-                    id: game.id,
-                    title: game.name.toLowerCase().replaceAll(" ", "-"),
-                  })
-                );
-                navigate("/" + game.name.toLowerCase().replaceAll(" ", "-"));
-              }}
-              onMouseEnter={() => setDescription(game.description)}
-            />
-          ))}
+      </div>
+      <div className="flex justify-center items-center">
+        <div
+          className={`max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center transition-opacity duration-300 ${
+            count ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <img src={check} alt="checkmark" className="mr-2" />
+          <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
+            Signed in as <span className="font-semibold">{username}</span>
+          </span>
         </div>
       </div>
     </AppLayout>

@@ -23,7 +23,7 @@ const Button = ({
 
   return (
     <button
-      className={`bg-yellow w-full p-[0.813rem] flex justify-center items-center text-center rounded-[6px] font-inter text-[1rem] font-bold ${
+      className={`bg-white w-full p-[0.75rem] flex justify-center items-center text-center text-black rounded-[78px] font-lal text-[1.5rem] ${
         className ? className : ""
       } ${disabled ? "opacity-75" : ""}`}
       onClick={onClick}
@@ -31,7 +31,7 @@ const Button = ({
       type={type}
     >
       {loading ? (
-        <PacmanLoader cssOverride={override} size={15} color="#FFFFFF" />
+        <PacmanLoader cssOverride={override} size={15} color="#1E1E1E" />
       ) : (
         text
       )}

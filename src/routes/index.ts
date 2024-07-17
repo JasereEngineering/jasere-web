@@ -27,7 +27,8 @@ export const DASHBOARD = {
 };
 
 export const SCRAMBLED_WORDS = {
-  CATEGORY: "/scrambled-words",
+  CATEGORY: "/scrambled-words/category",
+  DIFFICULTY: "/scrambled-words/difficulty",
   CREATE_GAME: "/scrambled-words/create-game",
   NEW_GAME: "/scrambled-words/new-game",
   CREATE_QUESTIONS: "/scrambled-words/create-questions",
