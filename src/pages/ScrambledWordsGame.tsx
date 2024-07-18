@@ -112,23 +112,27 @@ const ScrambledWordsGame = () => {
       setHurray(false);
       setScrambled(shuffleArray(word.split("")));
       setResult(Array(word.length).fill({ letter: "", index: null }));
-      socket.current.emit("poll", {
+      socket.current.emit("poll-answer", {
         game_session_id: gameSession,
-        selected_answer: solution,
-        transition: currentTrivia + 1,
-        trivia_id: trivia[currentTrivia].id,
-        is_correct: false,
         player_name: username,
+        info: {
+          selected_answer: solution,
+          transition: currentTrivia + 1,
+          trivia_id: trivia[currentTrivia].id,
+          is_correct: false,
+        },
       });
     } else {
       setHurray(true);
-      socket.current.emit("poll", {
+      socket.current.emit("poll-answer", {
         game_session_id: gameSession,
-        selected_answer: solution,
-        transition: currentTrivia + 1,
-        trivia_id: trivia[currentTrivia].id,
-        is_correct: true,
         player_name: username,
+        info: {
+          selected_answer: solution,
+          transition: currentTrivia + 1,
+          trivia_id: trivia[currentTrivia].id,
+          is_correct: true,
+        },
       });
       setTimeout(() => {
         dispatch(updateTrivia(currentTrivia));

@@ -43,7 +43,7 @@ const Leaderboard = () => {
             alt="avatar"
             className="h-[3.375rem] w-[3.375rem] absolute top-[-1.5rem] left-0"
           />
-          {results[0].player_name} WINS THIS ROUND!
+          {results[0]?.player_name} WINS THIS ROUND!
         </div>
         <h1 className="font-lal text-[1.5rem] leading-[2.375rem] tracking-[4px] relative mb-[1.125rem]">
           LEADERBOARD

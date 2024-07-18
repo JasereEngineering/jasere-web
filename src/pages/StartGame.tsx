@@ -11,6 +11,7 @@ import Loader from "../components/misc/Loader";
 
 import avatar from "../assets/images/avatar2.svg";
 import copy from "../assets/images/copy.svg";
+import check from "../assets/images/check-sign.svg";
 
 import { playerColours } from "../helpers/misc";
 import { joinGame, setPlayers } from "../store/features/game";
@@ -138,22 +139,35 @@ const StartGame = () => {
         <p className="font-lex font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-6">
           Waiting for other players to join
         </p>
-        <p className="font-lex text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-2">
-          Share link below to invite friends to your game
-        </p>
-        <div
-          className={`flex w-full mb-6 ${
-            copied ? "opacity-50" : "opacity-100"
-          } transition-opacity duration-300`}
-          onClick={handleCopy}
-        >
-          <div className="bg-[#313131] w-[3rem] flex justify-center items-center rounded-l-[5px]">
-            <img src={copy} alt="copy" />
+        {notCreator ? (
+          <div className="flex justify-center items-center mb-6">
+            <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
+              <img src={check} alt="checkmark" className="mr-2" />
+              <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
+                Signed in as <span className="font-semibold capitalize">{username}</span>
+              </span>
+            </div>
           </div>
-          <div className="grow bg-[#4A4A4A] p-2 flex items-center font-light rounded-r-[5px] truncate">
-            {`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
-          </div>
-        </div>
+        ) : (
+          <>
+            <p className="font-lex text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-2">
+              Share link below to invite friends to your game
+            </p>
+            <div
+              className={`flex w-full mb-6 ${
+                copied ? "opacity-50" : "opacity-100"
+              } transition-opacity duration-300`}
+              onClick={handleCopy}
+            >
+              <div className="bg-[#313131] w-[3rem] flex justify-center items-center rounded-l-[5px]">
+                <img src={copy} alt="copy" />
+              </div>
+              <div className="grow bg-[#4A4A4A] p-2 flex items-center font-light rounded-r-[5px] truncate">
+                {`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
+              </div>
+            </div>
+          </>
+        )}
         <h3 className="font-lal text-[1rem] text-center leading-[1.625rem] mb-4">
           Players in the lobby: {players.length}
         </h3>
@@ -164,6 +178,9 @@ const StartGame = () => {
                 playerColours[i % playerColours.length]
               }]`}
               key={i}
+              style={{
+                backgroundColor: playerColours[i % playerColours.length],
+              }}
             >
               <img
                 src={avatar}
