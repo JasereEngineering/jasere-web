@@ -19,7 +19,9 @@ const initialState: GameState = {
   results: [],
   players: [],
   category: null,
+  categoryName: null,
   level: null,
+  difficulty: null,
   loading: false,
   sessionCreated: false,
 };
@@ -92,6 +94,9 @@ export const gameSlice = createSlice({
     selectLevel: (state, { payload }) => {
       state.level = payload;
     },
+    setPlayers: (state, { payload }) => {
+      state.players = payload;
+    },
     clearGameSession: (state) => {
       state.sessionCreated = false;
     },
@@ -111,14 +116,17 @@ export const gameSlice = createSlice({
       state.trivia = [];
     },
     joinGame: (state, { payload }) => {
-      state.trivia = JSON.parse(payload.trivia).map((item: any) => ({
-        ...item,
-        completed: false,
-      }));
-      state.gameSession = payload.game_session_id;
-      state.gameName = payload.game_name;
-      state.gameTitle = payload.game;
-      state.gamePin = payload.game_pin;
+      if (payload.trivia)
+        state.trivia = payload.trivia.trivia.map((item: any) => ({
+          ...item,
+          completed: false,
+        }));
+      if (payload.game_session_id) state.gameSession = payload.game_session_id;
+      if (payload.name) state.gameName = payload.name;
+      if (payload.game_name) state.gameTitle = payload.game_name;
+      if (payload.game_pin) state.gamePin = payload.game_pin;
+      if (payload.category_name) state.categoryName = payload.category_name;
+      if (payload.difficulty_level) state.difficulty = payload.difficulty_level;
     },
   },
   extraReducers(builder) {
@@ -141,11 +149,11 @@ export const gameSlice = createSlice({
             state.categories = action.payload;
             break;
           case "game/create/fulfilled":
-            state.gameName = action.payload.name;
-            state.gameSession = action.payload.game_session_id;
+            state.gameName = action.payload.data.name;
+            state.gameSession = action.payload.data.game_session_id;
             state.sessionCreated = true;
-            state.gamePin = action.payload.game_pin;
-            state.trivia = JSON.parse(action.payload.trivia).map(
+            state.gamePin = action.payload.data.game_pin;
+            state.trivia = JSON.parse(action.payload.data.trivia).map(
               (item: any) => ({ ...item, completed: false })
             );
             break;
@@ -165,6 +173,7 @@ export const {
   selectGame,
   selectCategory,
   selectLevel,
+  setPlayers,
   clearGameSession,
   updateTrivia,
   endGame,

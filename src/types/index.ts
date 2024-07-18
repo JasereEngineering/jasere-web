@@ -43,7 +43,9 @@ export interface GameState {
   categories: any[];
   levels: any[];
   category: string | null;
+  categoryName: string | null;
   level: string | null;
+  difficulty: string | null;
   loading: boolean;
   sessionCreated: boolean;
   results: any[]; 

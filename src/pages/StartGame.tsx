@@ -1,16 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
+import Loader from "../components/misc/Loader";
 
 import avatar from "../assets/images/avatar2.svg";
 import copy from "../assets/images/copy.svg";
 
-import { RootState } from "../store";
+import { playerColours } from "../helpers/misc";
+import { joinGame, setPlayers } from "../store/features/game";
+import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
@@ -19,6 +23,8 @@ const StartGame = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const notCreator = searchParams.get("player");
 
@@ -30,16 +36,21 @@ const StartGame = () => {
     category,
     levels,
     level,
+    players,
+    trivia,
+    difficulty,
+    categoryName,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const gameCategory = categories.find(
     (c) => c.category_id === category
   )?.category_name;
 
-  const difficulty = levels.find((l) => l.level_value === level)?.level;
+  const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(
@@ -58,12 +69,35 @@ const StartGame = () => {
       });
 
       socket.current.emit("join", {
-        game_pin: "646366",
-        player_name: "Michael",
+        game_pin: gamePin,
+        player_name: username,
       });
 
       socket.current.on("join", (response: any) => {
         console.log({ response });
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+          navigate(-1);
+        } else {
+          dispatch(setPlayers(response.players));
+          dispatch(joinGame(response.game_data));
+        }
+        setLoading(false);
+      });
+
+      socket.current.on("start", (response: any) => {
+        console.log({ response });
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          dispatch(joinGame(response.game_data));
+          navigate(
+            ROUTES.PLAY.BEGIN_GAME_FOR(
+              gameTitle?.replaceAll(" ", "-") as string,
+              gameSession as string
+            )
+          );
+        }
       });
 
       socket.current.on("disconnect", () => {
@@ -80,12 +114,13 @@ const StartGame = () => {
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between px-8 pt-[8rem] pb-[4.25rem]">
+      {loading ? <Loader /> : null}
       <div className="flex flex-col items-center">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
-          SCRAMBLED WORDS
+        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
+          {gameTitle?.replaceAll("-", " ")}
         </h1>
         <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.125rem] capitalize">
-          {gameCategory} | {difficulty}
+          {gameCategory || categoryName} | {difficulty || difficultyLevel}
         </p>
         <div className="bg-pink rounded-[10px] p-[0.625rem] font-lal text-[1.375rem] leading-[1.25rem] tracking-[-0.18px] flex flex-col mb-3">
           <span className="text-center">GAME CODE</span>
@@ -119,128 +154,42 @@ const StartGame = () => {
             {`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
           </div>
         </div>
-        <h3 className="font-lal text-[1rem] text-center leading-[1.625rem] tracking-[-0.34px] mb-4">
-          Players in the lobby 4/6:
+        <h3 className="font-lal text-[1rem] text-center leading-[1.625rem] mb-4">
+          Players in the lobby: {players.length}
         </h3>
         <div className="grid grid-cols-3 gap-[0.625rem] mb-10">
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center min-w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-              ola
-            </p>
-          </div>
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center min-w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-              ola
-            </p>
-          </div>
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center min-w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-              ola
-            </p>
-          </div>
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center min-w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-              ola
-            </p>
-          </div>
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center min-w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-              annie
-            </p>
-          </div>
-          <div className="rounded-[25px] bg-[#FBD2D3] flex items-center w-[5.375rem] py-1.5 pl-1.5">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="h-[1.875rem] w-[1.875rem] rounded-full"
-            />
-            <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize truncate">
-              zeldina
-            </p>
-          </div>
+          {players.map((p, i) => (
+            <div
+              className={`rounded-[25px] flex items-center min-w-[5.375rem] p-1.5 bg-[${
+                playerColours[i % playerColours.length]
+              }]`}
+              key={i}
+            >
+              <img
+                src={avatar}
+                alt="avatar"
+                className="h-[1.875rem] w-[1.875rem] rounded-full"
+              />
+              <p className="grow text-center text-black text-[0.813rem] leading-[1.313rem] tracking-[-0.34px] capitalize truncate">
+                {p.player_name}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
-      <Button text="Let's Play" disabled onClick={() => {}} />
-      {/* <div className="hidden md:grid grid-cols-2 px-[2.5rem]">
-        <div className="flex flex-col items-center">
-          <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] w-[25rem] h-[25rem] mb-[2.25rem]">
-            <div className="rounded-[18px] bg-[#2C2F48] p-[2.7rem]">
-              <QRCode
-                style={{ height: "100%", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
-                fgColor="#2C2F48"
-              />
-            </div>
-          </div>
-          <h1 className="font-black text-[4rem] text-center leading-[1rem] mb-3">
-            SCAN CODE
-          </h1>
-          <h2 className="font-semibold text-[2rem] text-center">
-            TO JOIN GAME
-          </h2>
-
-          <div className="flex w-[24rem] min-h-[1.875rem] items-center">
-            <hr className="border border-white grow" />
-            <span className="font-raj font-medium text-[1.25rem] p-3">OR</span>
-            <hr className="border border-white grow" />
-          </div>
-          <h2 className="font-semibold text-[1.25rem] text-center leading-[1.875rem] mb-3">
-            COPY CODE
-          </h2>
-          <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] mb-8">
-            <div className="rounded-[18px] bg-[#1E1E1E] px-[2.75rem] py-[1.563rem] uppercase font-black text-[4rem] text-center leading-[1.875rem] tracking-[0.1rem]">
-              {gamePin}
-            </div>
-          </div>
-          {!notCreator ? <Button
-            text="START GAME"
-            onClick={() =>
-              navigate(
-                ROUTES.PLAY.BEGIN_GAME_FOR(
-                  gameTitle as string,
-                  gameSession as string
-                )
-              )
-            }
-            className="max-w-[25rem] !p-5 !bg-purple text-[2rem]"
-          />: null}
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="bg-gradient-to-r from-[#DEDEDE] to-violet p-0.5 rounded-[20px] mb-[8.313rem]">
-            <div className="rounded-[18px] bg-gradient-to-r from-[#2C2F48] to-[#2C2F48] py-[1.625rem] px-[2.875rem] uppercase font-bold text-[2.25rem] text-center leading-[1rem]">
-              PLAYERS LOBBY
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-[2.625rem]">
-            <AltPlayerCard name={username as string} image={avatar} />
-          </div>
-        </div>
-      </div> */}
+      <Button
+        text={notCreator ? "Waiting For Host..." : "Let's Play"}
+        disabled={!!notCreator}
+        onClick={() => {
+          setLoading(true);
+          socket.current.emit("start", {
+            game_pin: gamePin,
+            game_data: {
+              trivia,
+            },
+          });
+        }}
+      />
     </AppLayout>
   );
 };

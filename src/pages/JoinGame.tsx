@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { io } from "socket.io-client";
-import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
@@ -30,7 +28,6 @@ const JoinGame = () => {
   const gamePin = searchParams.get("code");
 
   const [code, setCode] = useState(gamePin || "");
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [username, setUsername] = useState(name || "");
 
@@ -38,30 +35,9 @@ const JoinGame = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    const socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
-    socket.emit("join", { game_pin: code, player_name: name });
-    socket.on("join", handleJoin);
-    socket.on("disconnect", () => showError("unable to join game"));
-  };
-
-  const showError = (message: string) => {
-    setTimeout(() => {
-      toast.error(message);
-      setPage(1);
-      setLoading(false);
-    }, 2000);
-  };
-
-  const handleJoin = (response: any) => {
-    if (response.statusCode !== "00") return showError(response.statusMessage);
-
-    const game = response.game.replaceAll(" ", "-").toLowerCase();
     dispatch(addGuest(username));
-    dispatch(joinGame({ ...response, game, game_pin: code }));
-
-    // navigate(ROUTES.PLAY.BEGIN_GAME_FOR(game, response.game_session_id));
-    navigate(ROUTES.PLAY.START_GAME_FOR(game, response.game_session_id));
+    dispatch(joinGame({ game_pin: code }));
+    navigate(ROUTES.PLAY.START_GAME_GUEST);
   };
 
   return (
@@ -119,7 +95,6 @@ const JoinGame = () => {
           <Button
             text="Create Avatar"
             className="!text-[1.375rem] !p-2 mb-[2.125rem]"
-            loading={loading}
             disabled={!username}
             onClick={handleSubmit}
           />

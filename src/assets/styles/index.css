@@ -65,7 +65,7 @@ select {
 }
 
 .Toastify__toast--success {
-  background-color: #80CBA6 !important;
+  background-color: #2CB553 !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   line-height: 1rem !important;
@@ -74,7 +74,7 @@ select {
 }
 
 .Toastify__toast--error {
-  background-color: #EF4637 !important;
+  background-color: #EF4136 !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   line-height: 1rem !important;

@@ -13,6 +13,7 @@ module.exports = {
         gold: "#EAA501",
         pink: "#FF9B9D",
         green: "#2CB553",
+        red: "#EF4136",
       },
       fontFamily: {
         inter: ["Inter"],

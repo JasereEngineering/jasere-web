@@ -29,8 +29,7 @@ const CreateScrambledWordsGame = () => {
   };
 
   useEffect(() => {
-    if (gameSession && sessionCreated)
-      navigate(ROUTES.PLAY.START_GAME_FOR("scrambled-words", gameSession));
+    if (gameSession && sessionCreated) navigate(ROUTES.PLAY.START_GAME);
     return () => {
       dispatch(clearGameSession());
     };

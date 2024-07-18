@@ -7,13 +7,9 @@ export const PLAY = {
   GET_STARTED: "/get-started",
   HURRAY: "/hurray",
   PLAY_GAME: "/play",
-  PLAY_NOW: "/:gameTitle/play-now/:gameSession",
-  PLAY_NOW_FOR: (gameTitle: string, gameSession: string) =>
-    `/${gameTitle}/play-now/${gameSession}`,
   PICK_GAME: "/pick-game",
-  START_GAME: "/:gameTitle/game/:gameSession/start",
-  START_GAME_FOR: (gameTitle: string, gameSession: string, player?: string) =>
-    `/${gameTitle}/game/${gameSession}/start${player ? "?player=true" : ""}`,
+  START_GAME: "/game/start",
+  START_GAME_GUEST: "/game/start?player=participant",
   BEGIN_GAME_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
   LEADERBOARD: "/:gameTitle/game/:gameSession/leaderboard",
