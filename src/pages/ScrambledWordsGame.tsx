@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 
-import image from "../assets/images/scrambled-dark.svg";
+import image from "../assets/images/scrambled-dark.jpg";
 
 import { shuffleArray } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
@@ -30,6 +30,7 @@ const ScrambledWordsGame = () => {
   const [word, setWord] = useState(trivia[currentTrivia].answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
   const [seconds, setSeconds] = useState(60);
+  const [prevAnswerTime, setPrevAnswerTime] = useState(60);
   const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
   const [result, setResult] = useState(
     Array(word.length).fill({ letter: "", index: null })
@@ -104,6 +105,8 @@ const ScrambledWordsGame = () => {
   const handleSubmit = () => {
     if (scrambled.join("")) return toast.error("incomplete solution");
 
+    console.log({ time_to_answer: prevAnswerTime - seconds });
+
     const solution = result
       .map((item) => item.letter)
       .join("")
@@ -120,8 +123,10 @@ const ScrambledWordsGame = () => {
           transition: currentTrivia + 1,
           trivia_id: trivia[currentTrivia].id,
           is_correct: false,
+          time_to_answer: prevAnswerTime - seconds,
         },
       });
+      setPrevAnswerTime(seconds);
     } else {
       setHurray(true);
       socket.current.emit("poll-answer", {
@@ -132,8 +137,10 @@ const ScrambledWordsGame = () => {
           transition: currentTrivia + 1,
           trivia_id: trivia[currentTrivia].id,
           is_correct: true,
+          time_to_answer: prevAnswerTime - seconds,
         },
       });
+      setPrevAnswerTime(seconds);
       setTimeout(() => {
         dispatch(updateTrivia(currentTrivia));
       }, 1000);
@@ -218,6 +225,7 @@ const ScrambledWordsGame = () => {
         {!hurray ? (
           <div className="rounded-[10px] aspect-video relative min-h-[10.125rem] mb-3">
             <img src={image} alt="" className="w-full h-full rounded-[10px]" />
+            <div className="absolute inset-0 bg-[#393939] opacity-75"></div>
             <div className="rounded-[10px] p-[0.625rem] absolute top-0 left-0 right-0 bottom-0 bg-transparent">
               <div className="w-full h-full relative scrambled-container">
                 {scrambled.map((letter, i) => (

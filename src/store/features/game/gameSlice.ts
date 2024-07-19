@@ -114,6 +114,7 @@ export const gameSlice = createSlice({
     endGame: (state) => {
       state.currentTrivia = 0;
       state.trivia = [];
+      state.players = [];
     },
     joinGame: (state, { payload }) => {
       if (payload.trivia)

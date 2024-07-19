@@ -64,7 +64,7 @@ const ScrambledWordsDifficulty = () => {
             </div>
             {level === l.level_value ? (
               <p className="font-lex text-[0.75rem] leading-[0.938rem] tracking-[-0.25px] max-w-[12.75rem]">
-                Short description of difficulty
+                {l.descriptiom}
               </p>
             ) : null}
           </div>

@@ -98,7 +98,7 @@ const AppLayout = ({
               Leaderboards
             </p>
           </div>
-          <div className="flex items-center mt-[9.375rem]">
+          <div className="flex items-center mt-[9.375rem]" onClick={() => logout()}>
             <img src={logoutIcon} alt="log out" className="mr-5" />
             <p className="font-lal text-[#F34348] text-[1.25rem] leading-[1.959rem]">
               Sign out

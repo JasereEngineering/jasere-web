@@ -54,10 +54,13 @@ const Leaderboard = () => {
             className={`flex justify-between items-center rounded-[25px] p-1.5 pr-3 w-full mb-[0.625rem] bg-[${
               playerColours[i % playerColours.length]
             }]`}
+            style={{
+              backgroundColor: playerColours[i % playerColours.length],
+            }}
           >
             <div className="flex items-center">
               <img src={avatar} alt="avatar" className="mr-1.5" />
-              <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px]">
+              <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
                 {result.player_name}
               </span>
             </div>

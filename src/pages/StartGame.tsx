@@ -94,8 +94,8 @@ const StartGame = () => {
           dispatch(joinGame(response.game_data));
           navigate(
             ROUTES.PLAY.BEGIN_GAME_FOR(
-              gameTitle?.replaceAll(" ", "-") as string,
-              gameSession as string
+              response.game_data.game_name.replaceAll(" ", "-"),
+              response.game_data.game_session_id
             )
           );
         }
@@ -144,7 +144,8 @@ const StartGame = () => {
             <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
               <img src={check} alt="checkmark" className="mr-2" />
               <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
-                Signed in as <span className="font-semibold capitalize">{username}</span>
+                Joined as{" "}
+                <span className="font-semibold capitalize">{username}</span>
               </span>
             </div>
           </div>
