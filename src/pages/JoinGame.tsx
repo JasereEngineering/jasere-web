@@ -12,7 +12,7 @@ import info from "../assets/images/info-icon.svg";
 import { AppDispatch, RootState } from "../store";
 import { AuthState } from "../types";
 import { addGuest } from "../store/features/auth";
-import { joinGame } from "../store/features/game";
+import { joinGame, setPlayers } from "../store/features/game";
 import * as ROUTES from "../routes";
 
 const JoinGame = () => {
@@ -37,6 +37,7 @@ const JoinGame = () => {
     e.preventDefault();
     dispatch(addGuest(username));
     dispatch(joinGame({ game_pin: code }));
+    dispatch(setPlayers([]));
     navigate(ROUTES.PLAY.START_GAME_GUEST);
   };
 
@@ -89,7 +90,7 @@ const JoinGame = () => {
               type="text"
               value={username}
               onChange={setUsername}
-              disabled={!!name}
+              // disabled={!!name}
             />
           </div>
           <Button

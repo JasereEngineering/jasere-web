@@ -28,9 +28,9 @@ const Leaderboard = () => {
   }, [dispatch, gameSession]);
 
   return (
-    <AppLayout className="font-lal flex flex-col justify-between pt-[8rem]">
+    <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
       {loading ? <Loader /> : null}
-      <div className="flex flex-col items-center px-[2.813rem]">
+      <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
         </h1>
@@ -80,7 +80,7 @@ const Leaderboard = () => {
         </div>
       </div>
       <button
-        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full"
+        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0"
         onClick={() => {
           dispatch(endGame());
           navigate(ROUTES.PLAY.GET_STARTED);

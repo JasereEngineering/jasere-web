@@ -12,6 +12,8 @@ import words from "../assets/images/words.svg";
 import scrambled from "../assets/images/scrambled.svg";
 import check from "../assets/images/check-sign.svg";
 
+import { useAuth } from "../hooks/useAuth";
+import { AuthContextType } from "../types";
 import { AppDispatch, RootState } from "../store";
 import { fetchGames, selectGame } from "../store/features/game";
 import { AuthState, GameState } from "../types";
@@ -25,6 +27,8 @@ const imageMap = {
 
 const SelectGame = () => {
   const navigate = useNavigate();
+
+  const { user } = useAuth() as AuthContextType;
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, games } = useSelector<RootState>(
@@ -93,18 +97,20 @@ const SelectGame = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center items-center">
-        <div
-          className={`max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center transition-opacity duration-300 ${
-            count ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img src={check} alt="checkmark" className="mr-2" />
-          <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
-            Signed in as <span className="font-semibold">{username}</span>
-          </span>
+      {user ? (
+        <div className="flex justify-center items-center">
+          <div
+            className={`max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center transition-opacity duration-300 ${
+              count ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img src={check} alt="checkmark" className="mr-2" />
+            <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
+              Signed in as <span className="font-semibold">{username}</span>
+            </span>
+          </div>
         </div>
-      </div>
+      ) : null}
     </AppLayout>
   );
 };

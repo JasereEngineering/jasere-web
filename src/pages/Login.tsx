@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -13,18 +13,22 @@ import facebook from "../assets/images/facebook.svg";
 
 import { useAuth } from "../hooks/useAuth";
 import { signin } from "../store/features/auth";
+import { createGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
 import { AuthContextType, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
   const { login } = useAuth() as AuthContextType;
+
+  const gameName = searchParams.get("game_name");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +40,18 @@ const Login = () => {
       signin({
         username,
         password,
-        onSuccess: () => navigate(ROUTES.PLAY.PICK_GAME),
+        onSuccess: () => {
+          if (gameName) {
+            dispatch(
+              createGame({
+                name: gameName,
+                onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
+              })
+            );
+          } else {
+            navigate(ROUTES.PLAY.GET_STARTED);
+          }
+        },
       })
     );
   };
@@ -46,9 +61,7 @@ const Login = () => {
   }, [id, login]);
 
   return (
-    <AppLayout
-      className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]"
-    >
+    <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]">
       <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
         SIGN IN TO CONTINUE
       </h1>
@@ -117,7 +130,11 @@ const Login = () => {
         Don't have an account?{" "}
         <span
           className="font-bold text-[#E6A101]"
-          onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
+          onClick={() =>
+            navigate(
+              `${ROUTES.AUTH.SIGNUP}${gameName ? `?game_name=${gameName}` : ""}`
+            )
+          }
         >
           Sign up here
         </span>

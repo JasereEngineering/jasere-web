@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -13,18 +13,22 @@ import facebook from "../assets/images/facebook.svg";
 
 import { useAuth } from "../hooks/useAuth";
 import { signup } from "../store/features/auth";
+import { createGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
 import { AuthContextType, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
   const { login } = useAuth() as AuthContextType;
+
+  const gameName = searchParams.get("game_name");
 
   const [username, setUsername] = useState("");
   const [firstName, setFirstname] = useState("");
@@ -48,7 +52,18 @@ const SignUp = () => {
         lastName,
         email,
         password,
-        onSuccess: () => navigate(ROUTES.PLAY.PICK_GAME),
+        onSuccess: () => {
+          if (gameName) {
+            dispatch(
+              createGame({
+                name: gameName,
+                onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
+              })
+            );
+          } else {
+            navigate(ROUTES.PLAY.GET_STARTED);
+          }
+        },
       })
     );
   };
@@ -151,7 +166,11 @@ const SignUp = () => {
         Already have an account?{" "}
         <span
           className="font-bold text-[#E6A101]"
-          onClick={() => navigate(ROUTES.AUTH.SIGNIN)}
+          onClick={() =>
+            navigate(
+              `${ROUTES.AUTH.SIGNIN}${gameName ? `?game_name=${gameName}` : ""}`
+            )
+          }
         >
           Sign in here
         </span>

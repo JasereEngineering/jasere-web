@@ -28,7 +28,10 @@ const initialState: GameState = {
 
 export const createGame = createAsyncThunk(
   "game/create",
-  async (name: string, { getState }) => {
+  async (
+    { name, onSuccess }: { name: string; onSuccess?: () => void },
+    { getState }
+  ) => {
     const {
       game: { game, category, level },
     } = getState() as RootState;
@@ -42,6 +45,7 @@ export const createGame = createAsyncThunk(
         category_id: category,
         difficulty_level: level,
       },
+      onSuccess,
     });
   }
 );

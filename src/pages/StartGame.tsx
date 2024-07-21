@@ -30,7 +30,6 @@ const StartGame = () => {
   const notCreator = searchParams.get("player");
 
   const {
-    gameSession,
     gameTitle,
     gamePin,
     categories,
@@ -58,11 +57,11 @@ const StartGame = () => {
       `${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`
     );
     setCopied(true);
-    setTimeout(() => setCopied(false), 1000);
+    setTimeout(() => setCopied(false), 300);
   };
 
   useEffect(() => {
-    if (!socket?.current) {
+    if (!socket?.current || !socket?.current?.connected) {
       socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
 
       socket.current.on("connect", () => {
@@ -92,6 +91,7 @@ const StartGame = () => {
           toast.error("an error occurred");
         } else {
           dispatch(joinGame(response.game_data));
+          dispatch(setPlayers([]));
           navigate(
             ROUTES.PLAY.BEGIN_GAME_FOR(
               response.game_data.game_name.replaceAll(" ", "-"),
@@ -111,6 +111,7 @@ const StartGame = () => {
         socket?.current.disconnect();
       }
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

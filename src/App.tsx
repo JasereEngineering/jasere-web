@@ -33,6 +33,19 @@ export default function App() {
         path={ROUTES.SCRAMBLED_WORDS.GAME}
         element={<ScrambledWordsGame />}
       />
+      <Route
+        path={ROUTES.SCRAMBLED_WORDS.CATEGORY}
+        element={<ScrambledWordsCategory />}
+      />
+      <Route
+        path={ROUTES.SCRAMBLED_WORDS.DIFFICULTY}
+        element={<ScrambledWordsDifficulty />}
+      />
+      <Route
+        path={ROUTES.SCRAMBLED_WORDS.CREATE_GAME}
+        element={<CreateScrambledWordsGame />}
+      />
+      <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       {/* <Route path="/current" element={<Dashboard />} /> */}
 
       <Route element={<UnauthedLayout />}>
@@ -43,22 +56,9 @@ export default function App() {
       <Route element={<AuthedLayout />}>
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />
         <Route
-          path={ROUTES.SCRAMBLED_WORDS.CATEGORY}
-          element={<ScrambledWordsCategory />}
-        />
-        <Route
-          path={ROUTES.SCRAMBLED_WORDS.DIFFICULTY}
-          element={<ScrambledWordsDifficulty />}
-        />
-        <Route
-          path={ROUTES.SCRAMBLED_WORDS.CREATE_GAME}
-          element={<CreateScrambledWordsGame />}
-        />
-        <Route
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
           element={<CreateScrambledWordsNewGame />}
         />
-        <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
       </Route>
 
       <Route

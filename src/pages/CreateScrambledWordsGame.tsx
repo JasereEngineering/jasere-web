@@ -8,6 +8,8 @@ import Input from "../components/forms/Input";
 
 import helpIcon from "../assets/images/help-icon.svg";
 
+import { useAuth } from "../hooks/useAuth";
+import { AuthContextType } from "../types";
 import { AppDispatch, RootState } from "../store";
 import { clearGameSession, createGame } from "../store/features/game";
 import { GameState } from "../types";
@@ -15,6 +17,8 @@ import * as ROUTES from "../routes";
 
 const CreateScrambledWordsGame = () => {
   const navigate = useNavigate();
+
+  const { user } = useAuth() as AuthContextType;
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, gameSession, sessionCreated } = useSelector<RootState>(
@@ -25,7 +29,11 @@ const CreateScrambledWordsGame = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createGame(name));
+    if (user) {
+      dispatch(createGame({name}));
+    } else {
+      navigate(`${ROUTES.AUTH.SIGNIN}?game_name=${name}`);
+    }
   };
 
   useEffect(() => {

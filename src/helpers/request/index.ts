@@ -12,7 +12,7 @@ import { RequestArgs } from "../../types";
 export const refreshToken = async (refresh_token: string) => {
   try {
     const {
-      data: { tokens },
+      data: tokens,
     } = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/auth/refresh-token`,
       method: "get",
