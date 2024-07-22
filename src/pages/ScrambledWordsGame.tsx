@@ -181,7 +181,7 @@ const ScrambledWordsGame = () => {
   }, [word]);
 
   useEffect(() => {
-    if (!socket?.current) {
+    if (!socket?.current || !socket?.current?.connected) {
       socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
 
       socket.current.on("connect", () => {
