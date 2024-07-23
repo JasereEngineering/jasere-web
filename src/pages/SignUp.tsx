@@ -26,7 +26,7 @@ const SignUp = () => {
   const { loading, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
-  const { login } = useAuth() as AuthContextType;
+  const { login, user } = useAuth() as AuthContextType;
 
   const gameName = searchParams.get("game_name");
 
@@ -36,6 +36,8 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberUser, setRememberUser] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [createdGame, setCreatedGame] = useState(false);
 
   const canSubmit = useMemo(
     () =>
@@ -52,25 +54,32 @@ const SignUp = () => {
         lastName,
         email,
         password,
-        onSuccess: () => {
-          if (gameName) {
-            dispatch(
-              createGame({
-                name: gameName,
-                onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
-              })
-            );
-          } else {
-            navigate(ROUTES.PLAY.GET_STARTED);
-          }
-        },
       })
     );
   };
 
   useEffect(() => {
-    if (id) login({ id });
-  }, [id, login]);
+    if (id && !loggedIn) {
+      login({ id });
+      setLoggedIn(true);
+    }
+  }, [id, login, loggedIn]);
+
+  useEffect(() => {
+    if (user && !createdGame) {
+      if (gameName) {
+        dispatch(
+          createGame({
+            name: gameName,
+            onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
+          })
+        );
+      } else {
+        navigate(ROUTES.PLAY.GET_STARTED);
+      }
+      setCreatedGame(true);
+    }
+  }, [user, dispatch, gameName, navigate, createdGame]);
 
   return (
     <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]">

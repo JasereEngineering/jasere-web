@@ -33,10 +33,9 @@ const AppLayout = ({
   const [open, setOpen] = useState(false);
 
   return (
-    // <div className="bg-gradient-to-r from-[#1E1E1E] to-[#18365E] text-white relative overflow-y-auto no-scrollbar h-full">
     <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full">
       <div
-        className={`md:hidden fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
         }`}
       >
@@ -106,9 +105,8 @@ const AppLayout = ({
           </div>
         </div>
       </div>
-      {/* <div className="grow md:ml-[5.68rem] overflow-y-auto no-scrollbar"> */}
       <div
-        className={`flex md:hidden justify-between items-center px-4 pt-[2.375rem] pb-1 fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
+        className={`flex justify-between items-center px-4 pt-[2.375rem] pb-1 fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
           navClassName ? navClassName : ""
         }`}
       >
@@ -151,7 +149,7 @@ const AppLayout = ({
           />
         </button>
       </div>
-      <div
+      {/* <div
         className={`hidden md:flex items-center justify-between pl-[3.438rem] pt-[2.625rem] pr-[3.875rem] sticky top-0 bg-black z-20 font-lal font-bold overflow-x-auto no-scrollbar ${
           navClassName ? navClassName : ""
         }`}
@@ -188,7 +186,7 @@ const AppLayout = ({
             {user ? "LOGOUT" : "LOGIN"}
           </button>
         </div>
-      </div>
+      </div> */}
       <div
         className={`flex grow z-10 h-full ${className ? className : ""}`}
         onClick={() => setOpen(false)}

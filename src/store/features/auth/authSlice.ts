@@ -24,7 +24,7 @@ export const signup = createAsyncThunk(
     password: string;
     firstName: string;
     lastName: string;
-    onSuccess: () => void;
+    onSuccess?: () => void;
   }) => {
     return await request({
       url: "/auth/register",
@@ -43,7 +43,7 @@ export const signin = createAsyncThunk(
   }: {
     username: string;
     password: string;
-    onSuccess: () => void;
+    onSuccess?: () => void;
   }) => {
     return await request({
       url: "/auth/login",

@@ -10,7 +10,7 @@ import SelectGame from "./pages/SelectGame";
 import ScrambledWordsCategory from "./pages/ScrambledWordsCategory";
 import ScrambledWordsGame from "./pages/ScrambledWordsGame";
 import CreateScrambledWordsGame from "./pages/CreateScrambledWordsGame";
-import CreateScrambledWordsNewGame from "./pages/CreateScrambledWordsNewGame";
+import CreateGame from "./pages/CreateGame";
 import Leaderboard from "./pages/Leaderboard";
 import StartGame from "./pages/StartGame";
 import JoinGame from "./pages/JoinGame";
@@ -46,18 +46,18 @@ export default function App() {
         element={<CreateScrambledWordsGame />}
       />
       <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
-      {/* <Route path="/current" element={<Dashboard />} /> */}
+      <Route path="/current" element={<CreateGame />} />
 
-      <Route element={<UnauthedLayout />}>
-        <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
-        <Route path={ROUTES.AUTH.SIGNUP} element={<SignUp />} />
-      </Route>
+      {/* <Route element={<UnauthedLayout />}> */}
+      <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
+      <Route path={ROUTES.AUTH.SIGNUP} element={<SignUp />} />
+      {/* </Route> */}
 
       <Route element={<AuthedLayout />}>
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />
         <Route
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
-          element={<CreateScrambledWordsNewGame />}
+          element={<CreateGame />}
         />
       </Route>
 
