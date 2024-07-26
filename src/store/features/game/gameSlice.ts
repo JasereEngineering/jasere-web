@@ -22,6 +22,7 @@ const initialState: GameState = {
   categoryName: null,
   level: null,
   difficulty: null,
+  avatar: null,
   loading: false,
   sessionCreated: false,
 };
@@ -132,6 +133,7 @@ export const gameSlice = createSlice({
       if (payload.game_pin) state.gamePin = payload.game_pin;
       if (payload.category_name) state.categoryName = payload.category_name;
       if (payload.difficulty_level) state.difficulty = payload.difficulty_level;
+      if (payload.avatar) state.avatar = payload.avatar;
     },
   },
   extraReducers(builder) {

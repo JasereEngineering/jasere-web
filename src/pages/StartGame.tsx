@@ -14,6 +14,7 @@ import copy from "../assets/images/copy.svg";
 import check from "../assets/images/check-sign.svg";
 
 import { playerColours } from "../helpers/misc";
+import { avatarMap } from "../helpers/misc";
 import { joinGame, setPlayers } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
@@ -40,6 +41,7 @@ const StartGame = () => {
     trivia,
     difficulty,
     categoryName,
+    avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
@@ -71,6 +73,7 @@ const StartGame = () => {
       socket.current.emit("join", {
         game_pin: gamePin,
         player_name: username,
+        avatar: avatarImage,
       });
 
       socket.current.on("join", (response: any) => {
@@ -185,7 +188,11 @@ const StartGame = () => {
               }}
             >
               <img
-                src={avatar}
+                src={
+                  p.avatar
+                    ? avatarMap[p.avatar as keyof typeof avatarMap]
+                    : avatar
+                }
                 alt="avatar"
                 className="h-[1.875rem] w-[1.875rem] rounded-full"
               />

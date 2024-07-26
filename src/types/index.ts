@@ -46,10 +46,11 @@ export interface GameState {
   categoryName: string | null;
   level: string | null;
   difficulty: string | null;
+  avatar: string | null;
   loading: boolean;
   sessionCreated: boolean;
-  results: any[]; 
-  players: any[]; 
+  results: any[];
+  players: any[];
 }
 
 export interface RequestArgs {

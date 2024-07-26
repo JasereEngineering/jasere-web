@@ -58,7 +58,7 @@ const ScrambledWordsCategory = () => {
           </div>
           <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
         </div>
-        {categories.map((c, i) => (
+        {categories?.map((c, i) => (
           <div
             className={`border rounded-[20px] px-5 py-3 flex justify-between items-center  ${
               category === c.category_id

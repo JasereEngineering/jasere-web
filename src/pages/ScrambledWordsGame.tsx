@@ -105,46 +105,29 @@ const ScrambledWordsGame = () => {
   const handleSubmit = () => {
     if (scrambled.join("")) return toast.error("incomplete solution");
 
-    console.log({ time_to_answer: prevAnswerTime - seconds });
-
     const solution = result
       .map((item) => item.letter)
       .join("")
       .toLowerCase();
-    if (solution !== word.toLowerCase()) {
-      setHurray(false);
-      setScrambled(shuffleArray(word.split("")));
-      setResult(Array(word.length).fill({ letter: "", index: null }));
-      socket.current.emit("poll-answer", {
-        game_session_id: gameSession,
-        player_name: username,
-        info: {
-          selected_answer: solution,
-          transition: currentTrivia + 1,
-          trivia_id: trivia[currentTrivia].id,
-          is_correct: false,
-          time_to_answer: prevAnswerTime - seconds,
-        },
-      });
-      setPrevAnswerTime(seconds);
-    } else {
-      setHurray(true);
-      socket.current.emit("poll-answer", {
-        game_session_id: gameSession,
-        player_name: username,
-        info: {
-          selected_answer: solution,
-          transition: currentTrivia + 1,
-          trivia_id: trivia[currentTrivia].id,
-          is_correct: true,
-          time_to_answer: prevAnswerTime - seconds,
-        },
-      });
-      setPrevAnswerTime(seconds);
-      setTimeout(() => {
-        dispatch(updateTrivia(currentTrivia));
-      }, 1000);
-    }
+    const is_correct = solution === word.toLowerCase();
+    setHurray(is_correct);
+    // setScrambled(shuffleArray(word.split("")));
+    // setResult(Array(word.length).fill({ letter: "", index: null }));
+    socket.current.emit("poll-answer", {
+      game_session_id: gameSession,
+      player_name: username,
+      info: {
+        selected_answer: solution,
+        transition: currentTrivia + 1,
+        trivia_id: trivia[currentTrivia].id,
+        is_correct,
+        time_to_answer: prevAnswerTime - seconds,
+      },
+    });
+    setPrevAnswerTime(seconds);
+    setTimeout(() => {
+      dispatch(updateTrivia(currentTrivia));
+    }, 1000);
   };
 
   useEffect(() => {
@@ -172,6 +155,7 @@ const ScrambledWordsGame = () => {
       );
 
     setWord(trivia[currentTrivia].answer.toUpperCase());
+    // eslint-disable-next-line
   }, [currentTrivia, gameSession, navigate]);
 
   useEffect(() => {
@@ -209,7 +193,7 @@ const ScrambledWordsGame = () => {
         <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem]">
           Celebrities | Noobie
         </p>
-        <div className="flex justify-center items-center mb-[2.875rem]">
+        <div className="flex justify-center items-center mb-6">
           <CountdownCircleTimer
             isPlaying={seconds > 0}
             duration={60}
@@ -222,7 +206,10 @@ const ScrambledWordsGame = () => {
             {renderTime}
           </CountdownCircleTimer>
         </div>
-        {!hurray ? (
+        <h4 className="text-pink text-center font-lal text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-4">
+          {trivia[currentTrivia].question}
+        </h4>
+        {hurray === null ? (
           <div className="rounded-[10px] aspect-video relative min-h-[10.125rem] mb-3">
             <img src={image} alt="" className="w-full h-full rounded-[10px]" />
             <div className="absolute inset-0 bg-[#393939] opacity-75"></div>
@@ -270,9 +257,11 @@ const ScrambledWordsGame = () => {
             </span>
           )}
         </div>
-        <div className="bg-pink rounded-[24px] py-[0.625rem] px-2 font-lex font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px]">
-          HINT: {trivia[currentTrivia].question}
-        </div>
+        {trivia[currentTrivia].hint ? (
+          <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-lex font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px]">
+            HINT: {trivia[currentTrivia].hint}
+          </div>
+        ) : null}
       </div>
       <button
         className="capitalize h-[6.25rem] bg-[#2CB553] font-lal text-white text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full"

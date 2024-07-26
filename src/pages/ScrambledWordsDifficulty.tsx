@@ -48,7 +48,7 @@ const ScrambledWordsDifficulty = () => {
           </div>
           <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
         </div>
-        {levels.map((l, i) => (
+        {levels?.map((l, i) => (
           <div
             className={`border  rounded-[20px] px-5 py-3 mb-3 ${
               level === l.level_value ? "border-pink bg-pink" : "border-white"

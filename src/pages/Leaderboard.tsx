@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
@@ -16,16 +18,55 @@ import { GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Leaderboard = () => {
+  const socket = useRef<any>(null);
+
   const navigate = useNavigate();
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, results, categoryName, difficulty, gameTitle } =
+  const { loading, results, categoryName, difficulty, gameTitle, gamePin } =
     useSelector<RootState>(({ game }) => game) as GameState;
+
+  const [result, setResult] = useState([]);
 
   useEffect(() => {
     dispatch(fetchGameResult(gameSession as string));
   }, [dispatch, gameSession]);
+
+  useEffect(() => {
+    if (!socket?.current || !socket?.current?.connected) {
+      socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
+
+      socket.current.on("connect", () => {
+        console.log("connected!");
+      });
+
+      socket.current.emit("leaderboard", {
+        game_pin: gamePin,
+        game_session_id: gameSession,
+      });
+
+      socket.current.on("leaderboard", (response: any) => {
+        console.log({ response });
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          setResult([]);
+        }
+      });
+
+      socket.current.on("disconnect", () => {
+        console.log("disconnected!");
+      });
+    }
+
+    return () => {
+      if (socket?.current) {
+        socket?.current.disconnect();
+      }
+    };
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
