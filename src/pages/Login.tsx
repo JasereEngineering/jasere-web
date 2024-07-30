@@ -15,7 +15,7 @@ import { useAuth } from "../hooks/useAuth";
 import { signin } from "../store/features/auth";
 import { createGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
-import { AuthContextType, AuthState } from "../types";
+import { AuthContextType, AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Login = () => {
@@ -26,6 +26,9 @@ const Login = () => {
   const { loading, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
+  const { game, category, level } = useSelector<RootState>(
+    ({ game }) => game
+  ) as GameState;
   const { login, user } = useAuth() as AuthContextType;
 
   const gameName = searchParams.get("game_name");
@@ -55,10 +58,10 @@ const Login = () => {
 
   useEffect(() => {
     if (user && !createdGame) {
-      if (gameName) {
+      if ([gameName, game, category, level].every((i) => i)) {
         dispatch(
           createGame({
-            name: gameName,
+            name: gameName!,
             onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
           })
         );
@@ -67,7 +70,7 @@ const Login = () => {
       }
       setCreatedGame(true);
     }
-  }, [user, dispatch, gameName, navigate, createdGame]);
+  }, [user, dispatch, gameName, navigate, createdGame, category, game, level]);
 
   return (
     <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]">

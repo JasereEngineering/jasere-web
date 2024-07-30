@@ -29,7 +29,7 @@ const ScrambledWordsGame = () => {
 
   const [word, setWord] = useState(trivia[currentTrivia].answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(6000);
   const [prevAnswerTime, setPrevAnswerTime] = useState(60);
   const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
   const [result, setResult] = useState(
@@ -58,6 +58,8 @@ const ScrambledWordsGame = () => {
         "right-[2rem] bottom-0",
         "left-[40%] top-[0.625rem]",
         "left-[1.25rem] top-[4.375rem]",
+        "left-[65%] bottom-0",
+        "left-[18%] bottom-[-1.25rem]",
       ]),
     []
   );

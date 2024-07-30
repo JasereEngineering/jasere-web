@@ -30,7 +30,7 @@ const CreateScrambledWordsGame = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user) {
-      dispatch(createGame({name}));
+      dispatch(createGame({ name }));
     } else {
       navigate(`${ROUTES.AUTH.SIGNIN}?game_name=${name}`);
     }
@@ -52,7 +52,7 @@ const CreateScrambledWordsGame = () => {
               SCRAMBLED WORDS
             </h1>
             <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
-              Choose Category
+              Set a name for your game session
             </p>
           </div>
           <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />

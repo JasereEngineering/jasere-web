@@ -6,7 +6,6 @@ import create from "../../assets/images/create-game.svg";
 import games from "../../assets/images/my-games.svg";
 import profile from "../../assets/images/profile.svg";
 import helpIcon from "../../assets/images/help-icon.svg";
-import leaderboards from "../../assets/images/leaderboards.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
 import avatar from "../../assets/images/avatar2.svg";
 import premium from "../../assets/images/premium.svg";
@@ -67,7 +66,10 @@ const AppLayout = ({
           <div className="flex justify-center items-center">
             <div className="h-[1px] w-[5.938rem] my-6 bg-[#DADADA]"></div>
           </div>
-          <div className="flex items-center rounded-[15px] bg-white p-[0.625rem] mb-6">
+          <div
+            className="flex items-center rounded-[15px] bg-white p-[0.625rem] mb-6"
+            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+          >
             <img src={create} alt="create a game" className="mr-5" />
             <p className="font-lal text-black text-[1.25rem] leading-[1.959rem]">
               Create a Game
@@ -84,19 +86,19 @@ const AppLayout = ({
           </div>
           <div
             className="flex items-center mb-5"
-            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+            onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
           >
             <img src={games} alt="my games" className="mr-5" />
             <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
               My Games
             </p>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <img src={leaderboards} alt="leaderboards" className="mr-5" />
             <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
               Leaderboards
             </p>
-          </div>
+          </div> */}
           {user ? (
             <div
               className="flex items-center mt-[9.375rem]"
@@ -193,7 +195,7 @@ const AppLayout = ({
         </div>
       </div> */}
       <div
-        className={`flex grow z-10 h-full ${className ? className : ""}`}
+        className={`flex grow z-10 h-full w-full ${className ? className : ""}`}
         onClick={() => setOpen(false)}
       >
         {children}

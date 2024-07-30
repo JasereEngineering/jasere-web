@@ -11,10 +11,11 @@ import avatar from "../assets/images/avatar2.svg";
 import crown from "../assets/images/crown.svg";
 import share from "../assets/images/share.svg";
 
+import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
-import { endGame, fetchGameResult } from "../store/features/game";
+import { endGame } from "../store/features/game";
 import { playerColours } from "../helpers/misc";
-import { GameState } from "../types";
+import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Leaderboard = () => {
@@ -24,14 +25,22 @@ const Leaderboard = () => {
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, results, categoryName, difficulty, gameTitle, gamePin } =
-    useSelector<RootState>(({ game }) => game) as GameState;
+  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const {
+    loading,
+    // results,
+    categoryName,
+    difficulty,
+    gameTitle,
+    gamePin,
+    avatar: avatarImage,
+  } = useSelector<RootState>(({ game }) => game) as GameState;
 
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<any>([]);
 
-  useEffect(() => {
-    dispatch(fetchGameResult(gameSession as string));
-  }, [dispatch, gameSession]);
+  // useEffect(() => {
+  //   dispatch(fetchGameResult(gameSession as string));
+  // }, [dispatch, gameSession]);
 
   useEffect(() => {
     if (!socket?.current || !socket?.current?.connected) {
@@ -39,6 +48,12 @@ const Leaderboard = () => {
 
       socket.current.on("connect", () => {
         console.log("connected!");
+      });
+
+      socket.current.emit("join", {
+        game_pin: gamePin,
+        player_name: username,
+        avatar: avatarImage,
       });
 
       socket.current.emit("leaderboard", {
@@ -51,7 +66,11 @@ const Leaderboard = () => {
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
         } else {
-          setResult([]);
+          setResult(
+            response.game_data.results.results.sort(
+              (a: any, b: any) => b.point - a.point
+            )
+          );
         }
       });
 
@@ -70,7 +89,7 @@ const Leaderboard = () => {
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
-      {loading ? <Loader /> : null}
+      {!result.length ? <Loader /> : null}
       <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
@@ -80,16 +99,20 @@ const Leaderboard = () => {
         </p>
         <div className="p-[1.625rem] bg-green rounded-[1.875rem] font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.25px] relative mb-8 uppercase">
           <img
-            src={avatar}
+            src={
+              result[0]?.avatar
+                ? avatarMap[result[0]?.avatar as keyof typeof avatarMap]
+                : avatar
+            }
             alt="avatar"
             className="h-[3.375rem] w-[3.375rem] absolute top-[-1.5rem] left-0"
           />
-          {results[0]?.player_name} WINS THIS ROUND!
+          {result[0]?.player_name} WINS THIS ROUND!
         </div>
         <h1 className="font-lal text-[1.5rem] leading-[2.375rem] tracking-[4px] relative mb-[1.125rem]">
           LEADERBOARD
         </h1>
-        {results.map((result, i) => (
+        {result.map((r: any, i: number) => (
           <div
             key={i}
             className={`flex justify-between items-center rounded-[25px] p-1.5 pr-3 w-full mb-[0.625rem] bg-[${
@@ -100,14 +123,22 @@ const Leaderboard = () => {
             }}
           >
             <div className="flex items-center">
-              <img src={avatar} alt="avatar" className="mr-1.5" />
+              <img
+                src={
+                  r.avatar
+                    ? avatarMap[r.avatar as keyof typeof avatarMap]
+                    : avatar
+                }
+                alt="avatar"
+                className="mr-1.5"
+              />
               <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-                {result.player_name}
+                {r.player_name}
               </span>
             </div>
             <div className="flex flex-row-reverse items-center gap-x-1">
               <span className="font-lex text-black text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
-                {result.point}pts
+                {r.point}pts
               </span>
               {i === 0 ? <img src={crown} alt="champ" /> : null}
             </div>
