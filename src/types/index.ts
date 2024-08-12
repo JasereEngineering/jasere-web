@@ -35,6 +35,7 @@ export interface GameState {
   games: any[];
   game: string | null;
   gameTitle: string | null;
+  gameTag: string | null;
   gameName: string | null;
   gameSession: string | null;
   gamePin: string | null;
@@ -47,10 +48,14 @@ export interface GameState {
   level: string | null;
   difficulty: string | null;
   avatar: string | null;
+  lemonNumber: number | null;
+  lemonNumberPrev: number | null;
+  lemonNumberNext: number | null;
   loading: boolean;
   sessionCreated: boolean;
   results: any[];
   players: any[];
+  lemonsDisplayed: number[];
 }
 
 export interface RequestArgs {

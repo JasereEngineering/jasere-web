@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
 
-import host from "../assets/images/host-game.svg";
-import join from "../assets/images/join-game.svg";
-import create from "../assets/images/create-a-game.svg";
+import host from "../assets/images/host-game.png";
+import join from "../assets/images/join-game.png";
+import create from "../assets/images/create-a-game.png";
 
 import * as ROUTES from "../routes";
 
@@ -31,7 +31,7 @@ const Play = () => {
         <img
           src={host}
           alt="host a game"
-          className="absolute bottom-0 right-[-0.625rem]"
+          className="absolute bottom-0 right-[-0.625rem] h-[12.125rem] w-[11.625rem]"
         />
       </div>
       <div
@@ -52,7 +52,7 @@ const Play = () => {
         <img
           src={join}
           alt="join game"
-          className="absolute bottom-[-0.0625rem] right-[-0.0625rem] scale-x-[-1]"
+          className="absolute bottom-[-0.0625rem] right-[-0.0625rem] h-[11.25rem] w-[13.625rem]"
         />
       </div>
       <div className="bg-[#F34348] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10 opacity-50">
@@ -70,7 +70,7 @@ const Play = () => {
         <img
           src={create}
           alt="create game"
-          className="absolute bottom-0 right-[-0.0625rem]"
+          className="absolute bottom-0 right-[-0.0625rem] h-[10.313rem] w-[12.875rem]"
         />
       </div>
     </AppLayout>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
@@ -13,9 +13,11 @@ import { RootState, AppDispatch } from "../store";
 import { fetchGameLevels, selectLevel } from "../store/features/game";
 import * as ROUTES from "../routes";
 import { GameState } from "../types";
+import { colorMap, titleMap } from "../helpers/misc";
 
-const ScrambledWordsDifficulty = () => {
+const SelectDifficulty = () => {
   const navigate = useNavigate();
+  const { gameTitle } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
   const { levels, loading } = useSelector<RootState>(
@@ -26,7 +28,9 @@ const ScrambledWordsDifficulty = () => {
 
   const handleClick = () => {
     dispatch(selectLevel(level));
-    navigate(ROUTES.SCRAMBLED_WORDS.CREATE_GAME);
+    navigate(
+      ROUTES.PLAY.CREATE_GAME_SESSION_FOR(gameTitle?.toLowerCase() as string)
+    );
   };
 
   useEffect(() => {
@@ -39,8 +43,14 @@ const ScrambledWordsDifficulty = () => {
       <div>
         <div className="flex justify-between mb-6">
           <div>
-            <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
-              SCRAMBLED WORDS
+            <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px] uppercase">
+              {
+                titleMap[
+                  gameTitle
+                    ?.toLowerCase()
+                    .replaceAll(" ", "-") as keyof typeof titleMap
+                ]
+              }
             </h1>
             <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
               Choose Difficulty
@@ -50,11 +60,27 @@ const ScrambledWordsDifficulty = () => {
         </div>
         {levels?.map((l, i) => (
           <div
-            className={`border  rounded-[20px] px-5 py-3 mb-3 ${
-              level === l.level_value ? "border-pink bg-pink" : "border-white"
+            className={`border rounded-[20px] px-5 py-3 mb-3 ${
+              level === l.level_value
+                ? `border-[${
+                    colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+                  }] bg-[${
+                    colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+                  }]`
+                : "border-white"
             }`}
             onClick={() => setLevel(l.level_value)}
             key={i}
+            style={{
+              backgroundColor:
+                level === l.level_value
+                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+                  : "transparent",
+              borderColor:
+                level === l.level_value
+                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+                  : "white",
+            }}
           >
             <div className="flex justify-between">
               <h5 className="text-[1.375rem] leading-[2.154rem] tracking-[-0.25px] capitalize">
@@ -75,4 +101,4 @@ const ScrambledWordsDifficulty = () => {
   );
 };
 
-export default ScrambledWordsDifficulty;
+export default SelectDifficulty;

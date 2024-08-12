@@ -12,6 +12,18 @@ export const PLAY = {
   START_GAME_GUEST: "/game/start?player=participant",
   BEGIN_GAME_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
+  SELECT_CATEGORY: "/:gameTitle/category",
+  SELECT_CATEGORY_FOR: (gameTitle: string) =>
+    `/${gameTitle}/category`,
+  SELECT_DIFFICULTY: "/:gameTitle/difficulty",
+  SELECT_DIFFICULTY_FOR: (gameTitle: string) =>
+    `/${gameTitle}/difficulty`,
+  CREATE_GAME_SESSION: "/:gameTitle/create-game",
+  CREATE_GAME_SESSION_FOR: (gameTitle: string) =>
+    `/${gameTitle}/create-game`,
+  GAME_SESSION: "/:gameTitle/game/:gameSession",
+  GAME_SESSION_FOR: (gameTitle: string, gameSession: string) =>
+    `/${gameTitle}/game/${gameSession}`,
   LEADERBOARD: "/:gameTitle/game/:gameSession/leaderboard",
   LEADERBOARD_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}/leaderboard`,
@@ -29,4 +41,12 @@ export const SCRAMBLED_WORDS = {
   NEW_GAME: "/scrambled-words/new-game",
   CREATE_QUESTIONS: "/scrambled-words/create-questions",
   GAME: "/scrambled-words/game/:gameSession",
+};
+
+export const LEMON = {
+  DIFFICULTY: "/lemon/difficulty",
+  CREATE_GAME: "/lemon/create-game",
+  NEW_GAME: "/lemon/new-game",
+  CREATE_QUESTIONS: "/lemon/create-questions",
+  GAME: "/lemon/game/:gameSession",
 };

@@ -27,9 +27,9 @@ const ScrambledWordsGame = () => {
   ) as GameState;
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
-  const [word, setWord] = useState(trivia[currentTrivia].answer.toUpperCase());
+  const [word, setWord] = useState(trivia[currentTrivia]?.answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
-  const [seconds, setSeconds] = useState(6000);
+  const [seconds, setSeconds] = useState(60);
   const [prevAnswerTime, setPrevAnswerTime] = useState(60);
   const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
   const [result, setResult] = useState(
@@ -203,7 +203,7 @@ const ScrambledWordsGame = () => {
             trailColor="#4F4F4F"
             size={63}
             strokeWidth={4}
-            onComplete={() => ({ shouldRepeat: true, delay: 1 })}
+            onComplete={() => ({ shouldRepeat: false })}
           >
             {renderTime}
           </CountdownCircleTimer>

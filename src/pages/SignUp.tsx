@@ -26,7 +26,7 @@ const SignUp = () => {
   const { loading, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
-  const { game, category, level } = useSelector<RootState>(
+  const { game, level } = useSelector<RootState>(
     ({ game }) => game
   ) as GameState;
   const { login, user } = useAuth() as AuthContextType;
@@ -70,7 +70,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user && !createdGame) {
-      if ([gameName, game, category, level].every((i) => i)) {
+      if ([gameName, game, level].every((i) => i)) {
         dispatch(
           createGame({
             name: gameName!,
@@ -82,7 +82,7 @@ const SignUp = () => {
       }
       setCreatedGame(true);
     }
-  }, [user, dispatch, gameName, navigate, createdGame, category, game, level]);
+  }, [user, dispatch, gameName, navigate, createdGame, game, level]);
 
   return (
     <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]">

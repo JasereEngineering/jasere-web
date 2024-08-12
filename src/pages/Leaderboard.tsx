@@ -27,7 +27,7 @@ const Leaderboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
   const {
-    loading,
+    // loading,
     // results,
     categoryName,
     difficulty,
@@ -130,7 +130,7 @@ const Leaderboard = () => {
                     : avatar
                 }
                 alt="avatar"
-                className="mr-1.5"
+                className="mr-1.5 h-[1.875rem] w-[1.875rem]"
               />
               <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
                 {r.player_name}

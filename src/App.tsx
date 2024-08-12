@@ -7,16 +7,20 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import SelectGame from "./pages/SelectGame";
-import ScrambledWordsCategory from "./pages/ScrambledWordsCategory";
+import SelectCategory from "./pages/SelectCategory";
 import ScrambledWordsGame from "./pages/ScrambledWordsGame";
-import CreateScrambledWordsGame from "./pages/CreateScrambledWordsGame";
+import CreateGameSession from "./pages/CreateGameSession";
 import CreateGame from "./pages/CreateGame";
 import Leaderboard from "./pages/Leaderboard";
 import StartGame from "./pages/StartGame";
 import JoinGame from "./pages/JoinGame";
 import Landing from "./pages/Landing";
 import Play from "./pages/Play";
-import ScrambledWordsDifficulty from "./pages/ScrambledWordsDifficulty";
+import SelectDifficulty from "./pages/SelectDifficulty";
+import LemonNumber from "./pages/LemonNumber";
+import LemonGame from "./pages/LemonGame";
+import Penalty from "./pages/Penalty";
+import ConfirmPenalty from "./pages/ConfirmPenalty";
 
 import * as ROUTES from "./routes";
 
@@ -29,24 +33,19 @@ export default function App() {
       <Route path={ROUTES.PLAY.START_GAME} element={<StartGame />} />
       <Route path={ROUTES.PLAY.LEADERBOARD} element={<Leaderboard />} />
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
+      <Route path={ROUTES.PLAY.SELECT_CATEGORY} element={<SelectCategory />} />
+      <Route path={ROUTES.PLAY.SELECT_DIFFICULTY} element={<SelectDifficulty />} />
+      <Route path={ROUTES.PLAY.CREATE_GAME_SESSION} element={<CreateGameSession />} />
       <Route
         path={ROUTES.SCRAMBLED_WORDS.GAME}
         element={<ScrambledWordsGame />}
       />
       <Route
-        path={ROUTES.SCRAMBLED_WORDS.CATEGORY}
-        element={<ScrambledWordsCategory />}
-      />
-      <Route
-        path={ROUTES.SCRAMBLED_WORDS.DIFFICULTY}
-        element={<ScrambledWordsDifficulty />}
-      />
-      <Route
-        path={ROUTES.SCRAMBLED_WORDS.CREATE_GAME}
-        element={<CreateScrambledWordsGame />}
+        path={ROUTES.LEMON.GAME}
+        element={<LemonGame />}
       />
       <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
-      <Route path="/current" element={<CreateGame />} />
+      {/* <Route path="/current" element={<LemonGame />} /> */}
 
       {/* <Route element={<UnauthedLayout />}> */}
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />

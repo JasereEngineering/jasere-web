@@ -14,6 +14,7 @@ module.exports = {
         pink: "#FF9B9D",
         green: "#2CB553",
         red: "#EF4136",
+        crimson: "#F34348",
       },
       fontFamily: {
         inter: ["Inter"],

@@ -9,6 +9,7 @@ const initialState: GameState = {
   games: [],
   game: null,
   gameTitle: null,
+  gameTag: null,
   gameName: null,
   gameSession: null,
   gamePin: null,
@@ -23,6 +24,10 @@ const initialState: GameState = {
   level: null,
   difficulty: null,
   avatar: null,
+  lemonNumber: null,
+  lemonNumberPrev: null,
+  lemonNumberNext: null,
+  lemonsDisplayed: [],
   loading: false,
   sessionCreated: false,
 };
@@ -92,6 +97,7 @@ export const gameSlice = createSlice({
     selectGame: (state, { payload }) => {
       state.game = payload.id;
       state.gameTitle = payload.title;
+      state.gameTag = payload.tag;
     },
     selectCategory: (state, { payload }) => {
       state.category = payload;
@@ -123,7 +129,7 @@ export const gameSlice = createSlice({
     },
     joinGame: (state, { payload }) => {
       if (payload.trivia)
-        state.trivia = payload.trivia.trivia.map((item: any) => ({
+        state.trivia = payload.trivia.map((item: any) => ({
           ...item,
           completed: false,
         }));
@@ -134,6 +140,12 @@ export const gameSlice = createSlice({
       if (payload.category_name) state.categoryName = payload.category_name;
       if (payload.difficulty_level) state.difficulty = payload.difficulty_level;
       if (payload.avatar) state.avatar = payload.avatar;
+      if (payload.lemon) state.lemonNumber = payload.lemon;
+      if (payload.lemons_to_be_displayed)
+        state.lemonsDisplayed = payload.lemons_to_be_displayed;
+      if (payload.lemon_number) state.lemonNumberPrev = payload.lemon_number;
+      if (payload.lemon_number_next_turn)
+        state.lemonNumberNext = payload.lemon_number_next_turn;
     },
   },
   extraReducers(builder) {
@@ -160,9 +172,10 @@ export const gameSlice = createSlice({
             state.gameSession = action.payload.data.game_session_id;
             state.sessionCreated = true;
             state.gamePin = action.payload.data.game_pin;
-            state.trivia = JSON.parse(action.payload.data.trivia).map(
-              (item: any) => ({ ...item, completed: false })
-            );
+            if (action.payload.data.trivia)
+              state.trivia = JSON.parse(action.payload.data.trivia).map(
+                (item: any) => ({ ...item, completed: false })
+              );
             break;
           case "game/result/fulfilled":
             state.results = action.payload.results.sort(

@@ -14,9 +14,9 @@ const Range = ({
   onChange: (value: any) => void;
 }) => {
   const backgroundStyle = {
-    backgroundImage: `linear-gradient(to right, #5871EB 0%, #5871EB ${
-      (value / max) * 100 - 5
-    }%, #D9D9D9 ${(value / max) * 100 - 5}%, #D9D9D9 100%)`,
+    backgroundImage: `linear-gradient(to right, #F34348 0%, #F34348 ${
+      ((value - min) / (max - min)) * 100
+    }%, #D9D9D9 ${((value - min) / (max - min)) * 100}%, #D9D9D9 100%)`,
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,27 +25,37 @@ const Range = ({
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col font-lex">
       {label ? (
-        <label className="font-pop font-medium text-[0.875rem] pl-2 mb-1">
+        <label className="font-light text-white text-[0.688rem] leading-[0.859rem] mb-2">
           {label}
-          {required ? "*" : ""}
         </label>
       ) : null}
-      <div className="flex">
-        <span className="font-pop font-medium text-[1rem] mr-1">{min}</span>
+      <div className="flex flex-col">
         <input
           type="range"
           value={value}
           min={min}
           max={max}
           onChange={handleChange}
-          className="w-full h-1 mb-6 bg-[#5871EB] rounded-lg appearance-none cursor-pointer range-sm mt-[0.625rem] mr-1"
+          className="w-full h-[0.313rem] bg-[#F34348] rounded-[10px] appearance-none cursor-pointer mt-[0.625rem] mb-2"
           style={backgroundStyle}
         />
-        <span className="font-pop font-medium text-[1rem] mr-2">{max}</span>
-        <div className="border-[0.5px] border-[#8692A6] bg-[#282A2F] rounded-[6px] flex justify-center items-center min-w-[2rem] h-[1.5rem]">
-          {value}
+        <div className="flex justify-between items-center relative">
+          <span className="font-medium text-[0.875rem] leading-[1.094rem]">
+            {min}s
+          </span>
+          <span className="font-medium text-[0.875rem] leading-[1.094rem]">
+            {max}s
+          </span>
+          <div
+            className="absolute bg-white rounded-[30px] p-[0.313rem] font-medium text-[0.875rem] text-center text-crimson leading-[1.094rem] bottom-[-0.625rem] left-[50%]"
+            style={{
+              left: `calc(${((value - min) / (max - min)) * 100}% - 1.25rem)`,
+            }}
+          >
+            {value}s
+          </div>
         </div>
       </div>
     </div>

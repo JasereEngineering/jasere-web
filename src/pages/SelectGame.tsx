@@ -6,17 +6,19 @@ import AppLayout from "../components/layouts/AppLayout";
 import GameCard from "../components/misc/GameCard";
 import Loader from "../components/misc/Loader";
 
-import charades from "../assets/images/charades.svg";
-import lemon from "../assets/images/lemons.svg";
-import words from "../assets/images/words.svg";
-import scrambled from "../assets/images/scrambled.svg";
+import charades from "../assets/images/charades.jpg";
+import lemon from "../assets/images/lemon.jpg";
+import words from "../assets/images/words.jpg";
+import scrambled from "../assets/images/scrambled.jpg";
 import check from "../assets/images/check-sign.svg";
 
+import { colorMap } from "../helpers/misc";
 import { useAuth } from "../hooks/useAuth";
 import { AuthContextType } from "../types";
 import { AppDispatch, RootState } from "../store";
 import { fetchGames, selectGame } from "../store/features/game";
 import { AuthState, GameState } from "../types";
+import * as ROUTES from "../routes";
 
 const imageMap = {
   charades,
@@ -78,6 +80,13 @@ const SelectGame = () => {
                     .replaceAll(" ", "-") as keyof typeof imageMap
                 ]
               }
+              hue={
+                colorMap[
+                  game.name
+                    .toLowerCase()
+                    .replaceAll(" ", "-") as keyof typeof imageMap
+                ]
+              }
               pending={!game.isActive}
               onClick={() => {
                 if (!game.isActive) return;
@@ -85,12 +94,17 @@ const SelectGame = () => {
                   selectGame({
                     id: game.id,
                     title: game.name.toLowerCase().replaceAll(" ", "-"),
+                    tag: game.tag
                   })
                 );
                 navigate(
-                  "/" +
-                    game.name.toLowerCase().replaceAll(" ", "-") +
-                    "/category"
+                  game.tag.includes("lemon")
+                    ? ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
+                        game.name.toLowerCase().replaceAll(" ", "-")
+                      )
+                    : ROUTES.PLAY.SELECT_CATEGORY_FOR(
+                        game.name.toLowerCase().replaceAll(" ", "-")
+                      )
                 );
               }}
             />

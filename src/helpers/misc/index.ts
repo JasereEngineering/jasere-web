@@ -6,6 +6,10 @@ import avatar5 from "../../assets/images/avatar5.svg";
 import avatar6 from "../../assets/images/avatar6.svg";
 import avatar7 from "../../assets/images/avatar7.svg";
 import avatar8 from "../../assets/images/avatar8.svg";
+import charades from "../../assets/images/charades.jpg";
+import lemon from "../../assets/images/lemon.jpg";
+import words from "../../assets/images/words.jpg";
+import scrambled from "../../assets/images/scrambled.jpg";
 
 export const shuffleArray = (array: string[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -33,4 +37,18 @@ export const avatarMap = {
   avatar6,
   avatar7,
   avatar8,
+};
+
+export const colorMap = {
+  charades,
+  lemon: "#F34348",
+  words,
+  "scrambled-words": "#FF9B9D",
+};
+
+export const titleMap = {
+  charades: "charades",
+  lemon: "lemon lemon",
+  words: "what words?",
+  "scrambled-words": "scrambled words",
 };

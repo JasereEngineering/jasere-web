@@ -12,16 +12,18 @@ const Input = ({
   onChange,
   placeholder,
   className,
+  min,
 }: {
   label?: string;
   required?: boolean;
   password?: boolean;
   disabled?: boolean;
   type: string;
-  value: string;
+  value: string | number;
   placeholder?: string;
   className?: string;
   onChange: (value: any) => void;
+  min?: number;
 }) => {
   const [type, setType] = useState(initialType || "text");
 
@@ -35,13 +37,13 @@ const Input = ({
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col font-lex">
       {label ? (
-        <div className="font-lex font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
+        <div className="font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
           <span>{label}</span>
           {password ? (
             <span
-              className="text-[#E6A101] text-[0.75rem] font-lex font-bold leading-[0.938rem]"
+              className="text-[#E6A101] text-[0.75rem] font-bold leading-[0.938rem]"
               onClick={() => {}}
             >
               Forgot Password
@@ -59,6 +61,7 @@ const Input = ({
           onChange={handleChange}
           placeholder={placeholder}
           disabled={disabled}
+          min={min}
         />
         {initialType === "password" ? (
           <img
