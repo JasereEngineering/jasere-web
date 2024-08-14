@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
+import Button from "../components/forms/Button";
 
 import avatar from "../assets/images/avatar2.svg";
 import crown from "../assets/images/crown.svg";
@@ -15,33 +16,35 @@ import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
 import { endGame } from "../store/features/game";
 import { playerColours } from "../helpers/misc";
-import { GameState } from "../types";
+import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
-const Leaderboard = ({ socket }: { socket: Socket }) => {
+const LemonResult = ({ socket }: { socket: Socket }) => {
   const { connected } = socket;
 
   const navigate = useNavigate();
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
+  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
   const {
+    // loading,
+    // results,
     categoryName,
     difficulty,
     gameTitle,
     gamePin,
+    avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
 
   const [result, setResult] = useState<any>([]);
 
+  // useEffect(() => {
+  //   dispatch(fetchGameResult(gameSession as string));
+  // }, [dispatch, gameSession]);
+
   useEffect(() => {
     if (connected) {
-      // socket.emit("join", {
-      //   game_pin: gamePin,
-      //   player_name: username,
-      //   avatar: avatarImage,
-      // });
-
       socket.emit("leaderboard", {
         game_pin: gamePin,
         game_session_id: gameSession,
@@ -66,37 +69,29 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
       {!result.length ? <Loader /> : null}
-      <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
-          {gameTitle?.replaceAll("-", " ")}
+      <div className="flex flex-col items-center px-[1.875rem] pb-[14rem]">
+        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] mb-5">
+          ROUND OVER!
         </h1>
-        <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[2.75rem] capitalize">
-          {categoryName} | {difficulty}
-        </p>
-        <div className="p-[1.625rem] bg-green rounded-[1.875rem] font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.25px] relative mb-8 uppercase">
+        <div className="rounded-[35px] bg-[#7EAED6] h-[6rem] w-[5.688rem] p-2 flex flex-col items-center justify-between mb-[1.125rem]">
           <img
-            src={
-              result[0]?.avatar
-                ? avatarMap[result[0]?.avatar as keyof typeof avatarMap]
-                : avatar
-            }
+            src={avatar}
             alt="avatar"
-            className="h-[3.375rem] w-[3.375rem] absolute top-[-1.5rem] left-0"
+            className="w-[2.625rem] h-[2.625rem] rounded-full"
           />
-          {result[0]?.player_name} WINS THIS ROUND!
+          <p className="text-[1.188rem] text-center leading-[1.875rem] tracking-[-0.47px] truncate">
+            Mikeal
+          </p>
         </div>
-        <h1 className="font-lal text-[1.5rem] leading-[2.375rem] tracking-[4px] relative mb-[1.125rem]">
-          LEADERBOARD
-        </h1>
+        <h2 className="text-[1.301rem] text-center leading-[1.518rem] tracking-[-0.16px] mb-2.5">
+          LEMON 15 <br />
+          picked the wrong answer!
+        </h2>
+        <div className="h-[1px] w-full bg-white bg-opacity-[39%] mb-[1.375rem]"></div>
         {result.map((r: any, i: number) => (
           <div
             key={i}
-            className={`flex justify-between items-center rounded-[25px] p-1.5 pr-3 w-full mb-[0.625rem] bg-[${
-              playerColours[i % playerColours.length]
-            }]`}
-            style={{
-              backgroundColor: playerColours[i % playerColours.length],
-            }}
+            className="flex justify-between items-center w-full mb-5"
           >
             <div className="flex items-center">
               <img
@@ -108,36 +103,32 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
                 alt="avatar"
                 className="mr-1.5 h-[1.875rem] w-[1.875rem]"
               />
-              <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
+              <span className="text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
                 {r.player_name}
               </span>
             </div>
             <div className="flex flex-row-reverse items-center gap-x-1">
-              <span className="font-lex text-black text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
+              <span className="font-lex text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
                 {r.point}pts
               </span>
               {i === 0 ? <img src={crown} alt="champ" /> : null}
             </div>
           </div>
         ))}
-        <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
-          <img src={share} alt="share" className="mr-2" />
-          <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
-            Share
-          </span>
-        </div>
       </div>
-      <button
-        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0"
-        onClick={() => {
-          dispatch(endGame());
-          navigate(ROUTES.PLAY.GET_STARTED);
-        }}
-      >
-        Next Round
-      </button>
+      <div className="flex flex-col gap-y-4 w-full fixed bottom-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
+        <Button text="Next Round" />
+        <Button
+          text="End Game"
+          className="border border-[#F34348] !bg-black text-white"
+          onClick={() => {
+            dispatch(endGame());
+            navigate(ROUTES.PLAY.GET_STARTED);
+          }}
+        />
+      </div>
     </AppLayout>
   );
 };
 
-export default Leaderboard;
+export default LemonResult;

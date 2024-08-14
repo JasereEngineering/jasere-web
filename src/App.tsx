@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { io, Socket } from "socket.io-client";
 
-import UnauthedLayout from "./components/layouts/UnauthedLayout";
 import AuthedLayout from "./components/layouts/AuthedLayout";
 
 import Login from "./pages/Login";
@@ -17,12 +17,22 @@ import JoinGame from "./pages/JoinGame";
 import Landing from "./pages/Landing";
 import Play from "./pages/Play";
 import SelectDifficulty from "./pages/SelectDifficulty";
-import LemonNumber from "./pages/LemonNumber";
 import LemonGame from "./pages/LemonGame";
 import Penalty from "./pages/Penalty";
 import ConfirmPenalty from "./pages/ConfirmPenalty";
+import LemonResult from "./pages/LemonResult";
 
 import * as ROUTES from "./routes";
+
+const socket: Socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
+
+socket.on("connect", () => {
+  console.log("connected!");
+});
+
+socket.on("disconnect", () => {
+  console.log("disconnected!");
+});
 
 export default function App() {
   return (
@@ -30,22 +40,34 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path={ROUTES.PLAY.GET_STARTED} element={<Play />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
-      <Route path={ROUTES.PLAY.START_GAME} element={<StartGame />} />
-      <Route path={ROUTES.PLAY.LEADERBOARD} element={<Leaderboard />} />
+      <Route
+        path={ROUTES.PLAY.START_GAME}
+        element={<StartGame socket={socket} />}
+      />
+      <Route
+        path={ROUTES.PLAY.LEADERBOARD}
+        element={<Leaderboard socket={socket} />}
+      />
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
       <Route path={ROUTES.PLAY.SELECT_CATEGORY} element={<SelectCategory />} />
-      <Route path={ROUTES.PLAY.SELECT_DIFFICULTY} element={<SelectDifficulty />} />
-      <Route path={ROUTES.PLAY.CREATE_GAME_SESSION} element={<CreateGameSession />} />
+      <Route
+        path={ROUTES.PLAY.SELECT_DIFFICULTY}
+        element={<SelectDifficulty />}
+      />
+      <Route
+        path={ROUTES.PLAY.CREATE_GAME_SESSION}
+        element={<CreateGameSession />}
+      />
       <Route
         path={ROUTES.SCRAMBLED_WORDS.GAME}
-        element={<ScrambledWordsGame />}
+        element={<ScrambledWordsGame socket={socket} />}
       />
-      <Route
-        path={ROUTES.LEMON.GAME}
-        element={<LemonGame />}
-      />
+      <Route path={ROUTES.LEMON.GAME} element={<LemonGame socket={socket} />} />
       <Route path={ROUTES.PLAY.PICK_GAME} element={<SelectGame />} />
-      {/* <Route path="/current" element={<LemonGame />} /> */}
+      <Route
+        path={ROUTES.LEMON.RESULT}
+        element={<LemonResult socket={socket} />}
+      />
 
       {/* <Route element={<UnauthedLayout />}> */}
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />

@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { io } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -15,9 +15,7 @@ import { updateTrivia } from "../store/features/game";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
-const ScrambledWordsGame = () => {
-  const socket = useRef<any>(null);
-
+const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
   const navigate = useNavigate();
   const { gameSession } = useParams();
 
@@ -115,7 +113,7 @@ const ScrambledWordsGame = () => {
     setHurray(is_correct);
     // setScrambled(shuffleArray(word.split("")));
     // setResult(Array(word.length).fill({ letter: "", index: null }));
-    socket.current.emit("poll-answer", {
+    socket.emit("poll-answer", {
       game_session_id: gameSession,
       player_name: username,
       info: {
@@ -165,26 +163,6 @@ const ScrambledWordsGame = () => {
     setScrambled(shuffleArray(word.split("")));
     setResult(Array(word.length).fill({ letter: "", index: null }));
   }, [word]);
-
-  useEffect(() => {
-    if (!socket?.current || !socket?.current?.connected) {
-      socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
-
-      socket.current.on("connect", () => {
-        console.log("connected!");
-      });
-
-      socket.current.on("disconnect", () => {
-        console.log("disconnected!");
-      });
-    }
-
-    return () => {
-      if (socket?.current) {
-        socket?.current.disconnect();
-      }
-    };
-  }, []);
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between pt-[8rem]">

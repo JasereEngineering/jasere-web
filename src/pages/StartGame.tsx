@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
-import { io } from "socket.io-client";
+import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -22,8 +22,8 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
-const StartGame = () => {
-  const socket = useRef<any>(null);
+const StartGame = ({ socket }: { socket: Socket }) => {
+  const { connected } = socket;
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -68,20 +68,14 @@ const StartGame = () => {
   };
 
   useEffect(() => {
-    if (!socket?.current || !socket?.current?.connected) {
-      socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
-
-      socket.current.on("connect", () => {
-        console.log("connected!");
-      });
-
-      socket.current.emit("join", {
+    if (connected) {
+      socket.emit("join", {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
       });
 
-      socket.current.on("join", (response: any) => {
+      socket.on("join", (response: any) => {
         console.log({ response });
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
@@ -93,7 +87,7 @@ const StartGame = () => {
         setLoading(false);
       });
 
-      socket.current.on("broadcast_lemons", (response: any) => {
+      socket.on("broadcast_lemons", (response: any) => {
         console.log({ response });
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
@@ -108,7 +102,7 @@ const StartGame = () => {
         setLoading(false);
       });
 
-      socket.current.on("start", (response: any) => {
+      socket.on("start", (response: any) => {
         console.log({ response });
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
@@ -117,25 +111,15 @@ const StartGame = () => {
           // dispatch(setPlayers([]));
           navigate(
             ROUTES.PLAY.BEGIN_GAME_FOR(
-              response.game_data.game_name.replaceAll(" ", "-"),
+              response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
               response.game_data.game_session_id
             )
           );
         }
       });
-
-      socket.current.on("disconnect", () => {
-        console.log("disconnected!");
-      });
     }
-
-    return () => {
-      if (socket?.current) {
-        socket?.current.disconnect();
-      }
-    };
     // eslint-disable-next-line
-  }, []);
+  }, [connected]);
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between px-8 pt-[8rem] pb-[4.25rem]">
@@ -258,12 +242,12 @@ const StartGame = () => {
             onClick={() => {
               setLoading(true);
               if (gameTitle?.toLowerCase().includes("lemon")) {
-                socket.current.emit("broadcast-lemons", {
+                socket.emit("broadcast-lemons", {
                   game_pin: gamePin,
                   game_session_id: gameSession,
                 });
               } else {
-                socket.current.emit("start", {
+                socket.emit("start", {
                   game_pin: gamePin,
                   game_data: {
                     trivia,
@@ -317,7 +301,7 @@ const StartGame = () => {
             disabled={!!notCreator}
             onClick={() => {
               setLoading(true);
-              socket.current.emit("start", {
+              socket.emit("start", {
                 game_pin: gamePin,
                 avatar: avatarImage,
               });

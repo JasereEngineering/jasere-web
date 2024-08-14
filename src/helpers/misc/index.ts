@@ -19,6 +19,14 @@ export const shuffleArray = (array: string[]) => {
   return array;
 };
 
+export const delay = async (seconds: number) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Done");
+    }, seconds * 1000);
+  });
+};
+
 export const playerColours = [
   "#FBD2D3",
   "#D6BDF8",

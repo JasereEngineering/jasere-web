@@ -56,6 +56,7 @@ export interface GameState {
   results: any[];
   players: any[];
   lemonsDisplayed: number[];
+  lemonResult: any[];
 }
 
 export interface RequestArgs {

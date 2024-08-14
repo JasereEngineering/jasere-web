@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { io } from "socket.io-client";
+import { Socket } from "socket.io-client";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Lemon from "../components/misc/Lemon";
@@ -14,8 +14,8 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
-const LemonGame = () => {
-  const socket = useRef<any>(null);
+const LemonGame = ({ socket }: { socket: Socket }) => {
+  const { connected } = socket;
 
   const navigate = useNavigate();
   const { gameSession } = useParams();
@@ -23,7 +23,6 @@ const LemonGame = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const {
-    gamePin,
     gameTitle,
     levels,
     level,
@@ -33,7 +32,6 @@ const LemonGame = () => {
     lemonNumberPrev,
     lemonNumberNext,
     lemonsDisplayed,
-    avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
@@ -46,7 +44,7 @@ const LemonGame = () => {
 
   useEffect(() => {
     if (selectedLemon && seconds) {
-      socket.current.emit("poll-room", {
+      socket.emit("poll-room", {
         game_session_id: gameSession,
         player_name: username,
         info: {
@@ -58,8 +56,9 @@ const LemonGame = () => {
       setTimeout(() => {
         setSeconds(undefined);
         setSelectedLemon(undefined);
-      }, 2000);
+      }, 1000);
     }
+    // eslint-disable-next-line
   }, [selectedLemon]);
 
   useEffect(() => {
@@ -69,17 +68,9 @@ const LemonGame = () => {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         } else {
-          // socket.current.emit("poll-room", {
-          //   game_session_id: gameSession,
-          //   player_name: username,
-          //   info: {
-          //     selected_lemon_number: null,
-          //     transition: 1,
-          //     time_to_answer: 10,
-          //   },
-          // });
           setSeconds(undefined);
           setSelectedLemon(undefined);
+          navigate(ROUTES.LEMON.RESULT_FOR(gameSession as string));
         }
       }, 1000);
     }
@@ -92,40 +83,20 @@ const LemonGame = () => {
   }, [lemonNumber, lemonNumberNext]);
 
   useEffect(() => {
-    if (!socket?.current || !socket?.current?.connected) {
-      socket.current = io(`${process.env.REACT_APP_BASE_URL}/game`);
-
-      socket.current.on("connect", () => {
-        console.log("connected!");
-      });
-
-      socket.current.emit("join", {
-        game_pin: gamePin,
-        player_name: username,
-        avatar: avatarImage,
-      });
-
-      socket.current.on("poll-room", (response: any) => {
+    if (connected) {
+      socket.on("poll-room", (response: any) => {
         console.log({ response });
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
         } else {
-          const { lemons_to_be_displayed, ...data } = response.game_data;
-          dispatch(joinGame(data));
+          dispatch(joinGame(response.game_data));
+          if (!response.game_data.is_valid_lemon)
+            navigate(ROUTES.LEMON.RESULT_FOR(gameSession as string));
         }
       });
-
-      socket.current.on("disconnect", () => {
-        console.log("disconnected!");
-      });
     }
-
-    return () => {
-      if (socket?.current) {
-        socket?.current.disconnect();
-      }
-    };
-  }, []);
+    // eslint-disable-next-line
+  }, [connected]);
 
   return (
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">
@@ -186,8 +157,7 @@ const LemonGame = () => {
               key={l}
               checked={l === selectedLemon}
               onClick={() => {
-                if (!selectedLemon && seconds && lemonNumberNext !== l)
-                  setSelectedLemon(l);
+                if (!selectedLemon && seconds) setSelectedLemon(l);
               }}
             />
           ))}

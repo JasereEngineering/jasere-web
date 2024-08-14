@@ -49,4 +49,7 @@ export const LEMON = {
   NEW_GAME: "/lemon/new-game",
   CREATE_QUESTIONS: "/lemon/create-questions",
   GAME: "/lemon/game/:gameSession",
+  RESULT: "/lemon/game/:gameSession/result",
+  RESULT_FOR: (gameSession: string) =>
+    `/lemon/game/${gameSession}/result`,
 };

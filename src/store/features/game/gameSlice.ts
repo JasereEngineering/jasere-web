@@ -28,6 +28,7 @@ const initialState: GameState = {
   lemonNumberPrev: null,
   lemonNumberNext: null,
   lemonsDisplayed: [],
+  lemonResult: [],
   loading: false,
   sessionCreated: false,
 };
@@ -146,6 +147,8 @@ export const gameSlice = createSlice({
       if (payload.lemon_number) state.lemonNumberPrev = payload.lemon_number;
       if (payload.lemon_number_next_turn)
         state.lemonNumberNext = payload.lemon_number_next_turn;
+      if (payload.result)
+        state.lemonResult = payload.result;
     },
   },
   extraReducers(builder) {
