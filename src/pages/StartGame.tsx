@@ -96,7 +96,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
           let lemon = response.game_data.players.find(
             (p: any) => p.player_name === username
           )?.lemon_number;
-          dispatch(joinGame({ lemon }));
+          dispatch(joinGame({ lemon, players: response.game_data.players }));
           setBroadcast(true);
         }
         setLoading(false);

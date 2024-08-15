@@ -76,7 +76,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
     }
 
     return () => clearInterval(intervalId);
-  }, [seconds]);
+  }, [seconds, gameSession, navigate]);
 
   useEffect(() => {
     if (lemonNumber === lemonNumberNext) setSeconds(10);
@@ -91,7 +91,15 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         } else {
           dispatch(joinGame(response.game_data));
           if (!response.game_data.is_valid_lemon)
-            navigate(ROUTES.LEMON.RESULT_FOR(gameSession as string));
+            socket.emit("poll-room", {
+              game_session_id: gameSession,
+              player_name: username,
+              info: {
+                selected_lemon_number: null,
+                transition: 1,
+                time_to_answer: 10,
+              },
+            });
         }
       });
     }

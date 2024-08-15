@@ -148,7 +148,7 @@ export const gameSlice = createSlice({
       if (payload.lemon_number_next_turn)
         state.lemonNumberNext = payload.lemon_number_next_turn;
       if (payload.result)
-        state.lemonResult = payload.result;
+        state.lemonResult = payload.result.data;
     },
   },
   extraReducers(builder) {
