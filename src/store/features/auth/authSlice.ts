@@ -24,7 +24,7 @@ export const signup = createAsyncThunk(
     password: string;
     firstName: string;
     lastName: string;
-    onSuccess: () => void;
+    onSuccess?: () => void;
   }) => {
     return await request({
       url: "/auth/register",
@@ -43,7 +43,7 @@ export const signin = createAsyncThunk(
   }: {
     username: string;
     password: string;
-    onSuccess: () => void;
+    onSuccess?: () => void;
   }) => {
     return await request({
       url: "/auth/login",
@@ -70,6 +70,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
+    addGuest: (state, { payload }) => {
+      state.username = payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -104,6 +107,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, addGuest } = authSlice.actions;
 
 export default authSlice.reducer;

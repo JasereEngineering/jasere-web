@@ -2,6 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sansita:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&family=Lexend:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -34,23 +38,41 @@ body,
 }
 
 input[type="checkbox"] {
-  accent-color: #5871eb;
+  accent-color: #f7941d;
 }
 
 input[type="range"] {
-  accent-color: #D9D9D9;
+  accent-color: #ffffff;
 }
 
 input[type="range"] {
-  background: linear-gradient(to right, #5871EB 0%, #5871EB 50%, #D9D9D9 50%, #D9D9D9 100%);
+  background: linear-gradient(
+    to right,
+    #f34348 0%,
+    #f34348 50%,
+    #d9d9d9 50%,
+    #d9d9d9 100%
+  );
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  background: #5871EB;
+  width: 17px;
+  height: 17px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 input[type="range"]::-moz-range-thumb {
-  background: #5871EB;
+  width: 17px;
+  height: 17px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
 }
 
 select {
@@ -60,9 +82,8 @@ select {
   appearance: none;
 }
 
-/* react-toastify */
 .Toastify__toast--success {
-  background-color: #80CBA6 !important;
+  background-color: #2cb553 !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   line-height: 1rem !important;
@@ -71,7 +92,7 @@ select {
 }
 
 .Toastify__toast--error {
-  background-color: #EF4637 !important;
+  background-color: #ef4136 !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   line-height: 1rem !important;

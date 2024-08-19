@@ -13,14 +13,14 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: any) => {
   const navigate = useNavigate();
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   const [user, setUser] = useLocalStorage("user", null);
 
   const login = useCallback(
     async (data: UserContext) => {
       setUser(data);
-      dispatch(fetchProfile())
+      dispatch(fetchProfile());
     },
     [setUser, dispatch]
   );
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: any) => {
   const logout = useCallback(() => {
     setUser(null);
     localStorage.clear();
-    navigate(ROUTES.PLAY.GET_STARTED, { replace: true });
+    navigate(ROUTES.PLAY.PLAY_GAME, { replace: true });
     window.location.reload();
   }, [setUser, navigate]);
 

@@ -18,7 +18,7 @@ const GetStarted = () => {
       <div className="p-[2.375rem] w-full">
         <Button
           text="Get Started"
-          onClick={() => navigate(ROUTES.AUTH.SIGNUP)}
+          onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
         />
       </div>
     </AppLayout>

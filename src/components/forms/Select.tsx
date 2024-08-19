@@ -21,16 +21,15 @@ const Select = ({
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col font-lex">
       {label ? (
-        <label className="font-pop font-medium text-[0.875rem] pl-2 mb-1">
+        <label className="font-light text-white text-[0.688rem] leading-[0.859rem] mb-1">
           {label}
-          {required ? "*" : ""}
         </label>
       ) : null}
       <div className="">
         <select
-          className={`rounded-[6px] border border-[#8692A6] bg-[#282A2F] p-3 font-pop font-medium text-[1rem] text-[#8692A6] w-full ${
+          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[0.813rem] leading-[0.983rem] text-white w-full ${
             className ? className : ""
           }`}
           value={value}

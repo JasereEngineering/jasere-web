@@ -35,16 +35,28 @@ export interface GameState {
   games: any[];
   game: string | null;
   gameTitle: string | null;
+  gameTag: string | null;
   gameName: string | null;
   gameSession: string | null;
   gamePin: string | null;
   trivia: any[];
   currentTrivia: number;
   categories: any[];
+  levels: any[];
   category: string | null;
+  categoryName: string | null;
+  level: string | null;
+  difficulty: string | null;
+  avatar: string | null;
+  lemonNumber: number | null;
+  lemonNumberPrev: number | null;
+  lemonNumberNext: number | null;
   loading: boolean;
   sessionCreated: boolean;
-  results: any[]
+  results: any[];
+  players: any[];
+  lemonsDisplayed: number[];
+  lemonResult: any[];
 }
 
 export interface RequestArgs {
