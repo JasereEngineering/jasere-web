@@ -97,6 +97,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
             (p: any) => p.player_name === username
           )?.lemon_number;
           dispatch(joinGame({ lemon, players: response.game_data.players }));
+          dispatch(setPlayers(response.game_data.players));
           setBroadcast(true);
         }
         setLoading(false);
@@ -112,7 +113,8 @@ const StartGame = ({ socket }: { socket: Socket }) => {
           navigate(
             ROUTES.PLAY.BEGIN_GAME_FOR(
               response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
-              response.game_data.game_session_id
+              response.game_data.game_session_id,
+              !!notCreator
             )
           );
         }
@@ -136,7 +138,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
                 ]
               }
             </h1>
-            <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.125rem] capitalize">
+            <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.125rem] capitalize">
               {!gameTitle?.toLowerCase().includes("lemon")
                 ? gameCategory || categoryName
                 : `${players.length} Player${
@@ -173,14 +175,14 @@ const StartGame = ({ socket }: { socket: Socket }) => {
             {/* <p className="font-lex text-[1.125rem] text-center leading-[1.406rem] tracking-[-0.4px] mb-6 max-w-[19.313rem]">
         Your game lobby is full!, proceed to start the game
       </p> */}
-            <p className="font-lex font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-6">
+            <p className="font-inter font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-6">
               Waiting for other players to join
             </p>
             {notCreator ? (
               <div className="flex justify-center items-center mb-6">
                 <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
                   <img src={check} alt="checkmark" className="mr-2" />
-                  <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
+                  <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
                     Joined as{" "}
                     <span className="font-semibold capitalize">{username}</span>
                   </span>
@@ -188,7 +190,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
               </div>
             ) : (
               <>
-                <p className="font-lex text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-2">
+                <p className="font-inter text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-2">
                   Share link below to invite friends to your game
                 </p>
                 <div
@@ -269,7 +271,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
                 ]
               }
             </h1>
-            <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-9 capitalize">
+            <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-9 capitalize">
               {!gameTitle?.toLowerCase().includes("lemon")
                 ? gameCategory || categoryName
                 : `${players.length} Player${
@@ -290,7 +292,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
                 alt="info"
                 className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
               />
-              <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+              <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-5">
                 Lemon numbers are assigned to players at random for a more
                 immersive experience
               </p>

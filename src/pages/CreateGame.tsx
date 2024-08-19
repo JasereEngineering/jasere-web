@@ -27,7 +27,7 @@ const CreateGame = () => {
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
           CREATE A GAME
         </h1>
-        <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-5">
+        <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-5">
           Create a new game with your own set of rules
         </p>
         <h2 className="font-lal text-[1.125rem] leading-[1.75rem] tracking-[-0.25px] mb-2">
@@ -54,7 +54,7 @@ const CreateGame = () => {
             onChange={setTitle}
           />
         </div>
-        <label className="block font-lex font-light text-white text-[0.688rem] leading-[0.859rem] mb-[0.875rem]">
+        <label className="block font-inter font-light text-white text-[0.688rem] leading-[0.859rem] mb-[0.875rem]">
           Number of players
         </label>
         <div className="grid grid-cols-3 gap-4">

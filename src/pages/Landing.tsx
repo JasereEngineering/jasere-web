@@ -16,7 +16,7 @@ const Landing = () => {
         <h1 className="text-center text-white text-[1.875rem] leading-[3rem] tracking-[-0.25px] font-lal max-w-[15.313rem] mb-1.5">
           PLAY THE BEST PARTY GAMES ON MOBILE
         </h1>
-        <p className="font-lex text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-9">
+        <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-9">
           Party games for group of friends
         </p>
       </div>

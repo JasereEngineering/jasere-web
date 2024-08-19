@@ -39,7 +39,7 @@ const Input = ({
   return (
     <div className="w-full flex flex-col font-lex">
       {label ? (
-        <div className="font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
+        <div className="font-inter font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
           <span>{label}</span>
           {password ? (
             <span

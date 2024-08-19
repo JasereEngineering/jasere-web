@@ -89,7 +89,7 @@ const SignUp = () => {
       <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
         SIGN UP TO CONTINUE
       </h1>
-      <p className="font-lex text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-4">
+      <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-4">
         Please create an account to host a game
       </p>
       <div className="mb-6 w-full">
@@ -149,7 +149,7 @@ const SignUp = () => {
       />
       <div className="flex h-[2rem] items-center justify-center mb-2">
         <hr className="border border-white w-[1.5rem]" />
-        <span className="font-medium font-lex text-[0.875rem] text-white leading-[1.094rem] px-1">
+        <span className="font-medium font-inter text-[0.875rem] text-white leading-[1.094rem] px-1">
           or sign up with
         </span>
         <hr className="border border-white w-[1.5rem]" />
@@ -174,7 +174,7 @@ const SignUp = () => {
           </span>
         </button>
       </div>
-      <p className="text-white text-center text-[0.875rem] leading-[1.094rem] font-lex">
+      <p className="text-white text-center text-[0.875rem] leading-[1.094rem] font-inter">
         Already have an account?{" "}
         <span
           className="font-bold text-[#E6A101]"

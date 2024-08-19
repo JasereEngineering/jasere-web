@@ -91,6 +91,17 @@ export const fetchGameResult = createAsyncThunk(
   }
 );
 
+export const validateGame = createAsyncThunk(
+  "game/validate",
+  async ({ code, onSuccess }: { code: string; onSuccess?: () => void }) => {
+    return await request({
+      url: `/game/validate/${code}`,
+      method: "get",
+      onSuccess
+    });
+  }
+);
+
 export const gameSlice = createSlice({
   name: "game",
   initialState,
@@ -147,8 +158,7 @@ export const gameSlice = createSlice({
       if (payload.lemon_number) state.lemonNumberPrev = payload.lemon_number;
       if (payload.lemon_number_next_turn)
         state.lemonNumberNext = payload.lemon_number_next_turn;
-      if (payload.result)
-        state.lemonResult = payload.result.data;
+      if (payload.result) state.lemonResult = payload.result.data;
     },
   },
   extraReducers(builder) {

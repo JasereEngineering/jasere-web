@@ -50,7 +50,7 @@ const Penalty = () => {
             <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
               LEMON LEMON
             </h1>
-            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
               Set penalties for round failure
             </p>
           </div>
@@ -95,7 +95,7 @@ const Penalty = () => {
               alt="info"
               className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
             />
-            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
               Penalty can only be confirmed by the host player which then
               progresses the game to the next round after confirmation
             </p>

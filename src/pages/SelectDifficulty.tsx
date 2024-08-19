@@ -52,8 +52,8 @@ const SelectDifficulty = () => {
                 ]
               }
             </h1>
-            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
-              Choose Difficulty
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+              Select Difficulty
             </p>
           </div>
           <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />

@@ -232,7 +232,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
               </span>
             ))
           ) : (
-            <span className="font-lex text-[#D0D0D0] text-[0.813rem] leading-[1.016rem] tracking-[-0.15px]">
+            <span className="font-inter text-[#D0D0D0] text-[0.813rem] leading-[1.016rem] tracking-[-0.15px]">
               Tap a letter to enter
             </span>
           )}

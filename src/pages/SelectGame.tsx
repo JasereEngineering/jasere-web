@@ -61,7 +61,7 @@ const SelectGame = () => {
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
           HOST A GAME
         </h1>
-        <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
+        <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
           Select from our list of popular party games
         </p>
         <div className="grid grid-cols-2 gap-x-5 gap-y-4">
@@ -119,7 +119,7 @@ const SelectGame = () => {
             }`}
           >
             <img src={check} alt="checkmark" className="mr-2" />
-            <span className="font-lex text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
+            <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
               Signed in as <span className="font-semibold">{username}</span>
             </span>
           </div>

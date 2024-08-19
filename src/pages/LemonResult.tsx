@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
@@ -11,17 +13,51 @@ import crown from "../assets/images/crown.svg";
 
 import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
-import { endGame } from "../store/features/game";
+import { endGame, joinGame } from "../store/features/game";
 import { GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket }) => {
+  const { connected } = socket;
+
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const notCreator = searchParams.get("player");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { lemonResult, lemonNumberNext, players, gamePin, avatar: avatarImage } = useSelector<RootState>(
-    ({ game }) => game
-  ) as GameState;
+  const {
+    lemonResult,
+    lemonNumberPrev,
+    players,
+    gamePin,
+    avatar: avatarImage,
+  } = useSelector<RootState>(({ game }) => game) as GameState;
+
+  useEffect(() => {
+    if (connected) {
+      socket.on("start", (response: any) => {
+        console.log({ response });
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          dispatch(joinGame(response.game_data));
+          navigate(
+            ROUTES.PLAY.BEGIN_GAME_FOR(
+              response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+              response.game_data.game_session_id,
+              !!notCreator
+            )
+          );
+        }
+      });
+
+      socket.on("exit", () => {
+        navigate(ROUTES.PLAY.GET_STARTED);
+      });
+    }
+    // eslint-disable-next-line
+  }, [connected]);
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
@@ -32,19 +68,24 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
         </h1>
         <div className="rounded-[35px] bg-[#7EAED6] h-[6rem] w-[5.688rem] p-2 flex flex-col items-center justify-between mb-[1.125rem]">
           <img
-            src={avatar}
+            src={
+              avatarMap[
+                players.find((p: any) => p.lemon_number === lemonNumberPrev)
+                  ?.avatar as keyof typeof avatarMap
+              ] || avatar
+            }
             alt="avatar"
             className="w-[2.625rem] h-[2.625rem] rounded-full"
           />
           <p className="text-[1.188rem] text-center leading-[1.875rem] tracking-[-0.47px] truncate">
             {
-              players.find((p: any) => p.lemon_number === lemonNumberNext)
+              players.find((p: any) => p.lemon_number === lemonNumberPrev)
                 ?.player_name
             }
           </p>
         </div>
         <h2 className="text-[1.301rem] text-center leading-[1.518rem] tracking-[-0.16px] mb-2.5">
-          LEMON {lemonNumberNext} <br />
+          LEMON {lemonNumberPrev} <br />
           picked the wrong answer!
         </h2>
         <div className="h-[1px] w-full bg-white bg-opacity-[39%] mb-[1.375rem]"></div>
@@ -77,24 +118,29 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
         ))}
       </div>
       <div className="flex flex-col gap-y-4 w-full fixed bottom-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
-        <Button text="Next Round" onClick={() => {
-          socket.emit("start", {
-            game_pin: gamePin,
-            avatar: avatarImage,
-            proceed: true
-          });
-        }} />
         <Button
-          text="End Game"
-          className="border border-[#F34348] !bg-black text-white"
+          text={!notCreator ? "Next Round" : "Waiting For Host..."}
+          disabled={!!notCreator}
           onClick={() => {
-            dispatch(endGame());
-            socket.emit("exit", {
+            socket.emit("start", {
               game_pin: gamePin,
+              avatar: avatarImage,
+              proceed: true,
             });
-            navigate(ROUTES.PLAY.GET_STARTED);
           }}
         />
+        {!notCreator ? (
+          <Button
+            text="End Game"
+            className="border border-[#F34348] !bg-black text-white"
+            onClick={() => {
+              dispatch(endGame());
+              socket.emit("exit", {
+                game_pin: gamePin,
+              });
+            }}
+          />
+        ) : null}
       </div>
     </AppLayout>
   );

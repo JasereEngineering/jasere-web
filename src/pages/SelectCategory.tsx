@@ -54,7 +54,7 @@ const SelectCategory = () => {
             <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px] uppercase">
               {titleMap[gameTitle?.toLowerCase() as keyof typeof titleMap]}
             </h1>
-            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
               Choose Category
             </p>
           </div>

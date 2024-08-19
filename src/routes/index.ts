@@ -10,17 +10,20 @@ export const PLAY = {
   PICK_GAME: "/pick-game",
   START_GAME: "/game/start",
   START_GAME_GUEST: "/game/start?player=participant",
-  BEGIN_GAME_FOR: (gameTitle: string, gameSession: string) =>
-    `/${gameTitle}/game/${gameSession}`,
+  BEGIN_GAME_FOR: (
+    gameTitle: string,
+    gameSession: string,
+    participant?: boolean
+  ) =>
+    `/${gameTitle}/game/${gameSession}${
+      participant ? "?player=participant" : ""
+    }`,
   SELECT_CATEGORY: "/:gameTitle/category",
-  SELECT_CATEGORY_FOR: (gameTitle: string) =>
-    `/${gameTitle}/category`,
+  SELECT_CATEGORY_FOR: (gameTitle: string) => `/${gameTitle}/category`,
   SELECT_DIFFICULTY: "/:gameTitle/difficulty",
-  SELECT_DIFFICULTY_FOR: (gameTitle: string) =>
-    `/${gameTitle}/difficulty`,
+  SELECT_DIFFICULTY_FOR: (gameTitle: string) => `/${gameTitle}/difficulty`,
   CREATE_GAME_SESSION: "/:gameTitle/create-game",
-  CREATE_GAME_SESSION_FOR: (gameTitle: string) =>
-    `/${gameTitle}/create-game`,
+  CREATE_GAME_SESSION_FOR: (gameTitle: string) => `/${gameTitle}/create-game`,
   GAME_SESSION: "/:gameTitle/game/:gameSession",
   GAME_SESSION_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
@@ -50,6 +53,8 @@ export const LEMON = {
   CREATE_QUESTIONS: "/lemon/create-questions",
   GAME: "/lemon/game/:gameSession",
   RESULT: "/lemon/game/:gameSession/result",
-  RESULT_FOR: (gameSession: string) =>
-    `/lemon/game/${gameSession}/result`,
+  RESULT_FOR: (gameSession: string, participant?: boolean) =>
+    `/lemon/game/${gameSession}/result${
+      participant ? "?player=participant" : ""
+    }`,
 };

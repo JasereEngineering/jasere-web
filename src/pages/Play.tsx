@@ -21,7 +21,7 @@ const Play = () => {
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">
             HOST A GAME
           </h3>
-          <p className="font-lex text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[9.438rem] mb-3">
+          <p className="font-inter text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[9.438rem] mb-3">
             Create a game server for your friends to join & play!
           </p>
           <div className="bg-white text-[#8538E8] text-[0.493rem] leading-[0.616rem] tracking-[-0.26px] rounded-[20px] px-[0.719rem] py-[0.411rem] font-lex font-semibold max-w-fit">
@@ -42,7 +42,7 @@ const Play = () => {
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">
             JOIN GAME
           </h3>
-          <p className="font-lex text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[6.375rem] mb-3">
+          <p className="font-inter text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[6.375rem] mb-3">
             Join a game using a link or QR Code
           </p>
           <div className="bg-white text-[#E6A101] text-[0.493rem] leading-[0.616rem] tracking-[-0.26px] rounded-[20px] px-[0.719rem] py-[0.411rem] font-lex font-semibold max-w-fit">
@@ -60,7 +60,7 @@ const Play = () => {
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">
             CREATE A GAME
           </h3>
-          <p className="font-lex text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[6.375rem] mb-3">
+          <p className="font-inter text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[6.375rem] mb-3">
             Add a new game with custom rules
           </p>
           <div className="bg-white text-[#F34348] text-[0.493rem] leading-[0.616rem] tracking-[-0.26px] rounded-[20px] px-[0.719rem] py-[0.411rem] font-lex font-semibold max-w-fit">

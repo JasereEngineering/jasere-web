@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Socket } from "socket.io-client";
@@ -18,6 +18,9 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
   const { connected } = socket;
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const notCreator = searchParams.get("player");
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -68,15 +71,24 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         } else {
+          socket.emit("poll-room", {
+            game_session_id: gameSession,
+            player_name: username,
+            info: {
+              selected_lemon_number: null,
+              transition: 1,
+              time_to_answer: 10,
+            },
+          });
           setSeconds(undefined);
           setSelectedLemon(undefined);
-          navigate(ROUTES.LEMON.RESULT_FOR(gameSession as string));
         }
       }, 1000);
     }
 
     return () => clearInterval(intervalId);
-  }, [seconds, gameSession, navigate]);
+    // eslint-disable-next-line
+  }, [seconds]);
 
   useEffect(() => {
     if (lemonNumber === lemonNumberNext) setSeconds(10);
@@ -91,15 +103,9 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         } else {
           dispatch(joinGame(response.game_data));
           if (!response.game_data.is_valid_lemon)
-            socket.emit("poll-room", {
-              game_session_id: gameSession,
-              player_name: username,
-              info: {
-                selected_lemon_number: null,
-                transition: 1,
-                time_to_answer: 10,
-              },
-            });
+            navigate(
+              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+            );
         }
       });
     }
@@ -113,7 +119,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
         </h1>
-        <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-7 capitalize">
+        <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-7 capitalize">
           {players.length} Players | {difficulty || difficultyLevel}
         </p>
         <div className="relative rounded-[18px] w-full mb-4 max-h-[9.375rem]">

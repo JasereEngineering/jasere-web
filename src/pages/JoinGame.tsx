@@ -12,9 +12,9 @@ import check from "../assets/images/avatar-check.svg";
 
 import { avatarMap } from "../helpers/misc";
 import { AppDispatch, RootState } from "../store";
-import { AuthState } from "../types";
+import { AuthState, GameState } from "../types";
 import { addGuest } from "../store/features/auth";
-import { joinGame, setPlayers } from "../store/features/game";
+import { joinGame, setPlayers, validateGame } from "../store/features/game";
 import * as ROUTES from "../routes";
 
 const JoinGame = () => {
@@ -26,6 +26,7 @@ const JoinGame = () => {
   const { username: name } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
+  const { loading } = useSelector<RootState>(({ game }) => game) as GameState;
 
   const gamePin = searchParams.get("code");
 
@@ -58,7 +59,7 @@ const JoinGame = () => {
             <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
               JOIN A GAME
             </h1>
-            <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-[3.25rem]">
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-[3.25rem]">
               Join your friends to play a quick game
             </p>
             <div className="flex flex-col items-center">
@@ -75,7 +76,10 @@ const JoinGame = () => {
           </div>
           <Button
             text="Join Game"
-            onClick={() => setPage(2)}
+            onClick={() =>
+              dispatch(validateGame({ code, onSuccess: () => setPage(2) }))
+            }
+            loading={loading}
             disabled={code?.length !== 6}
           />
         </>
@@ -84,7 +88,7 @@ const JoinGame = () => {
           <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
             CREATE AN AVATAR
           </h1>
-          <p className="font-lex text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] max-w-[15.313rem] mb-6">
+          <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] max-w-[15.313rem] mb-6">
             To join a game, please create an avatar
           </p>
           <div className="mb-11 mx-[-3.875rem] flex justify-center">
@@ -125,19 +129,19 @@ const JoinGame = () => {
             disabled={!username || !avatar}
             onClick={handleSubmit}
           />
-          {!name ? (
-            <div className="flex">
-              <img
-                src={info}
-                alt="info"
-                className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
-              />
-              <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
-                This avatar profile is used as a one-time session and will not
-                save user scores on the leaderboard
-              </p>
-            </div>
-          ) : null}
+          {/* {!name ? ( */}
+          <div className="flex">
+            <img
+              src={info}
+              alt="info"
+              className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
+            />
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+              This avatar profile is used as a one-time session and will not
+              save user scores on the leaderboard
+            </p>
+          </div>
+          {/* ) : null} */}
         </>
       )}
     </AppLayout>

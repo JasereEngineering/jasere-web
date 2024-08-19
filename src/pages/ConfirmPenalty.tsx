@@ -100,7 +100,7 @@ const ConfirmPenalty = () => {
         </div>
         <div className="flex h-[2rem] items-center justify-center mb-[0.625rem]">
           <hr className="border border-white w-[2rem]" />
-          <span className="font-medium font-lex text-[0.875rem] text-white leading-[1.094rem] px-2">
+          <span className="font-medium font-inter text-[0.875rem] text-white leading-[1.094rem] px-2">
             OR
           </span>
           <hr className="border border-white w-[2rem]" />
@@ -114,7 +114,7 @@ const ConfirmPenalty = () => {
             alt="info"
             className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
           />
-          <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+          <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
             Confirm that the player completes the penalty or pay the escape fine
             to resume the game
           </p>

@@ -48,7 +48,7 @@ const Dashboard = () => {
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
           PROFILE
         </h1>
-        <p className="font-lex text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-4">
+        <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-4">
           Edit your profile
         </p>
         <div className="flex flex-col items-center px-4">
@@ -81,7 +81,7 @@ const Dashboard = () => {
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
                 90
               </span>
-              <span className="font-lex text-center text-[0.625rem] leading-[0.781rem]">
+              <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Games played
               </span>
             </div>
@@ -89,7 +89,7 @@ const Dashboard = () => {
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
                 14
               </span>
-              <span className="font-lex text-center text-[0.625rem] leading-[0.781rem]">
+              <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Games created
               </span>
             </div>
@@ -97,7 +97,7 @@ const Dashboard = () => {
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
                 9
               </span>
-              <span className="font-lex text-center text-[0.625rem] leading-[0.781rem]">
+              <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Badges unlocked
               </span>
             </div>

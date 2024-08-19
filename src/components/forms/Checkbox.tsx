@@ -39,7 +39,7 @@ const Checkbox = ({
       </label>
       <label
         htmlFor={id}
-        className="font-lex text-[0.875rem] text-white leading-[1.094rem] ml-2"
+        className="font-inter text-[0.875rem] text-white leading-[1.094rem] ml-2"
       >
         {label}
       </label>
