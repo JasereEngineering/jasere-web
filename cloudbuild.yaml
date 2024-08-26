@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us.gcr.io/jasere/app', '.']
+images: 
+- 'us.gcr.io/jasere/app:latest'
+timeout: 3600s
