@@ -91,6 +91,16 @@ export const fetchGameResult = createAsyncThunk(
   }
 );
 
+export const fetchGameDetails = createAsyncThunk(
+  "game/details",
+  async (session: string) => {
+    return await request({
+      url: `/game/details/${session}`,
+      method: "get",
+    });
+  }
+);
+
 export const validateGame = createAsyncThunk(
   "game/validate",
   async ({ code, onSuccess }: { code: string; onSuccess?: () => void }) => {

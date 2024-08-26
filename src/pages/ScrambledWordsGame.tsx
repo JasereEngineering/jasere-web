@@ -170,7 +170,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
           SCRAMBLED WORDS
         </h1>
-        <p className="font-lex font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem]">
+        <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem]">
           Celebrities | Noobie
         </p>
         <div className="flex justify-center items-center mb-6">
@@ -238,7 +238,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
           )}
         </div>
         {trivia[currentTrivia].hint ? (
-          <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-lex font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px]">
+          <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-inter font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px]">
             HINT: {trivia[currentTrivia].hint}
           </div>
         ) : null}

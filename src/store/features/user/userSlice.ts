@@ -16,15 +16,28 @@ const initialState: UserState = {
   isActive: false,
 };
 
-export const fetchProfile = createAsyncThunk(
-  "user/profile",
-  async (_, { getState }) => {
-    const {
-      auth: { id },
-    } = getState() as RootState;
+export const fetchProfile = createAsyncThunk("user/profile", async () => {
+  return await request({
+    url: "/user/profile",
+    method: "get",
+  });
+});
 
+export const fetchGames = createAsyncThunk(
+  "user/games",
+  async ({ page, limit }: { page: number; limit: number }) => {
     return await request({
-      url: `/user/${id}`,
+      url: `/user/games/played?page=${page}&limit=${limit}`,
+      method: "get",
+    });
+  }
+);
+
+export const fetchLeaderboard = createAsyncThunk(
+  "user/leaderboard",
+  async ({ page, limit }: { page: number; limit: number }) => {
+    return await request({
+      url: `/user/leaderboard?page=${page}&limit=${limit}`,
       method: "get",
     });
   }

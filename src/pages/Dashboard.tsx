@@ -1,11 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
-import PlayerCard from "../components/misc/PlayerCard";
 import Input from "../components/forms/Input";
 
 import avatar from "../assets/images/avatar2.svg";
@@ -22,24 +20,13 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { firstName, loading } = useSelector<RootState>(
+  const { loading } = useSelector<RootState>(
     ({ user }) => user
   ) as UserState;
 
-  const [category, setCategory] = useState<"played" | "created">("played");
-
-  const scrollableDivRef = useRef<HTMLDivElement>(null);
-
-  const scrollByWidth = (width: number) => {
-    if (scrollableDivRef.current) {
-      const { current } = scrollableDivRef;
-      current.scrollLeft += width;
-    }
-  };
-
-  // useEffect(() => {
-  //   dispatch(fetchProfile());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchProfile());
+  }, [dispatch]);
 
   return (
     <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-[4.875rem]">

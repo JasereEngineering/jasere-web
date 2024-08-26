@@ -18,11 +18,14 @@ import Landing from "./pages/Landing";
 import Play from "./pages/Play";
 import SelectDifficulty from "./pages/SelectDifficulty";
 import LemonGame from "./pages/LemonGame";
-import Penalty from "./pages/Penalty";
-import ConfirmPenalty from "./pages/ConfirmPenalty";
+// import Penalty from "./pages/Penalty";
+// import ConfirmPenalty from "./pages/ConfirmPenalty";
 import LemonResult from "./pages/LemonResult";
+import GlobalLeaderboard from "./pages/GlobalLeaderboard";
 
 import * as ROUTES from "./routes";
+import GamesHistory from "./pages/GamesHistory";
+import GameDetails from "./pages/GameDetails";
 
 const socket: Socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
 
@@ -38,6 +41,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      {/* <Route path="/current" element={<GameDetails />} /> */}
       <Route path={ROUTES.PLAY.GET_STARTED} element={<Play />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
       <Route
@@ -76,6 +80,10 @@ export default function App() {
 
       <Route element={<AuthedLayout />}>
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />
+        <Route path={ROUTES.DASHBOARD.GAMES} element={<GamesHistory />} />
+        <Route path={ROUTES.DASHBOARD.GAME_DETAILS} element={<GameDetails />} />
+        <Route path={ROUTES.DASHBOARD.LEADERBOARD} element={<GlobalLeaderboard />} />
+
         <Route
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
           element={<CreateGame />}

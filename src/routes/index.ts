@@ -35,6 +35,10 @@ export const PLAY = {
 
 export const DASHBOARD = {
   PROFILE: "/profile",
+  GAMES: "/profile/games",
+  GAME_DETAILS: "/profile/games/:gameSession",
+  GAME_DETAILS_FOR: (gameSession: string) => `/profile/games/${gameSession}`,
+  LEADERBOARD: "profile/leaderboard",
 };
 
 export const SCRAMBLED_WORDS = {
