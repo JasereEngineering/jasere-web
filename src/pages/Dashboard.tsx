@@ -15,14 +15,14 @@ import { RootState, AppDispatch } from "../store";
 import { UserState } from "../types";
 import { fetchProfile } from "../store/features/user";
 import * as ROUTES from "../routes";
+import { maskEmail } from "../helpers/misc";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector<RootState>(
-    ({ user }) => user
-  ) as UserState;
+  const { loading, email, gamesCreated, gamesPlayed, badges } =
+    useSelector<RootState>(({ user }) => user) as UserState;
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -66,7 +66,7 @@ const Dashboard = () => {
           <div className="bg-gradient-to-r from-[#AC7903] via-[#DD9A01] to-[#AB7801] w-full rounded-[25px] py-[1.75rem] px-4 gap-x-3 flex items-center justify-between mb-4">
             <div className="flex flex-col items-center grow">
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
-                90
+                {gamesPlayed}
               </span>
               <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Games played
@@ -74,7 +74,7 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-col items-center px-4 border-l border-r border-[#4F4F4F66]">
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
-                14
+                {gamesCreated}
               </span>
               <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Games created
@@ -82,7 +82,7 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-col items-center grow">
               <span className="font-lal text-center text-[2.25rem] leading-[3.5rem]">
-                9
+                {badges}
               </span>
               <span className="font-inter text-center text-[0.625rem] leading-[0.781rem]">
                 Badges unlocked
@@ -93,7 +93,7 @@ const Dashboard = () => {
             <Input
               label="Email Address"
               type="email"
-              value="Victo*****e@gmail.com (unchanged)"
+              value={`${maskEmail(email)} (unchanged)`}
               onChange={() => {}}
               disabled
               className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"

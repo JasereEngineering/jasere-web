@@ -57,6 +57,7 @@ const Login = () => {
   }, [id, login, loggedIn]);
 
   useEffect(() => {
+    console.log({user, createdGame, loggedIn})
     if (user && !createdGame) {
       if ([gameName, game, level].every((i) => i)) {
         dispatch(

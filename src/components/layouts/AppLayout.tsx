@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import logo from "../../assets/images/full-logo.svg";
 import create from "../../assets/images/create-game.svg";
@@ -9,9 +10,11 @@ import helpIcon from "../../assets/images/help-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
 import avatar from "../../assets/images/avatar2.svg";
 import premium from "../../assets/images/premium.svg";
+import leaderboards from "../../assets/images/leaderboards.svg";
 
 import { useAuth } from "../../hooks/useAuth";
-import { AuthContextType } from "../../types";
+import { AuthContextType, AuthState } from "../../types";
+import { RootState } from "../../store";
 import * as ROUTES from "../../routes";
 
 const AppLayout = ({
@@ -26,6 +29,8 @@ const AppLayout = ({
   help?: boolean;
 }) => {
   const navigate = useNavigate();
+
+  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   const { user, logout } = useAuth() as AuthContextType;
 
@@ -53,7 +58,7 @@ const AppLayout = ({
             />
             <div className="flex flex-col justify-between">
               <h5 className="text-[1.25rem] text-white leading-[1.959rem] font-lal">
-                VictorTheKree
+                {username || "Guest"}
               </h5>
               <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
                 <img src={premium} alt="premium" className="mr-1" />
@@ -86,19 +91,19 @@ const AppLayout = ({
           </div>
           <div
             className="flex items-center mb-5"
-            onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
+            onClick={() => navigate(ROUTES.DASHBOARD.GAMES)}
           >
             <img src={games} alt="my games" className="mr-5" />
             <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
               My Games
             </p>
           </div>
-          {/* <div className="flex items-center">
+          <div className="flex items-center"  onClick={() => navigate(ROUTES.DASHBOARD.LEADERBOARD)}>
             <img src={leaderboards} alt="leaderboards" className="mr-5" />
             <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
               Leaderboards
             </p>
-          </div> */}
+          </div>
           {user ? (
             <div
               className="flex items-center mt-[9.375rem]"

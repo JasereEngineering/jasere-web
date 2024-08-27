@@ -38,7 +38,7 @@ export const DASHBOARD = {
   GAMES: "/profile/games",
   GAME_DETAILS: "/profile/games/:gameSession",
   GAME_DETAILS_FOR: (gameSession: string) => `/profile/games/${gameSession}`,
-  LEADERBOARD: "profile/leaderboard",
+  LEADERBOARD: "/profile/leaderboard",
 };
 
 export const SCRAMBLED_WORDS = {

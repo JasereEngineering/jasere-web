@@ -20,6 +20,14 @@ export interface AuthState {
   loading: boolean;
 }
 
+type PaginatedData = {
+  data: any[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 export interface UserState {
   firstName: string | null;
   lastName: string | null;
@@ -29,6 +37,12 @@ export interface UserState {
   userId: string | null;
   loading: boolean;
   isActive: boolean;
+  gamesCreated: number | null;
+  gamesPlayed: number | null;
+  badges: number | null;
+  games: PaginatedData | null;
+  leaderboard: PaginatedData | null;
+  game: any
 }
 
 export interface GameState {

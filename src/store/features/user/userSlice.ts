@@ -14,6 +14,12 @@ const initialState: UserState = {
   userId: null,
   loading: false,
   isActive: false,
+  gamesPlayed: null,
+  gamesCreated: null,
+  badges: null,
+  games: null,
+  leaderboard: null,
+  game: null
 };
 
 export const fetchProfile = createAsyncThunk("user/profile", async () => {
@@ -28,6 +34,16 @@ export const fetchGames = createAsyncThunk(
   async ({ page, limit }: { page: number; limit: number }) => {
     return await request({
       url: `/user/games/played?page=${page}&limit=${limit}`,
+      method: "get",
+    });
+  }
+);
+
+export const fetchGameDetails = createAsyncThunk(
+  "user/game/details",
+  async (session: string) => {
+    return await request({
+      url: `/game/details/${session}`,
       method: "get",
     });
   }
@@ -65,6 +81,18 @@ export const userSlice = createSlice({
             state.userId = action.payload.user_id;
             state.id = action.payload.id;
             state.isActive = action.payload.isActive;
+            state.badges = action.payload.total_badges_collected;
+            state.gamesCreated = action.payload.total_games_created;
+            state.gamesPlayed = action.payload.total_games_played;
+            break;
+          case "user/games/fulfilled":
+            state.games = action.payload;
+            break;
+          case "user/games/details/fulfilled":
+            state.game = action.payload;
+            break;
+          case "user/leaderboard/fulfilled":
+            state.leaderboard = action.payload;
             break;
         }
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,13 +18,13 @@ const GlobalLeaderboard = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { firstName, loading } = useSelector<RootState>(
+  const { leaderboard, loading } = useSelector<RootState>(
     ({ user }) => user
   ) as UserState;
 
-  // useEffect(() => {
-  //   dispatch(fetchProfile());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchLeaderboard({ page: 1, limit: 100 }));
+  }, [dispatch]);
 
   return (
     <AppLayout className="flex flex-col font-lal text-white px-4 pt-[7.5rem] pb-[4.875rem]">
@@ -37,15 +38,15 @@ const GlobalLeaderboard = () => {
       <div className="flex flex-col items-center">
         <img src={trophy} alt="trophy" className="mb-2" />
         <h2 className="text-center text-[1.451rem] leading-[2.274rem] tracking-[-0.45px]">
-          1,982 PTS
+          {leaderboard?.data[0]?.point.toLocaleString()} PTS
         </h2>
         <p className="text-center text-[0.875rem] leading-[1.371rem] tracking-[-0.45px] mb-[1.875rem]">
           Current Highest Best
         </p>
-        {[].map((r: any, i: number) => (
+        {leaderboard?.data.map((r: any, i: number) => (
           <div
             key={i}
-            className={`flex justify-between items-center rounded-[25px] p-1.5 pr-3 w-full mb-[0.625rem] bg-[${
+            className={`flex justify-between items-center rounded-[33px] p-1.5 pr-3 w-full mb-3 bg-[${
               playerColours[i % playerColours.length]
             }]`}
             style={{
@@ -60,14 +61,14 @@ const GlobalLeaderboard = () => {
                     : avatar
                 }
                 alt="avatar"
-                className="mr-1.5 h-[1.875rem] w-[1.875rem]"
+                className="mr-1.5 h-[2.5rem] w-[2.5rem]"
               />
-              <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
+              <span className="font-lal text-black text-[1.123rem] leading-[1.759rem] tracking-[-0.45px] capitalize">
                 {r.player_name}
               </span>
             </div>
             <div className="flex flex-row-reverse items-center gap-x-1">
-              <span className="font-lex text-black text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
+              <span className="font-lex text-black text-[0.909rem] leading-[1.136rem] tracking-[-0.45px]">
                 {r.point}pts
               </span>
               {i === 0 ? <img src={crown} alt="champ" /> : null}

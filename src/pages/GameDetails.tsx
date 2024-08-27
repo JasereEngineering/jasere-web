@@ -11,7 +11,7 @@ import share from "../assets/images/share.svg";
 
 import { RootState, AppDispatch } from "../store";
 import { UserState } from "../types";
-import { fetchGameDetails } from "../store/features/game";
+import { fetchGameDetails } from "../store/features/user";
 import { colorMap } from "../helpers/misc";
 
 const GameDetails = () => {
@@ -59,64 +59,26 @@ const GameDetails = () => {
           <h3 className="text-[#DADADA] text-[0.75rem] leading-[0.908rem] tracking-[-0.25px] mb-2.`5">
             Game Session Information
           </h3>
-          <div className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2 mb-2.5">
-            <div>
-              <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
-                1st Place
-              </p>
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Mike
-              </p>
-            </div>
-            <div className="flex gap-x-2 items-center mt-auto">
-              <img
-                src={trophy}
-                alt="trophy"
-                className="w-[1.563rem] h-[1.563rem]"
-              />
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                20 PTS
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2 mb-2.5">
-            <div>
-              <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
-                2nd Place
-              </p>
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Mikael
-              </p>
-            </div>
-            <div className="flex gap-x-2 items-center mt-auto">
-              <img
-                src={trophy}
-                alt="trophy"
-                className="w-[1.563rem] h-[1.563rem]"
-              />
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                20 PTS
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2 mb-6">
-            <div>
-              <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
-                3rd Place
-              </p>
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Mikaelson
-              </p>
-            </div>
-            <div className="flex gap-x-2 items-center mt-auto">
-              <img
-                src={trophy}
-                alt="trophy"
-                className="w-[1.563rem] h-[1.563rem]"
-              />
-              <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                15 PTS
-              </p>
+          <div className="flex flex-col gap-y-2.5 mb-6">
+            <div className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2">
+              <div>
+                <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
+                  1st Place
+                </p>
+                <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
+                  Mike
+                </p>
+              </div>
+              <div className="flex gap-x-2 items-center mt-auto">
+                <img
+                  src={trophy}
+                  alt="trophy"
+                  className="w-[1.563rem] h-[1.563rem]"
+                />
+                <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
+                  20 PTS
+                </p>
+              </div>
             </div>
           </div>
           <div className="flex justify-between items-center bg-[#30964D] rounded-[7px] py-4 pl-[0.875rem] pr-1.5">

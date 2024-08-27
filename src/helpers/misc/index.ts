@@ -27,6 +27,31 @@ export const delay = async (seconds: number) => {
   });
 };
 
+export const maskEmail = (email: string | null) => {
+  if (!email) return "";
+  const [localPart, domain] = email.split("@");
+  const maskedLocal = localPart.slice(0, 3) + "*****";
+  return `${maskedLocal}@${domain}`;
+};
+
+export const formatDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+
+  const formattedDate = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  const formattedTime = date.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  return `${formattedDate} | ${formattedTime}`;
+};
+
 export const playerColours = [
   "#FBD2D3",
   "#D6BDF8",

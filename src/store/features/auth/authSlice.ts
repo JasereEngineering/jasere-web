@@ -10,7 +10,7 @@ const initialState: AuthState = {
   username: null,
   email: null,
   id: null,
-  loading: false,
+  loading: false
 };
 
 export const signup = createAsyncThunk(
@@ -90,7 +90,7 @@ export const authSlice = createSlice({
             state.lastName = action.payload.result.lastName;
             state.username = action.payload.result.username;
             state.email = action.payload.result.email;
-            state.id = action.payload.result.id;
+            state.id = action.payload.result.user_id;
 
             localStorage.setItem(
               "tokens",
