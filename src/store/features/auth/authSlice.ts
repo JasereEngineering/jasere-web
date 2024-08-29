@@ -86,8 +86,8 @@ export const authSlice = createSlice({
         switch (action.type) {
           case "auth/signin/fulfilled":
           case "auth/signup/fulfilled":
-            state.firstName = action.payload.result.firstName;
-            state.lastName = action.payload.result.lastName;
+            state.firstName = action.payload.result.first_name;
+            state.lastName = action.payload.result.last_name;
             state.username = action.payload.result.username;
             state.email = action.payload.result.email;
             state.id = action.payload.result.user_id;

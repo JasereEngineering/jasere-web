@@ -15,7 +15,7 @@ import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
 import { endGame } from "../store/features/game";
 import { playerColours } from "../helpers/misc";
-import { GameState } from "../types";
+import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Leaderboard = ({ socket }: { socket: Socket }) => {
@@ -30,18 +30,23 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
     difficulty,
     gameTitle,
     gamePin,
+    avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
+  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   const [result, setResult] = useState<any>([]);
 
   useEffect(() => {
-    if (connected) {
-      // socket.emit("join", {
-      //   game_pin: gamePin,
-      //   player_name: username,
-      //   avatar: avatarImage,
-      // });
+    socket.on("connected", () => {
+      socket.emit("join", {
+        game_pin: gamePin,
+        player_name: username,
+        avatar: avatarImage,
+        user_id: id
+      });
+    });
 
+    if (connected) {
       socket.emit("leaderboard", {
         game_pin: gamePin,
         game_session_id: gameSession,
@@ -53,7 +58,7 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
           toast.error("an error occurred");
         } else {
           setResult(
-            response.game_data.results.results.sort(
+            response.game_data.results.data.sort(
               (a: any, b: any) => b.point - a.point
             )
           );

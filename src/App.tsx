@@ -22,6 +22,8 @@ import LemonGame from "./pages/LemonGame";
 // import ConfirmPenalty from "./pages/ConfirmPenalty";
 import LemonResult from "./pages/LemonResult";
 import GlobalLeaderboard from "./pages/GlobalLeaderboard";
+import Terms from "./pages/Terms";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import * as ROUTES from "./routes";
 import GamesHistory from "./pages/GamesHistory";
@@ -41,7 +43,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      {/* <Route path="/current" element={<GameDetails />} /> */}
+      <Route path="/terms" element={<Terms />} />
+      <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path={ROUTES.PLAY.GET_STARTED} element={<Play />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
       <Route

@@ -14,7 +14,7 @@ import crown from "../assets/images/crown.svg";
 import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
 import { endGame, joinGame } from "../store/features/game";
-import { GameState } from "../types";
+import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket }) => {
@@ -33,8 +33,18 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
     gamePin,
     avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
+  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   useEffect(() => {
+    socket.on("connected", () => {
+      socket.emit("join", {
+        game_pin: gamePin,
+        player_name: username,
+        avatar: avatarImage,
+        user_id: id
+      });
+    });
+
     if (connected) {
       socket.on("start", (response: any) => {
         console.log({ response });
@@ -117,7 +127,7 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
           </div>
         ))}
       </div>
-      <div className="flex flex-col gap-y-4 w-full fixed bottom-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
+      <div className="flex flex-col gap-y-4 w-full fixed bottom-0 left-0 right-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
         <Button
           text={!notCreator ? "Next Round" : "Waiting For Host..."}
           disabled={!!notCreator}

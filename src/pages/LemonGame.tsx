@@ -27,6 +27,8 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
 
   const {
     gameTitle,
+    gamePin,
+    avatar: avatarImage,
     levels,
     level,
     difficulty,
@@ -36,7 +38,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
     lemonNumberNext,
     lemonsDisplayed,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   const [seconds, setSeconds] = useState<number | undefined>(undefined);
   const [selectedLemon, setSelectedLemon] = useState<number | undefined>(
@@ -95,6 +97,15 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
   }, [lemonNumber, lemonNumberNext]);
 
   useEffect(() => {
+    socket.on("connected", () => {
+      socket.emit("join", {
+        game_pin: gamePin,
+        player_name: username,
+        avatar: avatarImage,
+        user_id: id
+      });
+    });
+
     if (connected) {
       socket.on("poll-room", (response: any) => {
         console.log({ response });

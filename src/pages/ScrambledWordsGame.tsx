@@ -103,7 +103,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
   };
 
   const handleSubmit = () => {
-    if (scrambled.join("")) return toast.error("incomplete solution");
+    // if (scrambled.join("")) return toast.error("incomplete solution");
 
     const solution = result
       .map((item) => item.letter)

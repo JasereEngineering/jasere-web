@@ -43,7 +43,7 @@ export const fetchGameDetails = createAsyncThunk(
   "user/game/details",
   async (session: string) => {
     return await request({
-      url: `/game/details/${session}`,
+      url: `/user/game/details/${session}`,
       method: "get",
     });
   }
@@ -88,7 +88,7 @@ export const userSlice = createSlice({
           case "user/games/fulfilled":
             state.games = action.payload;
             break;
-          case "user/games/details/fulfilled":
+          case "user/game/details/fulfilled":
             state.game = action.payload;
             break;
           case "user/leaderboard/fulfilled":

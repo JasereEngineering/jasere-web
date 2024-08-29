@@ -28,14 +28,10 @@ const Landing = () => {
           className="rounded-[78px] mb-6"
           onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
-        <div className="flex justify-center items-center gap-x-1.5 font-inter text-[0.875rem] leading-[1.059rem] tracking-[-0.4px]">
-          <a href="https://docs.google.com/document/d/1RiJBNK65fP-IhCthjgUAvwUD46biG8536fqD8dtYkcg/edit#heading=h.f8ox4ibnkda0">
-            Terms of use
-          </a>
+        <div className="flex justify-center items-center gap-x-1.5 font-inter text-[0.875rem] leading-[1.059rem] tracking-[-0.4px] mb-8">
+          <a href="/terms">Terms of use</a>
           <img src={dot} alt="dot" />
-          <a href="https://docs.google.com/document/d/1xL82LoJGk1aGmisBuNKUN8ShtvMxD_GE3VRxg_LCgew/edit#heading=h.1fito8qluymd">
-            Privacy policy
-          </a>
+          <a href="/privacy">Privacy policy</a>
         </div>
       </div>
     </AppLayout>

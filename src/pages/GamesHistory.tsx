@@ -34,7 +34,7 @@ const GamesHistory = () => {
         </h1>
         <img src={filter} alt="filter" />
       </div>
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2 mb-8">
         {games?.data.map((game, i) => (
           <div
             className="border border-white rounded-[20px] p-4 pl-4 font-inter font-medium"

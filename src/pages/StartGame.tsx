@@ -47,7 +47,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
     avatar: avatarImage,
     lemonNumber,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
   const [copied, setCopied] = useState(false);
   const [broadcast, setBroadcast] = useState(false);
@@ -73,6 +73,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
+        user_id: id
       });
 
       socket.on("join", (response: any) => {
