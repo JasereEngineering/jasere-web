@@ -32,7 +32,9 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
     gamePin,
     avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(
+    ({ auth }) => auth
+  ) as AuthState;
 
   const [result, setResult] = useState<any>([]);
 
@@ -42,29 +44,27 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
-        user_id: id
+        user_id: id,
       });
     });
 
-    if (connected) {
-      socket.emit("leaderboard", {
-        game_pin: gamePin,
-        game_session_id: gameSession,
-      });
+    socket.emit("leaderboard", {
+      game_pin: gamePin,
+      game_session_id: gameSession,
+    });
 
-      socket.on("leaderboard", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-        } else {
-          setResult(
-            response.game_data.results.data.sort(
-              (a: any, b: any) => b.point - a.point
-            )
-          );
-        }
-      });
-    }
+    socket.on("leaderboard", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+      } else {
+        setResult(
+          response.game_data.results.data.sort(
+            (a: any, b: any) => b.point - a.point
+          )
+        );
+      }
+    });
     // eslint-disable-next-line
   }, [connected]);
 

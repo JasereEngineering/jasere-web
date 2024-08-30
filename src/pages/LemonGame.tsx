@@ -38,7 +38,9 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
     lemonNumberNext,
     lemonsDisplayed,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(
+    ({ auth }) => auth
+  ) as AuthState;
 
   const [seconds, setSeconds] = useState<number | undefined>(undefined);
   const [selectedLemon, setSelectedLemon] = useState<number | undefined>(
@@ -52,6 +54,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
       socket.emit("poll-room", {
         game_session_id: gameSession,
         player_name: username,
+        user_id: id,
         info: {
           selected_lemon_number: selectedLemon,
           transition: 1,
@@ -76,6 +79,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
           socket.emit("poll-room", {
             game_session_id: gameSession,
             player_name: username,
+            user_id: id,
             info: {
               selected_lemon_number: null,
               transition: 1,
@@ -102,24 +106,22 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
-        user_id: id
+        user_id: id,
       });
     });
 
-    if (connected) {
-      socket.on("poll-room", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-        } else {
-          dispatch(joinGame(response.game_data));
-          if (!response.game_data.is_valid_lemon)
-            navigate(
-              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
-            );
-        }
-      });
-    }
+    socket.on("poll-room", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+      } else {
+        dispatch(joinGame(response.game_data));
+        if (!response.game_data.is_valid_lemon)
+          navigate(
+            ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+          );
+      }
+    });
     // eslint-disable-next-line
   }, [connected]);
 

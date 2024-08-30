@@ -47,7 +47,9 @@ const StartGame = ({ socket }: { socket: Socket }) => {
     avatar: avatarImage,
     lemonNumber,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(
+    ({ auth }) => auth
+  ) as AuthState;
 
   const [copied, setCopied] = useState(false);
   const [broadcast, setBroadcast] = useState(false);
@@ -68,64 +70,62 @@ const StartGame = ({ socket }: { socket: Socket }) => {
   };
 
   useEffect(() => {
-    if (connected) {
-      socket.emit("join", {
-        game_pin: gamePin,
-        player_name: username,
-        avatar: avatarImage,
-        user_id: id
-      });
+    socket.emit("join", {
+      game_pin: gamePin,
+      player_name: username,
+      avatar: avatarImage,
+      user_id: id,
+    });
 
-      socket.on("join", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-          navigate(-1);
-        } else {
-          dispatch(setPlayers(response.players));
-          dispatch(joinGame(response.game_data));
-        }
-        setLoading(false);
-      });
+    socket.on("join", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+        navigate(-1);
+      } else {
+        dispatch(setPlayers(response.players));
+        dispatch(joinGame(response.game_data));
+      }
+      setLoading(false);
+    });
 
-      socket.on("broadcast_lemons", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-          setBroadcast(false);
-        } else {
-          let lemon = response.game_data.players.find(
-            (p: any) => p.player_name === username
-          )?.lemon_number;
-          dispatch(joinGame({ lemon, players: response.game_data.players }));
-          dispatch(setPlayers(response.game_data.players));
-          setBroadcast(true);
-        }
-        setLoading(false);
-      });
+    socket.on("broadcast_lemons", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+        setBroadcast(false);
+      } else {
+        let lemon = response.game_data.players.find(
+          (p: any) => p.player_name === username
+        )?.lemon_number;
+        dispatch(joinGame({ lemon, players: response.game_data.players }));
+        dispatch(setPlayers(response.game_data.players));
+        setBroadcast(true);
+      }
+      setLoading(false);
+    });
 
-      socket.on("start", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-        } else {
-          dispatch(joinGame(response.game_data));
-          // dispatch(setPlayers([]));
-          navigate(
-            ROUTES.PLAY.BEGIN_GAME_FOR(
-              response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
-              response.game_data.game_session_id,
-              !!notCreator
-            )
-          );
-        }
-      });
-    }
+    socket.on("start", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+      } else {
+        dispatch(joinGame(response.game_data));
+        // dispatch(setPlayers([]));
+        navigate(
+          ROUTES.PLAY.BEGIN_GAME_FOR(
+            response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+            response.game_data.game_session_id,
+            !!notCreator
+          )
+        );
+      }
+    });
     // eslint-disable-next-line
   }, [connected]);
 
   return (
-    <AppLayout className="font-lal flex flex-col justify-between px-8 pt-[8rem] pb-[4.25rem]">
+    <AppLayout className="font-lal flex flex-col px-8 pt-[8rem]">
       {loading ? <Loader /> : null}
       {!broadcast ? (
         <>
@@ -212,7 +212,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
             <h3 className="font-lal text-[1rem] text-center leading-[1.625rem] mb-4">
               Players in the lobby: {players.length}
             </h3>
-            <div className="grid grid-cols-3 gap-[0.625rem] mb-10">
+            <div className="grid grid-cols-3 gap-[0.625rem] mb-[12rem]">
               {players.map((p, i) => (
                 <div
                   className={`rounded-[25px] flex items-center min-w-[5.375rem] p-1.5 bg-[${
@@ -239,30 +239,32 @@ const StartGame = ({ socket }: { socket: Socket }) => {
               ))}
             </div>
           </div>
-          <Button
-            text={notCreator ? "Waiting For Host..." : "Let's Play"}
-            disabled={!!notCreator}
-            onClick={() => {
-              setLoading(true);
-              if (gameTitle?.toLowerCase().includes("lemon")) {
-                socket.emit("broadcast-lemons", {
-                  game_pin: gamePin,
-                  game_session_id: gameSession,
-                });
-              } else {
-                socket.emit("start", {
-                  game_pin: gamePin,
-                  game_data: {
-                    trivia,
-                  },
-                });
-              }
-            }}
-          />
+          <div className="fixed bottom-0 left-0 right-0 bg-black px-8 pb-[4.25rem] pt-[2rem]">
+            <Button
+              text={notCreator ? "Waiting For Host..." : "Let's Play"}
+              disabled={!!notCreator}
+              onClick={() => {
+                setLoading(true);
+                if (gameTitle?.toLowerCase().includes("lemon")) {
+                  socket.emit("broadcast-lemons", {
+                    game_pin: gamePin,
+                    game_session_id: gameSession,
+                  });
+                } else {
+                  socket.emit("start", {
+                    game_pin: gamePin,
+                    game_data: {
+                      trivia,
+                    },
+                  });
+                }
+              }}
+            />
+          </div>
         </>
       ) : (
         <>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center mb-10">
             <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
               {
                 titleMap[
@@ -287,29 +289,60 @@ const StartGame = ({ socket }: { socket: Socket }) => {
             <h2 className="text-[2rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-12">
               LEMON {lemonNumber}
             </h2>
-            <div className="flex">
+            <div className="flex mb-11">
               <img
                 src={info}
                 alt="info"
                 className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
               />
-              <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-5">
+              <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
                 Lemon numbers are assigned to players at random for a more
                 immersive experience
               </p>
             </div>
+            <h4 className="text-center text-[1.061rem] leading-[1.664rem] tracking-[-0.34px] mb-4">
+              Assigned Lemons:
+            </h4>
+            <div className="grid grid-cols-3 gap-x-4 gap-y-[0.625rem] mb-[12rem]">
+              {players.map((p, i) => (
+                <div
+                  className={`rounded-[25px] flex items-center justify-between min-w-[5.125rem] p-1.5 bg-[${
+                    playerColours[i % playerColours.length]
+                  }]`}
+                  key={i}
+                  style={{
+                    backgroundColor: playerColours[i % playerColours.length],
+                  }}
+                >
+                  <img
+                    src={
+                      p.avatar
+                        ? avatarMap[p.avatar as keyof typeof avatarMap]
+                        : avatar
+                    }
+                    alt="avatar"
+                    className="h-[1.875rem] w-[1.875rem] rounded-full"
+                  />
+                  <div className="bg-white rounded-full flex items-center justify-center text-crimson font-inter font-black text-[1.048rem] leading-[1.269rem] tracking-[-0.19px] w-[1.875rem] h-[1.875rem]">
+                    {p.lemon_number}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <Button
-            text={notCreator ? "Waiting For Host..." : "Let's Play"}
-            disabled={!!notCreator}
-            onClick={() => {
-              setLoading(true);
-              socket.emit("start", {
-                game_pin: gamePin,
-                avatar: avatarImage,
-              });
-            }}
-          />
+          <div className="fixed bottom-0 left-0 right-0 bg-black px-8 pb-[4.25rem] pt-[2rem]">
+            <Button
+              text={notCreator ? "Waiting For Host..." : "Let's Play"}
+              disabled={!!notCreator}
+              onClick={() => {
+                setLoading(true);
+                socket.emit("start", {
+                  game_pin: gamePin,
+                  avatar: avatarImage,
+                });
+              }}
+            />
+          </div>
         </>
       )}
     </AppLayout>

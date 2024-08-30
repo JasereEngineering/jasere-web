@@ -52,6 +52,13 @@ export const formatDate = (dateStr: string) => {
   return `${formattedDate} | ${formattedTime}`;
 };
 
+export const numberToOrdinal = (num: number) => {
+  const suffixes = ["th", "st", "nd", "rd"];
+  const v = num % 100;
+
+  return num + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
+}
+
 export const playerColours = [
   "#FBD2D3",
   "#D6BDF8",

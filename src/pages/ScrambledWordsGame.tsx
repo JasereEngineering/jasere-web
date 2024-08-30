@@ -23,7 +23,9 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
   const { trivia, currentTrivia } = useSelector<RootState>(
     ({ game }) => game
   ) as GameState;
-  const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(
+    ({ auth }) => auth
+  ) as AuthState;
 
   const [word, setWord] = useState(trivia[currentTrivia]?.answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
@@ -116,6 +118,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
     socket.emit("poll-answer", {
       game_session_id: gameSession,
       player_name: username,
+      user_id: id,
       info: {
         selected_answer: solution,
         transition: currentTrivia + 1,

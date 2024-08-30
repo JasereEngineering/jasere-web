@@ -33,7 +33,9 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
     gamePin,
     avatar: avatarImage,
   } = useSelector<RootState>(({ game }) => game) as GameState;
-  const { username, id } = useSelector<RootState>(({ auth }) => auth) as AuthState;
+  const { username, id } = useSelector<RootState>(
+    ({ auth }) => auth
+  ) as AuthState;
 
   useEffect(() => {
     socket.on("connected", () => {
@@ -41,31 +43,29 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
-        user_id: id
+        user_id: id,
       });
     });
 
-    if (connected) {
-      socket.on("start", (response: any) => {
-        console.log({ response });
-        if (response.statusCode !== "00") {
-          toast.error("an error occurred");
-        } else {
-          dispatch(joinGame(response.game_data));
-          navigate(
-            ROUTES.PLAY.BEGIN_GAME_FOR(
-              response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
-              response.game_data.game_session_id,
-              !!notCreator
-            )
-          );
-        }
-      });
+    socket.on("start", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+      } else {
+        dispatch(joinGame(response.game_data));
+        navigate(
+          ROUTES.PLAY.BEGIN_GAME_FOR(
+            response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+            response.game_data.game_session_id,
+            !!notCreator
+          )
+        );
+      }
+    });
 
-      socket.on("exit", () => {
-        navigate(ROUTES.PLAY.GET_STARTED);
-      });
-    }
+    socket.on("exit", () => {
+      navigate(ROUTES.PLAY.GET_STARTED);
+    });
     // eslint-disable-next-line
   }, [connected]);
 
