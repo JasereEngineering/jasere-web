@@ -58,7 +58,8 @@ const PrivacyPolicy = () => {
       <h4 className="font-semibold">6. Contact Us:</h4>
       <p className="mb-4">
         If you have any questions or concerns about this Privacy Policy, please
-        contact us at <a href="">jaseregames@gmail.com </a>
+        contact us at{" "}
+        <a href="mailto:jaseregames@gmail.com">jaseregames@gmail.com </a>
       </p>
     </AppLayout>
   );
