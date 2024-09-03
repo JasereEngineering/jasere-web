@@ -12,6 +12,7 @@
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.13",
     "react": "^18.2.0",
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.2.0",

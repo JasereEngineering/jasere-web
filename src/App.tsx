@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 import AuthedLayout from "./components/layouts/AuthedLayout";
@@ -18,8 +19,6 @@ import Landing from "./pages/Landing";
 import Play from "./pages/Play";
 import SelectDifficulty from "./pages/SelectDifficulty";
 import LemonGame from "./pages/LemonGame";
-// import Penalty from "./pages/Penalty";
-// import ConfirmPenalty from "./pages/ConfirmPenalty";
 import LemonResult from "./pages/LemonResult";
 import GlobalLeaderboard from "./pages/GlobalLeaderboard";
 import Terms from "./pages/Terms";
@@ -29,17 +28,35 @@ import * as ROUTES from "./routes";
 import GamesHistory from "./pages/GamesHistory";
 import GameDetails from "./pages/GameDetails";
 
-const socket: Socket = io(`${process.env.REACT_APP_BASE_URL}/game`);
-
-socket.on("connect", () => {
-  console.log("connected!");
-});
-
-socket.on("disconnect", () => {
-  console.log("disconnected!");
-});
-
 export default function App() {
+  const [socket, setSocket] = useState<Socket | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!socket || !socket.connected) {
+      const newSocket = io(`${process.env.REACT_APP_BASE_URL}/game`);
+      setSocket(newSocket);
+
+      newSocket.on("connect", () => {
+        console.log("connected!");
+      });
+
+      newSocket.on("disconnect", () => {
+        console.log("disconnected!");
+      });
+    } else if (socket.disconnected) {
+      socket.connect();
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("connect");
+        socket.off("disconnect");
+      }
+    };
+    // eslint-disable-next-line
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
@@ -85,7 +102,10 @@ export default function App() {
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />
         <Route path={ROUTES.DASHBOARD.GAMES} element={<GamesHistory />} />
         <Route path={ROUTES.DASHBOARD.GAME_DETAILS} element={<GameDetails />} />
-        <Route path={ROUTES.DASHBOARD.LEADERBOARD} element={<GlobalLeaderboard />} />
+        <Route
+          path={ROUTES.DASHBOARD.LEADERBOARD}
+          element={<GlobalLeaderboard />}
+        />
 
         <Route
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}

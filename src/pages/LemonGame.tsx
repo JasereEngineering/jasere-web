@@ -14,8 +14,7 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
-const LemonGame = ({ socket }: { socket: Socket }) => {
-  const { connected } = socket;
+const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -51,7 +50,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
 
   useEffect(() => {
     if (selectedLemon && seconds) {
-      socket.emit("poll-room", {
+      socket?.emit("poll-room", {
         game_session_id: gameSession,
         player_name: username,
         user_id: id,
@@ -76,7 +75,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
         if (seconds > 0) {
           setSeconds(seconds - 1);
         } else {
-          socket.emit("poll-room", {
+          socket?.emit("poll-room", {
             game_session_id: gameSession,
             player_name: username,
             user_id: id,
@@ -101,8 +100,8 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
   }, [lemonNumber, lemonNumberNext]);
 
   useEffect(() => {
-    socket.on("connected", () => {
-      socket.emit("join", {
+    socket?.on("connected", () => {
+      socket?.emit("join", {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
@@ -110,7 +109,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
       });
     });
 
-    socket.on("poll-room", (response: any) => {
+    socket?.on("poll-room", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -123,7 +122,7 @@ const LemonGame = ({ socket }: { socket: Socket }) => {
       }
     });
     // eslint-disable-next-line
-  }, [connected]);
+  }, [socket?.connected]);
 
   return (
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">

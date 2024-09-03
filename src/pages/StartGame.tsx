@@ -22,9 +22,7 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
-const StartGame = ({ socket }: { socket: Socket }) => {
-  const { connected } = socket;
-
+const StartGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -70,14 +68,14 @@ const StartGame = ({ socket }: { socket: Socket }) => {
   };
 
   useEffect(() => {
-    socket.emit("join", {
+    socket?.emit("join", {
       game_pin: gamePin,
       player_name: username,
       avatar: avatarImage,
       user_id: id,
     });
 
-    socket.on("join", (response: any) => {
+    socket?.on("join", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -89,7 +87,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
       setLoading(false);
     });
 
-    socket.on("broadcast_lemons", (response: any) => {
+    socket?.on("broadcast_lemons", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -105,7 +103,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
       setLoading(false);
     });
 
-    socket.on("start", (response: any) => {
+    socket?.on("start", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -122,7 +120,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
       }
     });
     // eslint-disable-next-line
-  }, [connected]);
+  }, [socket?.connected]);
 
   return (
     <AppLayout className="font-lal flex flex-col px-8 pt-[8rem]">
@@ -246,12 +244,12 @@ const StartGame = ({ socket }: { socket: Socket }) => {
               onClick={() => {
                 setLoading(true);
                 if (gameTitle?.toLowerCase().includes("lemon")) {
-                  socket.emit("broadcast-lemons", {
+                  socket?.emit("broadcast-lemons", {
                     game_pin: gamePin,
                     game_session_id: gameSession,
                   });
                 } else {
-                  socket.emit("start", {
+                  socket?.emit("start", {
                     game_pin: gamePin,
                     game_data: {
                       trivia,
@@ -336,7 +334,7 @@ const StartGame = ({ socket }: { socket: Socket }) => {
               disabled={!!notCreator}
               onClick={() => {
                 setLoading(true);
-                socket.emit("start", {
+                socket?.emit("start", {
                   game_pin: gamePin,
                   avatar: avatarImage,
                 });

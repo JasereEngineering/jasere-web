@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
@@ -13,6 +14,7 @@ import { RootState, AppDispatch } from "../store";
 import { UserState } from "../types";
 import { fetchGameDetails } from "../store/features/user";
 import { colorMap, numberToOrdinal } from "../helpers/misc";
+import * as ROUTES from "../routes";
 
 const GameDetails = () => {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const GameDetails = () => {
 
   useEffect(() => {
     dispatch(fetchGameDetails(gameSession as string));
-  }, [dispatch]);
+  }, [dispatch, gameSession]);
 
   return (
     <AppLayout className="flex flex-col font-lal absolute text-white pt-[7.5rem]">
@@ -39,19 +41,32 @@ const GameDetails = () => {
         <div className="border border-white rounded-[20px] p-4 pb-5 font-inter font-medium mb-6">
           <div className="flex justify-between mb-4">
             <div>
-              <p className="text-[1rem] leading-[1.21rem] tracking-[-0.25px] mb-1.5">
-                Scrambled Words
+              <p className="text-[1rem] leading-[1.21rem] tracking-[-0.25px] mb-1.5 capitalize">
+                {game?.game_details?.game_name}
               </p>
-              <p className="text-pink text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Celebrities | Noobie | 5 Rounds
+              <p
+                className="text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]"
+                style={{
+                  color:
+                    colorMap[
+                      game?.game_details?.game_name
+                        ?.toLowerCase()
+                        .replaceAll(" ", "-") as keyof typeof colorMap
+                    ],
+                }}
+              >
+                {game?.game_details?.difficulty_level} | 1 round
               </p>
             </div>
             <div>
               <p className="text-right text-[#A6A6A6] text-[0.813rem] leading-[0.983rem] tracking-[-0.25px] mb-1">
-                02 July, 2024 | 23:21
+                {dayjs(game?.game_details?.createdAt).format(
+                  "DD MMMM, YYYY | HH:mm"
+                )}
               </p>
               <p className="text-right text-[#A6A6A6] text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Time Played: 24:37
+                Time Played: {game?.game_details?.time_played || 0} min
+                {+game?.game_details?.time_played > 1 ? "s" : ""}
               </p>
             </div>
           </div>
@@ -66,7 +81,7 @@ const GameDetails = () => {
                   <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
                     {numberToOrdinal(i + 1)} Place
                   </p>
-                  <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
+                  <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px] capitalize">
                     {player.player_name}
                   </p>
                 </div>
@@ -85,7 +100,7 @@ const GameDetails = () => {
           </div>
           <div className="flex justify-between items-center bg-[#30964D] rounded-[7px] py-4 pl-[0.875rem] pr-1.5">
             <div>
-              <p className="font-lal font-normal text-[1rem] leading-[1.563rem] tracking-[-0.25px] mb-0.5">
+              <p className="font-lal font-normal text-[1rem] leading-[1.563rem] tracking-[-0.25px] mb-0.5 capitalize">
                 {game?.results[0]?.player_name}
               </p>
               <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px]">
@@ -144,7 +159,7 @@ const GameDetails = () => {
         </div>
       </div>
       <div className="w-full fixed bottom-0 bg-black px-4 pb-[4.188rem] pt-[2rem]">
-        <Button text="Replay" onClick={() => {}} />
+        <Button text="Replay" onClick={() => navigate(ROUTES.PLAY.PICK_GAME)} />
       </div>
     </AppLayout>
   );

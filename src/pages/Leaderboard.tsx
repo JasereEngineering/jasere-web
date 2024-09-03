@@ -18,8 +18,7 @@ import { playerColours } from "../helpers/misc";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
-const Leaderboard = ({ socket }: { socket: Socket }) => {
-  const { connected } = socket;
+const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
   const navigate = useNavigate();
   const { gameSession } = useParams();
@@ -39,8 +38,8 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
   const [result, setResult] = useState<any>([]);
 
   useEffect(() => {
-    socket.on("connected", () => {
-      socket.emit("join", {
+    socket?.on("connected", () => {
+      socket?.emit("join", {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
@@ -48,12 +47,12 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
       });
     });
 
-    socket.emit("leaderboard", {
+    socket?.emit("leaderboard", {
       game_pin: gamePin,
       game_session_id: gameSession,
     });
 
-    socket.on("leaderboard", (response: any) => {
+    socket?.on("leaderboard", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -65,8 +64,7 @@ const Leaderboard = ({ socket }: { socket: Socket }) => {
         );
       }
     });
-    // eslint-disable-next-line
-  }, [connected]);
+  });
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">

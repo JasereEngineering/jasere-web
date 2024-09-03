@@ -17,8 +17,7 @@ import { endGame, joinGame } from "../store/features/game";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
-const LemonResult = ({ socket }: { socket: Socket }) => {
-  const { connected } = socket;
+const LemonResult = ({ socket }: { socket: Socket | null }) => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -38,8 +37,8 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
   ) as AuthState;
 
   useEffect(() => {
-    socket.on("connected", () => {
-      socket.emit("join", {
+    socket?.on("connected", () => {
+      socket?.emit("join", {
         game_pin: gamePin,
         player_name: username,
         avatar: avatarImage,
@@ -47,7 +46,7 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
       });
     });
 
-    socket.on("start", (response: any) => {
+    socket?.on("start", (response: any) => {
       console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
@@ -63,11 +62,11 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
       }
     });
 
-    socket.on("exit", () => {
+    socket?.on("exit", () => {
       navigate(ROUTES.PLAY.GET_STARTED);
     });
     // eslint-disable-next-line
-  }, [connected]);
+  }, [socket?.connected]);
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
@@ -132,7 +131,7 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
           text={!notCreator ? "Next Round" : "Waiting For Host..."}
           disabled={!!notCreator}
           onClick={() => {
-            socket.emit("start", {
+            socket?.emit("start", {
               game_pin: gamePin,
               avatar: avatarImage,
               proceed: true,
@@ -145,7 +144,7 @@ const LemonResult = ({ socket }: { socket: Socket }) => {
             className="border border-[#F34348] !bg-black text-white"
             onClick={() => {
               dispatch(endGame());
-              socket.emit("exit", {
+              socket?.emit("exit", {
                 game_pin: gamePin,
               });
             }}

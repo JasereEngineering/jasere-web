@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Socket } from "socket.io-client";
-import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 
@@ -15,21 +14,23 @@ import { updateTrivia } from "../store/features/game";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
-const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
+const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { trivia, currentTrivia } = useSelector<RootState>(
-    ({ game }) => game
-  ) as GameState;
+  const { trivia, currentTrivia, difficulty, categoryName } =
+    useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
 
   const [word, setWord] = useState(trivia[currentTrivia]?.answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(() => {
+    const savedTime = localStorage.getItem(`remaining-time-${gameSession}`);
+    return savedTime ? Number(savedTime) : 60;
+  });
   const [prevAnswerTime, setPrevAnswerTime] = useState(60);
   const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
   const [result, setResult] = useState(
@@ -115,7 +116,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
     setHurray(is_correct);
     // setScrambled(shuffleArray(word.split("")));
     // setResult(Array(word.length).fill({ letter: "", index: null }));
-    socket.emit("poll-answer", {
+    socket?.emit("poll-answer", {
       game_session_id: gameSession,
       player_name: username,
       user_id: id,
@@ -138,7 +139,14 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
     if (seconds) {
       intervalId = setInterval(() => {
         if (seconds > 0) {
-          setSeconds(seconds - 1);
+          setSeconds((prevSeconds) => {
+            const newSeconds = prevSeconds - 1;
+            localStorage.setItem(
+              `remaining-time-${gameSession}`,
+              newSeconds.toString()
+            );
+            return newSeconds;
+          });
         }
       }, 1000);
     } else {
@@ -167,14 +175,20 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket }) => {
     setResult(Array(word.length).fill({ letter: "", index: null }));
   }, [word]);
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem(`remaining-time-${gameSession}`);
+    };
+  }, [gameSession]);
+
   return (
     <AppLayout className="font-lal flex flex-col justify-between pt-[8rem]">
       <div className="flex flex-col items-center px-[1.125rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
           SCRAMBLED WORDS
         </h1>
-        <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem]">
-          Celebrities | Noobie
+        <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem] capitalize">
+          {categoryName} | {difficulty}
         </p>
         <div className="flex justify-center items-center mb-6">
           <CountdownCircleTimer

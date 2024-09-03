@@ -68,8 +68,8 @@ const GamesHistory = () => {
             </div>
             <div className="flex justify-between">
               <p className="text-[#DADADA] text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
-                Time Played: {Math.floor(+game?.time_played / 60)}:
-                {(+game?.time_played % 60).toString().padStart(2, "0")}
+                Time Played: {game.time_played || 0} min
+                {+game.time_played > 1 ? "s" : ""}
               </p>
               <p className="text-right text-[#DADADA] text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
                 No. of players: {game.player_count}

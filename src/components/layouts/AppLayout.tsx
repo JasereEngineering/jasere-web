@@ -57,7 +57,7 @@ const AppLayout = ({
               className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
             />
             <div className="flex flex-col justify-between">
-              <h5 className="text-[1.25rem] text-white leading-[1.959rem] font-lal">
+              <h5 className="text-[1.25rem] text-white leading-[1.959rem] font-lal capitalize">
                 {username || "Guest"}
               </h5>
               <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
