@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { RootState } from "../..";
 import { UserState } from "../../../types";
 import request from "../../../helpers/request";
 import { isRejectedAction, isPendingAction, isFulfilledAction } from "../utils";
@@ -19,7 +18,7 @@ const initialState: UserState = {
   badges: null,
   games: null,
   leaderboard: null,
-  game: null
+  game: null,
 };
 
 export const fetchProfile = createAsyncThunk("user/profile", async () => {
@@ -31,9 +30,17 @@ export const fetchProfile = createAsyncThunk("user/profile", async () => {
 
 export const fetchGames = createAsyncThunk(
   "user/games",
-  async ({ page, limit }: { page: number; limit: number }) => {
+  async ({
+    page,
+    limit,
+    status,
+  }: {
+    page: number;
+    limit: number;
+    status: string;
+  }) => {
     return await request({
-      url: `/user/games/played?page=${page}&limit=${limit}`,
+      url: `/user/games/played?page=${page}&limit=${limit}&status=${status}`,
       method: "get",
     });
   }

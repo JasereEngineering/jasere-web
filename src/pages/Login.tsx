@@ -57,7 +57,6 @@ const Login = () => {
   }, [id, login, loggedIn]);
 
   useEffect(() => {
-    console.log({user, createdGame, loggedIn})
     if (user && !createdGame) {
       if ([gameName, game, level].every((i) => i)) {
         dispatch(
@@ -78,10 +77,10 @@ const Login = () => {
       <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
         SIGN IN TO CONTINUE
       </h1>
-      <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-4">
+      <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-7">
         Please sign in to your account to host a game
       </p>
-      <div className="mb-6 w-full">
+      <div className="mb-4 w-full">
         <Input
           label="Username"
           type="text"
@@ -89,7 +88,7 @@ const Login = () => {
           onChange={setUsername}
         />
       </div>
-      <div className="mb-6 w-full">
+      <div className="mb-4 w-full">
         <Input
           label="Password"
           type="password"
@@ -103,7 +102,7 @@ const Login = () => {
         id="remember-user"
         checked={rememberUser}
         onChange={() => setRememberUser(!rememberUser)}
-        className="mb-6"
+        className="mb-11"
       />
       <Button
         text="Sign In"
@@ -145,7 +144,7 @@ const Login = () => {
           className="font-bold text-[#E6A101]"
           onClick={() =>
             navigate(
-              `${ROUTES.AUTH.SIGNUP}${gameName ? `?game_name=${gameName}` : ""}`
+              `${ROUTES.AUTH.BEGIN_SIGNUP}${gameName ? `?game_name=${gameName}` : ""}`
             )
           }
         >

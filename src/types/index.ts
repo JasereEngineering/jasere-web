@@ -17,6 +17,7 @@ export interface AuthState {
   username: string | null;
   email: string | null;
   id: string | null;
+  gender: string | null;
   loading: boolean;
 }
 
@@ -71,6 +72,7 @@ export interface GameState {
   players: any[];
   lemonsDisplayed: number[];
   lemonResult: any[];
+  genders: any[];
 }
 
 export interface RequestArgs {

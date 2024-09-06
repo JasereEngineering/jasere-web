@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
 import Input from "../components/forms/Input";
+import Select from "../components/forms/Select";
 
 import avatar from "../assets/images/avatar2.svg";
 import premium from "../assets/images/premium.svg";
@@ -12,20 +12,25 @@ import edit from "../assets/images/edit.svg";
 import subscription from "../assets/images/subscription.svg";
 
 import { RootState, AppDispatch } from "../store";
-import { UserState } from "../types";
+import { UserState, GameState } from "../types";
 import { fetchProfile } from "../store/features/user";
-import * as ROUTES from "../routes";
+import { fetchGenders } from "../store/features/game";
 import { maskEmail } from "../helpers/misc";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   const dispatch = useDispatch<AppDispatch>();
+
   const { loading, email, gamesCreated, gamesPlayed, badges } =
     useSelector<RootState>(({ user }) => user) as UserState;
+  const { genders } = useSelector<RootState>(({ game }) => game) as GameState;
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState(genders[0]?.id);
 
   useEffect(() => {
     dispatch(fetchProfile());
+    dispatch(fetchGenders());
   }, [dispatch]);
 
   return (
@@ -89,7 +94,7 @@ const Dashboard = () => {
               </span>
             </div>
           </div>
-          <div className="mb-6 w-full">
+          <div className="mb-3 w-full">
             <Input
               label="Email Address"
               type="email"
@@ -99,7 +104,36 @@ const Dashboard = () => {
               className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
             />
           </div>
-          <div className="mb-6 w-full">
+          <div className="flex gap-x-[1.375rem] mb-3">
+            <div className="w-full">
+              <Input
+                label="First Name"
+                type="text"
+                value={firstName}
+                onChange={setFirstName}
+                className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Last Name"
+                type="text"
+                value={lastName}
+                onChange={setLastName}
+                className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+              />
+            </div>
+          </div>
+          <div className="mb-3 w-full">
+            <Select
+              label="Gender"
+              value={gender}
+              onChange={setGender}
+              options={genders.map((g) => ({ value: g.id, label: g.name }))}
+              className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+            />
+          </div>
+          <div className="mb-[8.25rem] w-full">
             <Input
               label="Password"
               type="text"
@@ -111,9 +145,11 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <button className="text-[1rem] text-[#F34348] text-center leading-[1.25rem] tracking-[3px]">
-        Delete Account
-      </button>
+      <div className="flex justify-center items-center mx-[-1rem] pb-8">
+        <button className="text-[1rem] text- text-center leading-[1.25rem] tracking-[3px]">
+          Update Account
+        </button>
+      </div>
     </AppLayout>
   );
 };

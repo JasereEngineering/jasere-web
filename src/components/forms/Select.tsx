@@ -10,7 +10,7 @@ const Select = ({
   label?: string;
   required?: boolean;
   value: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   options: { value: string; label: string }[];
   onChange: (value: any) => void;
@@ -35,9 +35,13 @@ const Select = ({
           value={value}
           onChange={handleChange}
         >
-          <option value="" disabled>
-            {placeholder}
-          </option>
+          {placeholder ? (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          ) : (
+            ""
+          )}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

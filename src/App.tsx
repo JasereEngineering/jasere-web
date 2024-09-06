@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
 import AuthedLayout from "./components/layouts/AuthedLayout";
+import UnauthedLayout from "./components/layouts/UnauthedLayout";
 
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -23,10 +24,14 @@ import LemonResult from "./pages/LemonResult";
 import GlobalLeaderboard from "./pages/GlobalLeaderboard";
 import Terms from "./pages/Terms";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
-import * as ROUTES from "./routes";
 import GamesHistory from "./pages/GamesHistory";
 import GameDetails from "./pages/GameDetails";
+import InitialiseSignUp from "./pages/InitialiseSignUp";
+import CompleteSignUp from "./pages/CompleteSignUp";
+import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+
+import * as ROUTES from "./routes";
 
 export default function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -93,10 +98,19 @@ export default function App() {
         element={<LemonResult socket={socket} />}
       />
 
-      {/* <Route element={<UnauthedLayout />}> */}
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
-      <Route path={ROUTES.AUTH.SIGNUP} element={<SignUp />} />
-      {/* </Route> */}
+      <Route element={<UnauthedLayout />}>
+        <Route path={ROUTES.AUTH.BEGIN_SIGNUP} element={<InitialiseSignUp />} />
+        <Route
+          path={ROUTES.AUTH.COMPLETE_SIGNUP}
+          element={<CompleteSignUp />}
+        />
+        <Route
+          path={ROUTES.AUTH.FORGOT_PASSWORD}
+          element={<ForgotPassword />}
+        />
+        <Route path={ROUTES.AUTH.RESET_PASSWORD} element={<ResetPassword />} />
+      </Route>
 
       <Route element={<AuthedLayout />}>
         <Route path={ROUTES.DASHBOARD.PROFILE} element={<Dashboard />} />

@@ -1,11 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
-
-import filter from "../assets/images/filter.svg";
 
 import { RootState, AppDispatch } from "../store";
 import { UserState } from "../types";
@@ -21,18 +19,37 @@ const GamesHistory = () => {
     ({ user }) => user
   ) as UserState;
 
+  const [type, setType] = useState<"created" | "played">("played");
+
   useEffect(() => {
-    dispatch(fetchGames({ page: 1, limit: 100 }));
-  }, [dispatch]);
+    dispatch(fetchGames({ page: 1, limit: 100, status: type }));
+  }, [dispatch, type]);
 
   return (
     <AppLayout className="flex flex-col font-lal text-white px-4 pt-[7.5rem] pb-[4.875rem]">
       {loading ? <Loader /> : null}
-      <div className="flex justify-between items-center mb-[1.125rem]">
-        <h1 className="text-[1.5rem] leading-[2.351rem] tracking-[-0.25px]">
+      <div className="flex items-center border-white border-b-[0.3px] gap-x-[1.125rem] mb-3 mx-[-1rem]">
+        <div></div>
+        <h1
+          className={`text-[1.25rem] leading-[1.959rem] tracking-[-0.25px] text-[#8D8D8D] ${
+            type === "played"
+              ? "border-white border-b-2 text-white text-[1.5rem] leading-[2.351rem]"
+              : ""
+          }`}
+          onClick={() => setType("played")}
+        >
           Games Played
         </h1>
-        <img src={filter} alt="filter" />
+        <h1
+          className={`text-[1.25rem] leading-[1.959rem] tracking-[-0.25px] text-[#8D8D8D] ${
+            type === "created"
+              ? "border-white border-b-2 text-white text-[1.5rem] leading-[2.351rem]"
+              : ""
+          }`}
+          onClick={() => setType("created")}
+        >
+          Games Created
+        </h1>
       </div>
       <div className="flex flex-col gap-y-2 mb-8">
         {games?.data.map((game, i) => (

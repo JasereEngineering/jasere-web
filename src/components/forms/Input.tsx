@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import passwordIcon from "../../assets/images/password-icon.svg";
+
+import * as ROUTES from "../../routes";
 
 const Input = ({
   label,
@@ -13,6 +16,7 @@ const Input = ({
   placeholder,
   className,
   min,
+  hideForgotPassword,
 }: {
   label?: string;
   required?: boolean;
@@ -24,7 +28,10 @@ const Input = ({
   className?: string;
   onChange: (value: any) => void;
   min?: number;
+  hideForgotPassword?: boolean;
 }) => {
+  const navigate = useNavigate();
+
   const [type, setType] = useState(initialType || "text");
 
   const handleChange = (
@@ -41,10 +48,10 @@ const Input = ({
       {label ? (
         <div className="font-inter font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-between items-center mb-1">
           <span>{label}</span>
-          {password ? (
+          {password && !hideForgotPassword ? (
             <span
               className="text-[#E6A101] text-[0.75rem] font-bold leading-[0.938rem]"
-              onClick={() => {}}
+              onClick={() => navigate(ROUTES.AUTH.FORGOT_PASSWORD)}
             >
               Forgot Password
             </span>

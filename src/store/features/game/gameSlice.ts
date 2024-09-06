@@ -31,6 +31,7 @@ const initialState: GameState = {
   lemonResult: [],
   loading: false,
   sessionCreated: false,
+  genders: []
 };
 
 export const createGame = createAsyncThunk(
@@ -101,6 +102,13 @@ export const validateGame = createAsyncThunk(
     });
   }
 );
+
+export const fetchGenders = createAsyncThunk("game/genders", async () => {
+  return await request({
+    url: "/genders",
+    method: "get",
+  });
+});
 
 export const gameSlice = createSlice({
   name: "game",
@@ -194,6 +202,9 @@ export const gameSlice = createSlice({
             state.results = action.payload.results.sort(
               (a: any, b: any) => b.point - a.point
             );
+            break;
+          case "game/genders/fulfilled":
+            state.genders = action.payload;
             break;
         }
 

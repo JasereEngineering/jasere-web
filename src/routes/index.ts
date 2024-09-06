@@ -1,6 +1,9 @@
 export const AUTH = {
-  SIGNUP: "/auth/signup",
+  BEGIN_SIGNUP: "/auth/signup",
+  COMPLETE_SIGNUP: "/account/verification",
   SIGNIN: "/auth/signin",
+  FORGOT_PASSWORD: "/auth/forgot-password",
+  RESET_PASSWORD: "/account/reset",
 };
 
 export const PLAY = {
