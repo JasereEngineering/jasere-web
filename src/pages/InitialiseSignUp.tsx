@@ -28,7 +28,7 @@ const InitialiseSignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
-  const [gender, setGender] = useState(genders[0]?.id);
+  const [gender, setGender] = useState(genders?.[0]?.id);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,7 +105,7 @@ const InitialiseSignUp = () => {
           label="Gender"
           value={gender}
           onChange={setGender}
-          options={genders.map((g) => ({ value: g.id, label: g.name }))}
+          options={genders?.map((g) => ({ value: g.id, label: g.name })) || []}
           className="!text-[0.875rem] !leading-[1.094rem]"
         />
       </div>

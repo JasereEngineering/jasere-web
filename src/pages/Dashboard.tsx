@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState(genders[0]?.id);
+  const [gender, setGender] = useState(genders?.[0]?.id);
 
   useEffect(() => {
     dispatch(fetchProfile());
@@ -101,7 +101,7 @@ const Dashboard = () => {
               value={`${maskEmail(email)} (unchanged)`}
               onChange={() => {}}
               disabled
-              className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+              className="!font-semibold !text-[#504F4F] !leading-[0.938rem]"
             />
           </div>
           <div className="flex gap-x-[1.375rem] mb-3">
@@ -111,7 +111,7 @@ const Dashboard = () => {
                 type="text"
                 value={firstName}
                 onChange={setFirstName}
-                className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+                className="!font-semibold !text-[#504F4F] !leading-[0.938rem]"
               />
             </div>
             <div className="w-full">
@@ -120,7 +120,7 @@ const Dashboard = () => {
                 type="text"
                 value={lastName}
                 onChange={setLastName}
-                className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+                className="!font-semibold !text-[#504F4F] !leading-[0.938rem]"
               />
             </div>
           </div>
@@ -129,7 +129,9 @@ const Dashboard = () => {
               label="Gender"
               value={gender}
               onChange={setGender}
-              options={genders.map((g) => ({ value: g.id, label: g.name }))}
+              options={
+                genders?.map((g) => ({ value: g.id, label: g.name })) || []
+              }
               className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
             />
           </div>
@@ -140,7 +142,7 @@ const Dashboard = () => {
               value="**************** (unchanged)"
               onChange={() => {}}
               disabled
-              className="!font-semibold !text-[0.75rem] !text-[#504F4F] !leading-[0.938rem]"
+              className="!font-semibold !text-[#504F4F] !leading-[0.938rem]"
             />
           </div>
         </div>

@@ -60,7 +60,7 @@ const Input = ({
       ) : null}
       <div className="relative">
         <input
-          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[0.875rem] leading-[1.094rem] text-white w-full ${
+          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[1rem] leading-[1.094rem] text-white w-full ${
             type === "password" ? "font-man" : "font-lex"
           } ${className ? className : ""}`}
           type={type}

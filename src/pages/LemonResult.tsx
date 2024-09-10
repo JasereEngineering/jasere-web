@@ -128,7 +128,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
       </div>
       <div className="flex flex-col gap-y-4 w-full fixed bottom-0 left-0 right-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
         <Button
-          text={!notCreator ? "Next Round" : "Waiting For Host..."}
+          text={!notCreator ? "Continue" : "Waiting For Host..."}
           disabled={!!notCreator}
           onClick={() => {
             socket?.emit("start", {
