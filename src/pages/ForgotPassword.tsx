@@ -6,6 +6,7 @@ import AppLayout from "../components/layouts/AppLayout";
 import Input from "../components/forms/Input";
 import Button from "../components/forms/Button";
 
+import { isValidEmail } from "../helpers/misc";
 import { forgotPassword } from "../store/features/auth";
 import { AppDispatch, RootState } from "../store";
 import { AuthState } from "../types";
@@ -18,6 +19,9 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isValidEmail(email)) return toast.error("Please enter a valid email");
+
     dispatch(
       forgotPassword({
         email,

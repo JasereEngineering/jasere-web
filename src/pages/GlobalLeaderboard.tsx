@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,9 +22,11 @@ const GlobalLeaderboard = () => {
     ({ user }) => user
   ) as UserState;
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(fetchLeaderboard({ page: 1, limit: 100 }));
-  }, [dispatch]);
+    dispatch(fetchLeaderboard({ page, limit: 10 }));
+  }, [dispatch, page]);
 
   return (
     <AppLayout className="flex flex-col font-lal text-white px-4 pt-[7.5rem] pb-[4.875rem]">
@@ -75,6 +77,16 @@ const GlobalLeaderboard = () => {
             </div>
           </div>
         ))}
+        {leaderboard &&
+        +leaderboard.total > page * +leaderboard.limit &&
+        !loading ? (
+          <div
+            className="font-lex font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-center items-center py-6"
+            onClick={() => setPage((prevPage) => prevPage + 1)}
+          >
+            Load More
+          </div>
+        ) : null}
       </div>
     </AppLayout>
   );

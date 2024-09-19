@@ -20,10 +20,11 @@ const GamesHistory = () => {
   ) as UserState;
 
   const [type, setType] = useState<"created" | "played">("played");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchGames({ page: 1, limit: 100, status: type }));
-  }, [dispatch, type]);
+    dispatch(fetchGames({ page, limit: 20, status: type }));
+  }, [dispatch, type, page]);
 
   return (
     <AppLayout className="flex flex-col font-lal text-white px-4 pt-[7.5rem] pb-[4.875rem]">
@@ -36,7 +37,10 @@ const GamesHistory = () => {
               ? "border-white border-b-2 text-white text-[1.5rem] leading-[2.351rem]"
               : ""
           }`}
-          onClick={() => setType("played")}
+          onClick={() => {
+            setType("played");
+            setPage(1);
+          }}
         >
           Games Played
         </h1>
@@ -46,7 +50,10 @@ const GamesHistory = () => {
               ? "border-white border-b-2 text-white text-[1.5rem] leading-[2.351rem]"
               : ""
           }`}
-          onClick={() => setType("created")}
+          onClick={() => {
+            setType("created");
+            setPage(1);
+          }}
         >
           Games Created
         </h1>
@@ -94,6 +101,14 @@ const GamesHistory = () => {
             </div>
           </div>
         ))}
+        {games && +games.total > page * +games.limit && !loading ? (
+          <div
+            className="font-lex font-light text-white text-[0.688rem] leading-[0.859rem] flex justify-center items-center py-6"
+            onClick={() => setPage((prevPage) => prevPage + 1)}
+          >
+            Load More
+          </div>
+        ) : null}
       </div>
     </AppLayout>
   );

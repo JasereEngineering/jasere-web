@@ -93,13 +93,27 @@ export const userSlice = createSlice({
             state.gamesPlayed = action.payload.total_games_played;
             break;
           case "user/games/fulfilled":
-            state.games = action.payload;
+            if (action.meta.arg.page === 1) {
+              state.games = action.payload;
+            } else {
+              state.games = {
+                ...action.payload,
+                data: [...state.games!.data, ...action.payload.data],
+              };
+            }
             break;
           case "user/game/details/fulfilled":
             state.game = action.payload;
             break;
           case "user/leaderboard/fulfilled":
-            state.leaderboard = action.payload;
+            if (action.meta.arg.page === 1) {
+              state.leaderboard = action.payload;
+            } else {
+              state.leaderboard = {
+                ...action.payload,
+                data: [...state.leaderboard!.data, ...action.payload.data],
+              };
+            }
             break;
         }
 

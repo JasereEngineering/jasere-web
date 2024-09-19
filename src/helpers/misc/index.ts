@@ -6,10 +6,6 @@ import avatar5 from "../../assets/images/avatar5.svg";
 import avatar6 from "../../assets/images/avatar6.svg";
 import avatar7 from "../../assets/images/avatar7.svg";
 import avatar8 from "../../assets/images/avatar8.svg";
-import charades from "../../assets/images/charades.jpg";
-import lemon from "../../assets/images/lemon.jpg";
-import words from "../../assets/images/words.jpg";
-import scrambled from "../../assets/images/scrambled.jpg";
 
 export const shuffleArray = (array: string[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -32,6 +28,10 @@ export const maskEmail = (email: string | null) => {
   const [localPart, domain] = email.split("@");
   const maskedLocal = localPart.slice(0, 3) + "*****";
   return `${maskedLocal}@${domain}`;
+};
+
+export const isValidEmail = (email: string) => {
+  return /^[\w.+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email);
 };
 
 export const formatDate = (dateStr: string) => {
@@ -57,7 +57,7 @@ export const numberToOrdinal = (num: number) => {
   const v = num % 100;
 
   return num + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
-}
+};
 
 export const playerColours = [
   "#FBD2D3",
@@ -80,9 +80,9 @@ export const avatarMap = {
 };
 
 export const colorMap = {
-  charades,
+  charades: "#F34348",
   lemon: "#F34348",
-  words,
+  words: "#F34348",
   "scrambled-words": "#FF9B9D",
 };
 

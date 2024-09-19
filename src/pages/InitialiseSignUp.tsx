@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Input from "../components/forms/Input";
@@ -12,6 +13,7 @@ import apple from "../assets/images/apple.svg";
 import facebook from "../assets/images/facebook.svg";
 import info from "../assets/images/info-icon.svg";
 
+import { isValidEmail } from "../helpers/misc";
 import { fetchGenders } from "../store/features/game";
 import { beginSignup } from "../store/features/auth";
 import { AppDispatch, RootState } from "../store";
@@ -32,6 +34,9 @@ const InitialiseSignUp = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isValidEmail(email)) return toast.error("Please enter a valid email");
+
     dispatch(
       beginSignup({
         username,
@@ -69,11 +74,9 @@ const InitialiseSignUp = () => {
               </p>
             </div>
             <Button
-              text="Go to Email"
+              text="Close"
               className="text-[1.375rem] leading-[2.154rem] p-1.5"
-              onClick={() => {
-                window.location.href = "mailto:";
-              }}
+              onClick={() => setEmailSent(false)}
             />
           </div>
         </div>
@@ -81,9 +84,11 @@ const InitialiseSignUp = () => {
       <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
         CREATE AN ACCOUNT
       </h1>
-      <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-7 max-w-[15.313rem]">
-        Please enter the following details to create your account
-      </p>
+      <div className="flex justify-center">
+        <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] mb-7 max-w-[15.313rem]">
+          Please enter the following details to create your account
+        </p>
+      </div>
       <div className="mb-4 w-full">
         <Input
           label="Email Address"

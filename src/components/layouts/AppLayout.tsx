@@ -9,6 +9,7 @@ import profile from "../../assets/images/profile.svg";
 import helpIcon from "../../assets/images/help-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
 import avatar from "../../assets/images/avatar2.svg";
+import guest from "../../assets/images/guest.svg";
 import premium from "../../assets/images/premium.svg";
 import leaderboards from "../../assets/images/leaderboards.svg";
 
@@ -51,21 +52,33 @@ const AppLayout = ({
         />
         <div className="pl-[1.85rem] max-w-[15rem] flex flex-col">
           <div className="flex">
-            <img
-              src={avatar}
-              alt="avatar"
-              className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
-            />
-            <div className="flex flex-col justify-between">
+            {user ? (
+              <img
+                src={avatar}
+                alt="avatar"
+                className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
+              />
+            ) : (
+              <img
+                src={guest}
+                alt="avatar"
+                className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
+              />
+            )}
+            <div
+              className={`flex flex-col justify-${user ? "between" : "center"}`}
+            >
               <h5 className="text-[1.25rem] text-white leading-[1.959rem] font-lal capitalize">
-                {username || "Guest"}
+                {user ? username : "Guest"}
               </h5>
-              <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
-                <img src={premium} alt="premium" className="mr-1" />
-                <span className="text-black text-[0.493rem] leading-[0.616rem] font-semibold font-lex">
-                  Premium
-                </span>
-              </div>
+              {user ? (
+                <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
+                  <img src={premium} alt="premium" className="mr-1" />
+                  <span className="text-black text-[0.493rem] leading-[0.616rem] font-semibold font-lex">
+                    Premium
+                  </span>
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="flex justify-center items-center">
@@ -80,30 +93,58 @@ const AppLayout = ({
               Create a Game
             </p>
           </div>
-          <div
-            className="flex items-center mb-5"
-            onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
-          >
-            <img src={profile} alt="profile" className="mr-5" />
-            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
-              Profile
-            </p>
-          </div>
-          <div
-            className="flex items-center mb-5"
-            onClick={() => navigate(ROUTES.DASHBOARD.GAMES)}
-          >
-            <img src={games} alt="my games" className="mr-5" />
-            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
-              My Games
-            </p>
-          </div>
-          <div className="flex items-center"  onClick={() => navigate(ROUTES.DASHBOARD.LEADERBOARD)}>
-            <img src={leaderboards} alt="leaderboards" className="mr-5" />
-            <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
-              Leaderboards
-            </p>
-          </div>
+          {user ? (
+            <>
+              <div
+                className="flex items-center mb-5"
+                onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
+              >
+                <img src={profile} alt="profile" className="mr-5" />
+                <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+                  Profile
+                </p>
+              </div>
+              <div
+                className="flex items-center mb-5"
+                onClick={() => navigate(ROUTES.DASHBOARD.GAMES)}
+              >
+                <img src={games} alt="my games" className="mr-5" />
+                <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+                  My Games
+                </p>
+              </div>
+              <div
+                className="flex items-center"
+                onClick={() => navigate(ROUTES.DASHBOARD.LEADERBOARD)}
+              >
+                <img src={leaderboards} alt="leaderboards" className="mr-5" />
+                <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+                  Leaderboards
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                className="flex items-center mb-5"
+                onClick={() => navigate(ROUTES.AUTH.SIGNIN)}
+              >
+                <img src={profile} alt="sign in" className="mr-5" />
+                <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+                  Sign In
+                </p>
+              </div>
+              <div
+                className="flex items-center"
+                onClick={() => navigate(ROUTES.AUTH.BEGIN_SIGNUP)}
+              >
+                <img src={profile} alt="register" className="mr-5" />
+                <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
+                  Register
+                </p>
+              </div>
+            </>
+          )}
           {user ? (
             <div
               className="flex items-center mt-[9.375rem]"
