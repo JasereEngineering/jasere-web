@@ -125,7 +125,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     const heartbeatInterval = setInterval(() => {
-      socket?.emit("poll-room", {
+      socket?.emit("heartbeat", {
         game_pin: gamePin,
         player_name: username,
       });
