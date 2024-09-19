@@ -15,7 +15,6 @@ import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonGame = ({ socket }: { socket: Socket | null }) => {
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -123,6 +122,17 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     });
     // eslint-disable-next-line
   }, [socket?.connected]);
+
+  useEffect(() => {
+    const heartbeatInterval = setInterval(() => {
+      socket?.emit("poll-room", {
+        game_pin: gamePin,
+        player_name: username,
+      });
+    }, 3000);
+
+    return () => clearInterval(heartbeatInterval);
+  }, [gamePin, username]);
 
   return (
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">
