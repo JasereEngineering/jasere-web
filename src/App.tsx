@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
@@ -7,7 +7,6 @@ import AuthedLayout from "./components/layouts/AuthedLayout";
 import UnauthedLayout from "./components/layouts/UnauthedLayout";
 
 import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import SelectGame from "./pages/SelectGame";
 import SelectCategory from "./pages/SelectCategory";
@@ -39,15 +38,16 @@ import * as ROUTES from "./routes";
 export default function App() {
   const location = useLocation();
 
-  const {
-    gamePin,
-    avatar: avatarImage,
-  } = useSelector<RootState>(({ game }) => game) as GameState;
+  const { gamePin, avatar: avatarImage } = useSelector<RootState>(
+    ({ game }) => game
+  ) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
   ) as AuthState;
 
   const [socket, setSocket] = useState<Socket | null>(null);
+
+  const disconnects = useRef(0);
 
   useEffect(() => {
     if (!socket || !socket.connected) {
@@ -56,8 +56,16 @@ export default function App() {
 
       newSocket.on("connect", () => {
         console.log("connected!");
+        if (disconnects.current) {
+          newSocket.emit("reconnected", {
+            game_pin: gamePin,
+            player_name: username,
+            avatar: avatarImage,
+            user_id: id,
+          });
+        }
       });
-      
+
       newSocket.on("reconnect", () => {
         console.log("reconnected!");
         newSocket.emit("reconnected", {
@@ -70,6 +78,7 @@ export default function App() {
 
       newSocket.on("disconnect", () => {
         console.log("disconnected!");
+        disconnects.current = disconnects.current + 1
       });
     } else if (socket.disconnected) {
       socket.connect();
