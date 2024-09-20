@@ -60,7 +60,7 @@ export default function App() {
       
       newSocket.on("reconnect", () => {
         console.log("reconnected!");
-        newSocket.emit("reconected", {
+        newSocket.emit("reconnected", {
           game_pin: gamePin,
           player_name: username,
           avatar: avatarImage,
