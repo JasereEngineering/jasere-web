@@ -19,7 +19,6 @@ import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
 const Leaderboard = ({ socket }: { socket: Socket | null }) => {
-
   const navigate = useNavigate();
   const { gameSession } = useParams();
 
@@ -47,10 +46,12 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       });
     });
 
-    socket?.emit("leaderboard", {
-      game_pin: gamePin,
-      game_session_id: gameSession,
-    });
+    const intervalId = setInterval(() => {
+      socket?.emit("leaderboard", {
+        game_pin: gamePin,
+        game_session_id: gameSession,
+      });
+    }, 10000);
 
     socket?.on("leaderboard", (response: any) => {
       console.log({ response });
@@ -64,7 +65,12 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         );
       }
     });
-  });
+
+    return () => {
+      clearInterval(intervalId);
+    };
+    // eslint-disable-next-line
+  }, [gamePin, gameSession]);
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">

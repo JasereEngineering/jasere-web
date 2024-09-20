@@ -132,6 +132,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     }, 3000);
 
     return () => clearInterval(heartbeatInterval);
+    // eslint-disable-next-line
   }, [gamePin, username]);
 
   return (
