@@ -37,7 +37,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const [result, setResult] = useState<any>([]);
 
   useEffect(() => {
-    socket?.on("connected", () => {
+    socket?.on("reconnect", () => {
       socket?.emit("join", {
         game_pin: gamePin,
         player_name: username,

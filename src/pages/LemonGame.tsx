@@ -99,7 +99,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   }, [lemonNumber, lemonNumberNext]);
 
   useEffect(() => {
-    socket?.on("connected", () => {
+    socket?.on("reconnect", () => {
       socket?.emit("join", {
         game_pin: gamePin,
         player_name: username,
