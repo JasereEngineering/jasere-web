@@ -8,7 +8,7 @@ import games from "../../assets/images/my-games.svg";
 import profile from "../../assets/images/profile.svg";
 import helpIcon from "../../assets/images/help-icon.svg";
 import logoutIcon from "../../assets/images/logout-icon.svg";
-import avatar from "../../assets/images/avatar2.svg";
+import avatar from "../../assets/images/avatar2.png";
 import guest from "../../assets/images/guest.svg";
 import premium from "../../assets/images/premium.svg";
 import leaderboards from "../../assets/images/leaderboards.svg";
@@ -198,7 +198,7 @@ const AppLayout = ({
           <img
             src={avatar}
             alt="avatar"
-            className={`h-[1.875rem] w-[1.875rem] ${user ? "block" : "hidden"}`}
+            className={`h-[1.875rem] w-[1.875rem] rounded-full ${user ? "block" : "hidden"}`}
           />
         </button>
       </div>

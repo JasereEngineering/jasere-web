@@ -86,7 +86,7 @@ const JoinGame = () => {
       ) : (
         <>
           <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
-            CREATE AN AVATAR
+            SELECT AN AVATAR
           </h1>
           <p className="font-inter text-[0.875rem] text-white text-center leading-[1.094rem] tracking-[-0.4px] max-w-[15.313rem] mb-6">
             To join a game, please create an avatar
@@ -124,7 +124,7 @@ const JoinGame = () => {
             />
           </div>
           <Button
-            text="Create Avatar"
+            text="Let's Play"
             className="!text-[1.375rem] !p-2 mb-[2.125rem]"
             disabled={!username || !avatar}
             onClick={handleSubmit}
@@ -136,7 +136,7 @@ const JoinGame = () => {
               alt="info"
               className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
             />
-            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
+            <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-10">
               This avatar profile is used as a one-time session and will not
               save user scores on the leaderboard
             </p>

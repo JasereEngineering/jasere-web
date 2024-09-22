@@ -1,11 +1,19 @@
-import avatar1 from "../../assets/images/avatar1.svg";
-import avatar2 from "../../assets/images/avatar2.svg";
-import avatar3 from "../../assets/images/avatar3.svg";
-import avatar4 from "../../assets/images/avatar4.svg";
-import avatar5 from "../../assets/images/avatar5.svg";
-import avatar6 from "../../assets/images/avatar6.svg";
-import avatar7 from "../../assets/images/avatar7.svg";
-import avatar8 from "../../assets/images/avatar8.svg";
+import avatar1 from "../../assets/images/avatar1.png";
+import avatar2 from "../../assets/images/avatar2.png";
+import avatar3 from "../../assets/images/avatar3.png";
+import avatar4 from "../../assets/images/avatar4.png";
+import avatar5 from "../../assets/images/avatar5.png";
+import avatar6 from "../../assets/images/avatar6.png";
+import avatar7 from "../../assets/images/avatar7.png";
+import avatar8 from "../../assets/images/avatar8.png";
+import avatar9 from "../../assets/images/avatar9.png";
+import avatar10 from "../../assets/images/avatar10.png";
+import avatar11 from "../../assets/images/avatar11.png";
+import avatar12 from "../../assets/images/avatar12.png";
+import avatar13 from "../../assets/images/avatar13.png";
+import avatar14 from "../../assets/images/avatar14.png";
+import avatar15 from "../../assets/images/avatar15.png";
+import avatar16 from "../../assets/images/avatar16.png";
 
 export const shuffleArray = (array: string[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -77,6 +85,14 @@ export const avatarMap = {
   avatar6,
   avatar7,
   avatar8,
+  avatar9,
+  avatar10,
+  avatar11,
+  avatar12,
+  avatar13,
+  avatar14,
+  avatar15,
+  avatar16,
 };
 
 export const colorMap = {

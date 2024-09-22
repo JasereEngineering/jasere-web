@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
 
-import avatar from "../assets/images/avatar2.svg";
+import avatar from "../assets/images/avatar2.png";
 import crown from "../assets/images/crown.svg";
 import trophy from "../assets/images/trophy.svg";
 
@@ -15,8 +14,6 @@ import { fetchLeaderboard } from "../store/features/user";
 import { avatarMap, playerColours } from "../helpers/misc";
 
 const GlobalLeaderboard = () => {
-  const navigate = useNavigate();
-
   const dispatch = useDispatch<AppDispatch>();
   const { leaderboard, loading } = useSelector<RootState>(
     ({ user }) => user
@@ -63,7 +60,7 @@ const GlobalLeaderboard = () => {
                     : avatar
                 }
                 alt="avatar"
-                className="mr-1.5 h-[2.5rem] w-[2.5rem]"
+                className="mr-1.5 h-[2.5rem] w-[2.5rem] rounded-full"
               />
               <span className="font-lal text-black text-[1.123rem] leading-[1.759rem] tracking-[-0.45px] capitalize">
                 {r.player_name}

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
 
-import avatar from "../assets/images/avatar2.svg";
+import avatar from "../assets/images/avatar2.png";
 import crown from "../assets/images/crown.svg";
 import share from "../assets/images/share.svg";
 
@@ -90,7 +90,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                 : avatar
             }
             alt="avatar"
-            className="h-[3.375rem] w-[3.375rem] absolute top-[-1.5rem] left-0"
+            className="h-[3.375rem] w-[3.375rem] rounded-full absolute top-[-1.5rem] left-0"
           />
           {result[0]?.player_name} WINS THIS ROUND!
         </div>
@@ -115,7 +115,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                     : avatar
                 }
                 alt="avatar"
-                className="mr-1.5 h-[1.875rem] w-[1.875rem]"
+                className="mr-1.5 h-[1.875rem] w-[1.875rem] rounded-full"
               />
               <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
                 {r.player_name}

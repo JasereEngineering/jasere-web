@@ -9,7 +9,7 @@ import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
-import avatar from "../assets/images/avatar2.svg";
+import avatar from "../assets/images/avatar2.png";
 import copy from "../assets/images/copy.svg";
 import check from "../assets/images/check-sign.svg";
 import info from "../assets/images/info-icon.svg";

@@ -6,7 +6,7 @@ import Loader from "../components/misc/Loader";
 import Input from "../components/forms/Input";
 import Select from "../components/forms/Select";
 
-import avatar from "../assets/images/avatar2.svg";
+import avatar from "../assets/images/avatar2.png";
 import premium from "../assets/images/premium.svg";
 import edit from "../assets/images/edit.svg";
 import subscription from "../assets/images/subscription.svg";

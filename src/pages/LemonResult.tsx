@@ -8,7 +8,7 @@ import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
 import Button from "../components/forms/Button";
 
-import avatar from "../assets/images/avatar2.svg";
+import avatar from "../assets/images/avatar2.png";
 import crown from "../assets/images/crown.svg";
 
 import { avatarMap } from "../helpers/misc";
@@ -111,7 +111,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
                     : avatar
                 }
                 alt="avatar"
-                className="mr-1.5 h-[1.875rem] w-[1.875rem]"
+                className="mr-1.5 h-[1.875rem] w-[1.875rem] rounded-full"
               />
               <span className="text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
                 {r.player_name}
