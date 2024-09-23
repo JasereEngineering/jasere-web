@@ -65,6 +65,7 @@ const InitialiseSignUp = () => {
             </p>
             <div className="flex items-center mb-5">
               <img
+                loading="lazy"
                 src={info}
                 alt="info"
                 className="mr-2 h-[1.125rem] w-[1.125rem]"
@@ -130,19 +131,19 @@ const InitialiseSignUp = () => {
       </div>
       <div className="flex gap-x-1 mb-8">
         <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
-          <img src={google} alt="google" />
+          <img loading="lazy" src={google} alt="google" />
           <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
             Google
           </span>
         </button>
         <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
-          <img src={apple} alt="apple" />
+          <img loading="lazy" src={apple} alt="apple" />
           <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
             Apple
           </span>
         </button>
         <button className="border border-[#D0D5DD] rounded-[30px] p-2 flex items-center grow">
-          <img src={facebook} alt="facebook" />
+          <img loading="lazy" src={facebook} alt="facebook" />
           <span className="pl-1.5 font-lex text-[0.75rem] text-[#DADADA] leading-[0.938rem]">
             Facebook
           </span>

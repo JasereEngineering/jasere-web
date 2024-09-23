@@ -100,6 +100,7 @@ const JoinGame = () => {
                   onClick={() => setAvatar(image)}
                 >
                   <img
+                    loading="lazy"
                     className="absolute bottom-0 top-0 left-0 right-0 w-[3.875rem] h-[3.875rem] rounded-full"
                     src={avatarMap[image as keyof typeof avatarMap]}
                     alt="avatar"
@@ -107,7 +108,12 @@ const JoinGame = () => {
                   {avatar === image ? (
                     <>
                       <div className="absolute bottom-0 top-0 left-0 right-0 w-[3.875rem] h-[3.875rem] rounded-full inset-0 bg-[#FFFFFF] opacity-50"></div>
-                      <img src={check} alt="checked" className="z-10" />
+                      <img
+                        loading="lazy"
+                        src={check}
+                        alt="checked"
+                        className="z-10"
+                      />
                     </>
                   ) : null}
                 </div>
@@ -132,6 +138,7 @@ const JoinGame = () => {
           {/* {!name ? ( */}
           <div className="flex">
             <img
+              loading="lazy"
               src={info}
               alt="info"
               className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"

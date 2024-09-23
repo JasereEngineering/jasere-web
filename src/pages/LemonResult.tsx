@@ -18,7 +18,6 @@ import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket | null }) => {
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -77,6 +76,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         </h1>
         <div className="rounded-[35px] bg-[#7EAED6] h-[6rem] w-[5.688rem] p-2 flex flex-col items-center justify-between mb-[1.125rem]">
           <img
+            loading="lazy"
             src={
               avatarMap[
                 players.find((p: any) => p.lemon_number === lemonNumberPrev)
@@ -105,6 +105,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
           >
             <div className="flex items-center">
               <img
+                loading="lazy"
                 src={
                   r.avatar
                     ? avatarMap[r.avatar as keyof typeof avatarMap]
@@ -121,7 +122,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
               <span className="font-lex text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
                 {r.point}pts
               </span>
-              {i === 0 ? <img src={crown} alt="champ" /> : null}
+              {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null}
             </div>
           </div>
         ))}

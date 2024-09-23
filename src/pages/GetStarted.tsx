@@ -13,7 +13,7 @@ const GetStarted = () => {
   return (
     <AppLayout className="flex flex-col">
       <div className="flex grow justify-center items-center">
-        <img src={logo} alt="logo" />
+        <img loading="lazy" src={logo} alt="logo" />
       </div>
       <div className="p-[2.375rem] w-full">
         <Button

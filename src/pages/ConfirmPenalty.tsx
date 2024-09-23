@@ -93,7 +93,7 @@ const ConfirmPenalty = () => {
           Take two shots of tequila
         </h4>
         <div className="border border-white rounded-[30px] py-1 px-[0.625rem] flex items-center mb-[0.625rem]">
-          <img src={shuffle} alt="share" className="mr-2" />
+          <img loading="lazy" src={shuffle} alt="share" className="mr-2" />
           <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
             Randomize
           </span>
@@ -110,6 +110,7 @@ const ConfirmPenalty = () => {
         </h3>
         <div className="flex">
           <img
+            loading="lazy"
             src={info}
             alt="info"
             className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
@@ -122,7 +123,10 @@ const ConfirmPenalty = () => {
       </div>
       <div className="flex flex-col gap-y-[0.625rem]">
         <Button text="Confirm Penalty" />
-        <Button text="Skip Penalty" className="border border-white !bg-black text-white" />
+        <Button
+          text="Skip Penalty"
+          className="border border-white !bg-black text-white"
+        />
       </div>
     </AppLayout>
   );

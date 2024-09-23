@@ -35,7 +35,7 @@ const Checkbox = ({
           checked ? "bg-[#f7941d]" : "bg-white"
         }`}
       >
-        <img src={check} alt="checkbox" />
+        <img loading="lazy" src={check} alt="checkbox" />
       </label>
       <label
         htmlFor={id}

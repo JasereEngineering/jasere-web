@@ -35,7 +35,7 @@ const GlobalLeaderboard = () => {
         See the best players around you
       </p>
       <div className="flex flex-col items-center">
-        <img src={trophy} alt="trophy" className="mb-2" />
+        <img loading="lazy" src={trophy} alt="trophy" className="mb-2" />
         <h2 className="text-center text-[1.451rem] leading-[2.274rem] tracking-[-0.45px]">
           {leaderboard?.data[0]?.point.toLocaleString()} PTS
         </h2>
@@ -54,6 +54,7 @@ const GlobalLeaderboard = () => {
           >
             <div className="flex items-center">
               <img
+                loading="lazy"
                 src={
                   r.avatar
                     ? avatarMap[r.avatar as keyof typeof avatarMap]
@@ -70,7 +71,7 @@ const GlobalLeaderboard = () => {
               <span className="font-lex text-black text-[0.909rem] leading-[1.136rem] tracking-[-0.45px]">
                 {r.point}pts
               </span>
-              {i === 0 ? <img src={crown} alt="champ" /> : null}
+              {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null}
             </div>
           </div>
         ))}

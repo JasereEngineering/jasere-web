@@ -147,6 +147,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         </p>
         <div className="relative rounded-[18px] w-full mb-4 max-h-[9.375rem]">
           <img
+            loading="lazy"
             src={lemonBg}
             alt="background"
             className="w-full h-full rounded-[18px] object-cover"

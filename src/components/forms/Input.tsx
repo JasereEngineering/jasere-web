@@ -71,7 +71,7 @@ const Input = ({
           min={min}
         />
         {initialType === "password" ? (
-          <img
+          <img loading="lazy"
             src={passwordIcon}
             alt="password icon"
             className="right-[0.75rem] bottom-[0.725rem] absolute"

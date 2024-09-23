@@ -87,6 +87,7 @@ const GameDetails = () => {
                 </div>
                 <div className="flex gap-x-2 items-center mt-auto">
                   <img
+                    loading="lazy"
                     src={trophy}
                     alt="trophy"
                     className="w-[1.563rem] h-[1.563rem]"
@@ -109,6 +110,7 @@ const GameDetails = () => {
             </div>
             <div className="flex gap-x-1.5 items-center">
               <img
+                loading="lazy"
                 src={trophy}
                 alt="trophy"
                 className="w-[1.875rem] h-[1.875rem]"
@@ -152,7 +154,7 @@ const GameDetails = () => {
         </div> */}
         </div>
         <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center w-fit mx-auto">
-          <img src={share} alt="share" className="mr-2" />
+          <img loading="lazy" src={share} alt="share" className="mr-2" />
           <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
             Share
           </span>

@@ -94,7 +94,7 @@ const SelectGame = () => {
                   selectGame({
                     id: game.id,
                     title: game.name.toLowerCase().replaceAll(" ", "-"),
-                    tag: game.tag
+                    tag: game.tag,
                   })
                 );
                 navigate(
@@ -118,7 +118,7 @@ const SelectGame = () => {
               count ? "opacity-100" : "opacity-0"
             }`}
           >
-            <img src={check} alt="checkmark" className="mr-2" />
+            <img loading="lazy" src={check} alt="checkmark" className="mr-2" />
             <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
               Signed in as <span className="font-semibold">{username}</span>
             </span>

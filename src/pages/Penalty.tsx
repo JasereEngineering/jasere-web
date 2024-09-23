@@ -54,7 +54,12 @@ const Penalty = () => {
               Set penalties for round failure
             </p>
           </div>
-          <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+          <img
+            loading="lazy"
+            src={helpIcon}
+            alt="help"
+            className="h-[2rem] w-[2rem] pt-2"
+          />
         </div>
         <div className="p-2">
           <div className="mb-4 w-full">
@@ -91,6 +96,7 @@ const Penalty = () => {
           </div>
           <div className="flex pl-6">
             <img
+              loading="lazy"
               src={info}
               alt="info"
               className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"

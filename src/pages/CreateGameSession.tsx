@@ -57,7 +57,12 @@ const CreateGameSession = () => {
               Set a name for your game session
             </p>
           </div>
-          <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+          <img
+            loading="lazy"
+            src={helpIcon}
+            alt="help"
+            className="h-[2rem] w-[2rem] pt-2"
+          />
         </div>
         <div className="w-full flex flex-col grow justify-center">
           <Input

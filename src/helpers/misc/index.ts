@@ -15,7 +15,7 @@ import avatar14 from "../../assets/images/avatar14.png";
 import avatar15 from "../../assets/images/avatar15.png";
 import avatar16 from "../../assets/images/avatar16.png";
 
-export const shuffleArray = (array: string[]) => {
+export const shuffleArray = (array: any[]) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];

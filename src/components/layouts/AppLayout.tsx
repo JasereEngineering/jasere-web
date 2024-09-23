@@ -45,6 +45,7 @@ const AppLayout = ({
         }`}
       >
         <img
+          loading="lazy"
           src={logo}
           alt="logo"
           className="w-[14.313rem] h-[4.063rem] mb-[1.875rem]"
@@ -54,12 +55,14 @@ const AppLayout = ({
           <div className="flex">
             {user ? (
               <img
+                loading="lazy"
                 src={avatar}
                 alt="avatar"
                 className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
               />
             ) : (
               <img
+                loading="lazy"
                 src={guest}
                 alt="avatar"
                 className="w-[2.875rem] h-[2.875rem] rounded-full mr-3"
@@ -73,7 +76,12 @@ const AppLayout = ({
               </h5>
               {user ? (
                 <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit">
-                  <img src={premium} alt="premium" className="mr-1" />
+                  <img
+                    loading="lazy"
+                    src={premium}
+                    alt="premium"
+                    className="mr-1"
+                  />
                   <span className="text-black text-[0.493rem] leading-[0.616rem] font-semibold font-lex">
                     Premium
                   </span>
@@ -88,7 +96,12 @@ const AppLayout = ({
             className="flex items-center rounded-[15px] bg-white p-[0.625rem] mb-6"
             onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
           >
-            <img src={create} alt="create a game" className="mr-5" />
+            <img
+              loading="lazy"
+              src={create}
+              alt="create a game"
+              className="mr-5"
+            />
             <p className="font-lal text-black text-[1.25rem] leading-[1.959rem]">
               Create a Game
             </p>
@@ -99,7 +112,12 @@ const AppLayout = ({
                 className="flex items-center mb-5"
                 onClick={() => navigate(ROUTES.DASHBOARD.PROFILE)}
               >
-                <img src={profile} alt="profile" className="mr-5" />
+                <img
+                  loading="lazy"
+                  src={profile}
+                  alt="profile"
+                  className="mr-5"
+                />
                 <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
                   Profile
                 </p>
@@ -108,7 +126,12 @@ const AppLayout = ({
                 className="flex items-center mb-5"
                 onClick={() => navigate(ROUTES.DASHBOARD.GAMES)}
               >
-                <img src={games} alt="my games" className="mr-5" />
+                <img
+                  loading="lazy"
+                  src={games}
+                  alt="my games"
+                  className="mr-5"
+                />
                 <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
                   My Games
                 </p>
@@ -117,7 +140,12 @@ const AppLayout = ({
                 className="flex items-center"
                 onClick={() => navigate(ROUTES.DASHBOARD.LEADERBOARD)}
               >
-                <img src={leaderboards} alt="leaderboards" className="mr-5" />
+                <img
+                  loading="lazy"
+                  src={leaderboards}
+                  alt="leaderboards"
+                  className="mr-5"
+                />
                 <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
                   Leaderboards
                 </p>
@@ -129,7 +157,12 @@ const AppLayout = ({
                 className="flex items-center mb-5"
                 onClick={() => navigate(ROUTES.AUTH.SIGNIN)}
               >
-                <img src={profile} alt="sign in" className="mr-5" />
+                <img
+                  loading="lazy"
+                  src={profile}
+                  alt="sign in"
+                  className="mr-5"
+                />
                 <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
                   Sign In
                 </p>
@@ -138,7 +171,12 @@ const AppLayout = ({
                 className="flex items-center"
                 onClick={() => navigate(ROUTES.AUTH.BEGIN_SIGNUP)}
               >
-                <img src={profile} alt="register" className="mr-5" />
+                <img
+                  loading="lazy"
+                  src={profile}
+                  alt="register"
+                  className="mr-5"
+                />
                 <p className="font-lal text-white text-[1.25rem] leading-[1.959rem]">
                   Register
                 </p>
@@ -150,7 +188,12 @@ const AppLayout = ({
               className="flex items-center mt-[9.375rem]"
               onClick={() => logout()}
             >
-              <img src={logoutIcon} alt="log out" className="mr-5" />
+              <img
+                loading="lazy"
+                src={logoutIcon}
+                alt="log out"
+                className="mr-5"
+              />
               <p className="font-lal text-[#F34348] text-[1.25rem] leading-[1.959rem]">
                 Sign out
               </p>
@@ -183,6 +226,7 @@ const AppLayout = ({
           </div>
         </button>
         <img
+          loading="lazy"
           src={logo}
           alt="logo"
           className="w-[14.313rem] h-[4.063rem] cursor-pointer"
@@ -190,15 +234,19 @@ const AppLayout = ({
         />
         <button className="min-w-[1.5rem] min-h-[1.5rem]">
           <img
+            loading="lazy"
             src={helpIcon}
             alt="help"
             className={`${help ? "block" : "hidden"}`}
             onClick={() => navigate(ROUTES.PLAY.PLAY_GAME)}
           />
           <img
+            loading="lazy"
             src={avatar}
             alt="avatar"
-            className={`h-[1.875rem] w-[1.875rem] rounded-full ${user ? "block" : "hidden"}`}
+            className={`h-[1.875rem] w-[1.875rem] rounded-full ${
+              user ? "block" : "hidden"
+            }`}
           />
         </button>
       </div>
@@ -207,7 +255,7 @@ const AppLayout = ({
           navClassName ? navClassName : ""
         }`}
       >
-        <img
+        <img loading="lazy"
           src={logo}
           className="cursor-pointer w-[20.563rem] h-[6rem]"
           alt="logo"

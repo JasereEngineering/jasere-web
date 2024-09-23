@@ -46,24 +46,31 @@ const Dashboard = () => {
         <div className="flex flex-col items-center px-4">
           <div className="relative mb-3">
             <img
+              loading="lazy"
               src={avatar}
               alt="avatar"
               className="w-[5.875rem] h-[5.875rem] rounded-full"
             />
             <img
+              loading="lazy"
               src={edit}
               alt="edit"
               className="absolute bottom-[0.375rem] right-[-0.375rem]"
             />
           </div>
           <div className="rounded-[20px] flex items-center py-[0.125rem] px-[0.406rem] bg-gold max-w-fit mb-[0.625rem]">
-            <img src={premium} alt="premium" className="mr-1" />
+            <img loading="lazy" src={premium} alt="premium" className="mr-1" />
             <span className="text-black text-[0.575rem] leading-[0.719rem] tracking-[-0.31px] font-semibold font-lex">
               Premium
             </span>
           </div>
           <div className="flex items-center rounded-[6px] border border-white px-[0.625rem] py-1.5 mb-8">
-            <img src={subscription} alt="subscription" className="mr-2" />
+            <img
+              loading="lazy"
+              src={subscription}
+              alt="subscription"
+              className="mr-2"
+            />
             <span className="text-[1rem] leading-[1.563rem] tracking-[-0.34px] font-lal">
               Manage Subscription
             </span>

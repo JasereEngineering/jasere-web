@@ -58,7 +58,7 @@ const SelectCategory = () => {
               Choose Category
             </p>
           </div>
-          <img src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+          <img loading="lazy" src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
         </div>
         {categories?.map((c, i) => (
           <div
@@ -100,7 +100,7 @@ const SelectCategory = () => {
               {c.category_name}
             </h5>
             {category === c.category_id ? (
-              <img src={check} alt="check" />
+              <img loading="lazy" src={check} alt="check" />
             ) : null}
           </div>
         ))}

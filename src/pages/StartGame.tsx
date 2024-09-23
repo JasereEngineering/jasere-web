@@ -180,7 +180,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
             {notCreator ? (
               <div className="flex justify-center items-center mb-6">
                 <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
-                  <img src={check} alt="checkmark" className="mr-2" />
+                  <img loading="lazy" src={check} alt="checkmark" className="mr-2" />
                   <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
                     Joined as{" "}
                     <span className="font-semibold capitalize">{username}</span>
@@ -199,7 +199,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                   onClick={handleCopy}
                 >
                   <div className="bg-[#313131] w-[3rem] flex justify-center items-center rounded-l-[5px]">
-                    <img src={copy} alt="copy" />
+                    <img loading="lazy" src={copy} alt="copy" />
                   </div>
                   <div className="grow bg-[#4A4A4A] p-2 flex items-center font-light rounded-r-[5px] truncate">
                     {`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
@@ -221,7 +221,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     backgroundColor: playerColours[i % playerColours.length],
                   }}
                 >
-                  <img
+                  <img loading="lazy"
                     src={
                       p.avatar
                         ? avatarMap[p.avatar as keyof typeof avatarMap]
@@ -283,12 +283,12 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
             <h3 className="text-[1.375rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-5">
               You have been assigned as
             </h3>
-            <img src={lemons} alt="lemons" />
+            <img loading="lazy" src={lemons} alt="lemons" />
             <h2 className="text-[2rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-12">
               LEMON {lemonNumber}
             </h2>
             <div className="flex mb-11">
-              <img
+              <img loading="lazy"
                 src={info}
                 alt="info"
                 className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
@@ -312,7 +312,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     backgroundColor: playerColours[i % playerColours.length],
                   }}
                 >
-                  <img
+                  <img loading="lazy"
                     src={
                       p.avatar
                         ? avatarMap[p.avatar as keyof typeof avatarMap]

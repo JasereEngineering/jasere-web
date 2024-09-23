@@ -84,6 +84,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         </p>
         <div className="p-[1.625rem] bg-green rounded-[1.875rem] font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.25px] relative mb-8 uppercase">
           <img
+            loading="lazy"
             src={
               result[0]?.avatar
                 ? avatarMap[result[0]?.avatar as keyof typeof avatarMap]
@@ -109,6 +110,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
           >
             <div className="flex items-center">
               <img
+                loading="lazy"
                 src={
                   r.avatar
                     ? avatarMap[r.avatar as keyof typeof avatarMap]
@@ -125,12 +127,12 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
               <span className="font-lex text-black text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
                 {r.point}pts
               </span>
-              {i === 0 ? <img src={crown} alt="champ" /> : null}
+              {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null}
             </div>
           </div>
         ))}
         <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
-          <img src={share} alt="share" className="mr-2" />
+          <img loading="lazy" src={share} alt="share" className="mr-2" />
           <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
             Share
           </span>

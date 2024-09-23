@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
@@ -6,7 +6,7 @@ import { Socket } from "socket.io-client";
 
 import AppLayout from "../components/layouts/AppLayout";
 
-import image from "../assets/images/scrambled-dark.jpg";
+import backspace from "../assets/images/backspace.svg";
 
 import { shuffleArray } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
@@ -32,38 +32,44 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     return savedTime ? Number(savedTime) : 60;
   });
   const [prevAnswerTime, setPrevAnswerTime] = useState(60);
-  const [scrambled, setScrambled] = useState(shuffleArray(word.split("")));
+  const [scrambled, setScrambled] = useState<
+    { letter: string; selected: boolean }[]
+  >(
+    shuffleArray(
+      word.split("").map((l: string) => ({ letter: l, selected: false }))
+    )
+  );
   const [result, setResult] = useState(
     Array(word.length).fill({ letter: "", index: null })
   );
 
-  const degreeMap = useMemo(
-    () =>
-      shuffleArray(
-        Array(word.length)
-          .fill("")
-          .map((i) => `${Math.floor(Math.random() * 61) - 30}`)
-      ),
-    [word.length]
-  );
-  const scrambledMap = useMemo(
-    () =>
-      shuffleArray([
-        "right-[1.375rem] top-[3rem]",
-        "left-[0rem] top-[0rem]",
-        "left-[3.75rem] top-[1.25rem]",
-        "left-[45%] top-[4rem]",
-        "right-[6.75rem] top-[0rem]",
-        "left-[5.875rem] bottom-[0rem]",
-        "right-[4.375rem] top-[0rem]",
-        "right-[2rem] bottom-0",
-        "left-[40%] top-[0.625rem]",
-        "left-[1.25rem] top-[4.375rem]",
-        "left-[65%] bottom-0",
-        "left-[18%] bottom-[-1.25rem]",
-      ]),
-    []
-  );
+  // const degreeMap = useMemo(
+  //   () =>
+  //     shuffleArray(
+  //       Array(word.length)
+  //         .fill("")
+  //         .map((i) => `${Math.floor(Math.random() * 61) - 30}`)
+  //     ),
+  //   [word.length]
+  // );
+  // const scrambledMap = useMemo(
+  //   () =>
+  //     shuffleArray([
+  //       "right-[1.375rem] top-[3rem]",
+  //       "left-[0rem] top-[0rem]",
+  //       "left-[3.75rem] top-[1.25rem]",
+  //       "left-[45%] top-[4rem]",
+  //       "right-[6.75rem] top-[0rem]",
+  //       "left-[5.875rem] bottom-[0rem]",
+  //       "right-[4.375rem] top-[0rem]",
+  //       "right-[2rem] bottom-0",
+  //       "left-[40%] top-[0.625rem]",
+  //       "left-[1.25rem] top-[4.375rem]",
+  //       "left-[65%] bottom-0",
+  //       "left-[18%] bottom-[-1.25rem]",
+  //     ]),
+  //   []
+  // );
 
   const renderTime = () => (
     <div className="flex flex-col justify-center items-center">
@@ -76,16 +82,20 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     </div>
   );
 
-  const handleLetterClick = (letter: string, index: number) => {
-    if (!seconds) return;
+  const handleLetterClick = (
+    l: { letter: string; selected: boolean },
+    index: number
+  ) => {
+    // if (!seconds) return;
+    if (l.selected) return;
     const resultIndex = result.findIndex((item) => item.index === null);
     const newResult = [...result];
     const newScrambled = [...scrambled];
 
-    newResult[resultIndex] = { letter, index };
+    newResult[resultIndex] = { letter: l.letter, index };
     setResult(newResult);
 
-    newScrambled[index] = "";
+    newScrambled[index] = { ...newScrambled[index], selected: true };
     setScrambled(newScrambled);
   };
 
@@ -97,7 +107,10 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       const newResult = [...result];
       const newScrambled = [...scrambled];
 
-      newScrambled[item.index] = item.letter;
+      newScrambled[item.index] = {
+        ...newScrambled[item.index],
+        selected: false,
+      };
       setScrambled(newScrambled);
 
       newResult[index] = { letter: "", index: null };
@@ -105,17 +118,37 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     }
   };
 
-  const handleSubmit = () => {
-    // if (scrambled.join("")) return toast.error("incomplete solution");
+  const handleBackspace = () => {
+    const lastItem = [...result].reverse().find((i) => i.index !== null);
+    const lastItemIndex =
+      result.length -
+      1 -
+      result
+        .slice()
+        .reverse()
+        .findIndex((i) => i.index !== null);
+    if (!lastItem) return;
 
+    const newResult = [...result];
+    const newScrambled = [...scrambled];
+
+    newScrambled[lastItem.index] = {
+      ...newScrambled[lastItem.index],
+      selected: false,
+    };
+    setScrambled(newScrambled);
+
+    newResult[lastItemIndex] = { letter: "", index: null };
+    setResult(newResult);
+  };
+
+  const handleSubmit = () => {
     const solution = result
       .map((item) => item.letter)
       .join("")
       .toLowerCase();
     const is_correct = solution === word.toLowerCase();
     setHurray(is_correct);
-    // setScrambled(shuffleArray(word.split("")));
-    // setResult(Array(word.length).fill({ letter: "", index: null }));
     socket?.emit("poll-answer", {
       game_session_id: gameSession,
       player_name: username,
@@ -171,7 +204,11 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     setHurray(null);
-    setScrambled(shuffleArray(word.split("")));
+    setScrambled(
+      shuffleArray(
+        word.split("").map((l: string) => ({ letter: l, selected: false }))
+      )
+    );
     setResult(Array(word.length).fill({ letter: "", index: null }));
   }, [word]);
 
@@ -190,7 +227,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem] capitalize">
           {categoryName} | {difficulty}
         </p>
-        <div className="flex justify-center items-center mb-6">
+        <div className="flex justify-center items-center mb-[1.125rem]">
           <CountdownCircleTimer
             isPlaying={seconds > 0}
             duration={60}
@@ -203,12 +240,20 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
             {renderTime}
           </CountdownCircleTimer>
         </div>
-        <h4 className="text-pink text-center font-lal text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-4">
+        <h4 className="px-[1.094rem] py-2.5 bg-pink rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-2.5">
           {trivia[currentTrivia].question}
         </h4>
-        {hurray === null ? (
+        <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-inter font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px] mb-6">
+          HINT: {trivia[currentTrivia].hint || "No hint"}
+        </div>
+        {/* {hurray === null ? (
           <div className="rounded-[10px] aspect-video relative min-h-[10.125rem] mb-3">
-            <img src={image} alt="" className="w-full h-full rounded-[10px]" />
+            <img
+              loading="lazy"
+              src={image}
+              alt=""
+              className="w-full h-full rounded-[10px]"
+            />
             <div className="absolute inset-0 bg-[#393939] opacity-75"></div>
             <div className="rounded-[10px] p-[0.625rem] absolute top-0 left-0 right-0 bottom-0 bg-transparent">
               <div className="w-full h-full relative scrambled-container">
@@ -236,13 +281,23 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
           >
             {hurray ? "Your answer is correct!" : "Oops! Wrong answer!"}
           </div>
-        ) : null}
-        <div className="rounded-[10px] border border-white h-[3.125rem] w-full flex justify-center items-center text-center gap-x-[0.125rem] mb-3">
+        ) : null} */}
+        <div
+          className={`rounded-[10px] border border-white h-[3.125rem] w-full flex justify-center items-center text-center gap-x-[0.125rem] mb-[1.625rem] ${
+            hurray ? "border-2 bg-green" : ""
+          } ${
+            hurray === false ? "border-2 border-[#E9564D] bg-[#E9564D]" : ""
+          }`}
+        >
           {result.some((r) => r.index) ? (
             result.map((item, i) => (
               <span
                 key={i}
-                className="font-lal text-[2rem] leading-[3.125rem] tracking-[-0.15px]"
+                className={`font-lal text-[2rem] leading-[3.125rem] tracking-[-0.15px] ${
+                  [true, false].includes(hurray)
+                    ? "font-inter text-[1rem] leading-[1.21rem] tracking-[3px]"
+                    : ""
+                }`}
                 onClick={() => handleSpaceClick(item, i)}
               >
                 {item.letter}
@@ -254,11 +309,33 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
             </span>
           )}
         </div>
-        {trivia[currentTrivia].hint ? (
-          <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-inter font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px]">
-            HINT: {trivia[currentTrivia].hint}
+        <div className="grid grid-cols-7 gap-x-[1.375rem] gap-y-6 mb-6">
+          {scrambled.map((l, i) => (
+            <div
+              key={i}
+              className={`bg-white text-black text-[1.5rem] leading-[2.351rem] tracking-[-0.27px] uppercase rounded-[5px] flex justify-center items-center w-[1.832rem] h-[2.414rem] ${
+                l.selected ? "opacity-25" : "opacity-100"
+              }`}
+              onClick={() => handleLetterClick(l, i)}
+            >
+              {l.letter}
+            </div>
+          ))}
+        </div>
+        <div className="w-full flex justify-between items-center">
+          <div
+            className="bg-[#3D3C3C] rounded-[26px] py-[0.563rem] px-[1.188rem] font-inter font-semibold text-[0.983rem] leading-[1.188rem] tracking-[-0.13px]"
+            onClick={handleSubmit}
+          >
+            SKIP
           </div>
-        ) : null}
+          <div
+            className="bg-[#3D3C3C] rounded-[26px] py-[0.531rem] px-[1.188rem]"
+            onClick={handleBackspace}
+          >
+            <img loading="lazy" src={backspace} alt="backspace" />
+          </div>
+        </div>
       </div>
       <button
         className="capitalize h-[6.25rem] bg-[#2CB553] font-lal text-white text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full"
