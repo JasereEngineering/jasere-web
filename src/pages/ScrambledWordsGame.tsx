@@ -86,7 +86,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     l: { letter: string; selected: boolean },
     index: number
   ) => {
-    // if (!seconds) return;
+    if (!seconds) return;
     if (l.selected) return;
     const resultIndex = result.findIndex((item) => item.index === null);
     const newResult = [...result];
