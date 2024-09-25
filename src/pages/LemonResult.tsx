@@ -74,7 +74,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] mb-5">
           ROUND OVER!
         </h1>
-        <div className="rounded-[35px] bg-[#7EAED6] h-[6rem] w-[5.688rem] p-2 flex flex-col items-center justify-between mb-[1.125rem]">
+        <div className="rounded-[35px] bg-[#7EAED6] h-[6rem] w-[5.688rem] p-2 flex flex-col items-center justify-between mb-[1.125rem] truncate">
           <img
             loading="lazy"
             src={

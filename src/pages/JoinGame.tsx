@@ -125,7 +125,10 @@ const JoinGame = () => {
               label="Username"
               type="text"
               value={username}
-              onChange={setUsername}
+              onChange={(value: string) => {
+                if (value.length > 10) return;
+                setUsername(value);
+              }}
               // disabled={!!name}
             />
           </div>

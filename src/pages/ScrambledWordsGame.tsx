@@ -219,8 +219,8 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   }, [gameSession]);
 
   return (
-    <AppLayout className="font-lal flex flex-col justify-between pt-[8rem]">
-      <div className="flex flex-col items-center px-[1.125rem]">
+    <AppLayout className="font-lal flex flex-col pt-[8rem]">
+      <div className="flex flex-col items-center px-[1.125rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
           SCRAMBLED WORDS
         </h1>
@@ -338,10 +338,10 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         </div>
       </div>
       <button
-        className="capitalize h-[6.25rem] bg-[#2CB553] font-lal text-white text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full"
+        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0"
         onClick={handleSubmit}
       >
-        {trivia.every((item) => item.completed) ? "Next" : "Submit Answer"}
+        {trivia.every((item) => item.completed) ? "NEXT" : "SUBMIT"}
       </button>
     </AppLayout>
   );

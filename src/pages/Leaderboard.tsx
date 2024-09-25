@@ -145,7 +145,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
           navigate(ROUTES.PLAY.GET_STARTED);
         }}
       >
-        Next Round
+        NEXT ROUND
       </button>
     </AppLayout>
   );
