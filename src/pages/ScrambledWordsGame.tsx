@@ -8,7 +8,7 @@ import AppLayout from "../components/layouts/AppLayout";
 
 import backspace from "../assets/images/backspace.svg";
 
-import { shuffleArray } from "../helpers/misc";
+import { fillScrambled, shuffleArray } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
 import { updateTrivia } from "../store/features/game";
 import { AuthState, GameState } from "../types";
@@ -19,7 +19,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   const { gameSession } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { trivia, currentTrivia, difficulty, categoryName } =
+  const { trivia, currentTrivia, difficulty, categoryName, time } =
     useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -29,14 +29,16 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   const [hurray, setHurray] = useState<any>(null);
   const [seconds, setSeconds] = useState(() => {
     const savedTime = localStorage.getItem(`remaining-time-${gameSession}`);
-    return savedTime ? Number(savedTime) : 60;
+    return savedTime ? Number(savedTime) : time;
   });
-  const [prevAnswerTime, setPrevAnswerTime] = useState(60);
+  const [prevAnswerTime, setPrevAnswerTime] = useState(time);
   const [scrambled, setScrambled] = useState<
     { letter: string; selected: boolean }[]
   >(
     shuffleArray(
-      word.split("").map((l: string) => ({ letter: l, selected: false }))
+      fillScrambled(word)
+        .split("")
+        .map((l: string) => ({ letter: l, selected: false }))
     )
   );
   const [result, setResult] = useState(
@@ -206,7 +208,9 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     setHurray(null);
     setScrambled(
       shuffleArray(
-        word.split("").map((l: string) => ({ letter: l, selected: false }))
+        fillScrambled(word)
+          .split("")
+          .map((l: string) => ({ letter: l, selected: false }))
       )
     );
     setResult(Array(word.length).fill({ letter: "", index: null }));
@@ -230,7 +234,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         <div className="flex justify-center items-center mb-[1.125rem]">
           <CountdownCircleTimer
             isPlaying={seconds > 0}
-            duration={60}
+            duration={time}
             colors="#FF9B9D"
             trailColor="#4F4F4F"
             size={63}

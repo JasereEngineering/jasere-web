@@ -108,3 +108,17 @@ export const titleMap = {
   words: "what words?",
   "scrambled-words": "scrambled words",
 };
+
+export const generateRandomLetters = (count: number): string => {
+  return Array.from({ length: count }, () =>
+    String.fromCharCode(65 + Math.floor(Math.random() * 26))
+  ).join("");
+};
+
+export const fillScrambled = (word: string, columns = 7): string => {
+  const extraLettersNeeded = columns - (word.length % columns);
+  if (extraLettersNeeded !== columns) {
+    return word + generateRandomLetters(extraLettersNeeded);
+  }
+  return word;
+};

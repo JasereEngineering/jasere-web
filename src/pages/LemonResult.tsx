@@ -30,6 +30,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     players,
     gamePin,
     avatar: avatarImage,
+    time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -136,6 +137,9 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
               game_pin: gamePin,
               avatar: avatarImage,
               proceed: true,
+              game_data: {
+                time,
+              },
             });
           }}
         />

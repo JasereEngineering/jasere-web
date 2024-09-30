@@ -73,6 +73,7 @@ export interface GameState {
   lemonsDisplayed: number[];
   lemonResult: any[];
   genders: any[];
+  time: number;
 }
 
 export interface RequestArgs {

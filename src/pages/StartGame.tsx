@@ -44,6 +44,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     categoryName,
     avatar: avatarImage,
     lemonNumber,
+    time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -180,7 +181,12 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
             {notCreator ? (
               <div className="flex justify-center items-center mb-6">
                 <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
-                  <img loading="lazy" src={check} alt="checkmark" className="mr-2" />
+                  <img
+                    loading="lazy"
+                    src={check}
+                    alt="checkmark"
+                    className="mr-2"
+                  />
                   <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
                     Joined as{" "}
                     <span className="font-semibold capitalize">{username}</span>
@@ -221,7 +227,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     backgroundColor: playerColours[i % playerColours.length],
                   }}
                 >
-                  <img loading="lazy"
+                  <img
+                    loading="lazy"
                     src={
                       p.avatar
                         ? avatarMap[p.avatar as keyof typeof avatarMap]
@@ -253,6 +260,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     game_pin: gamePin,
                     game_data: {
                       trivia,
+                      time,
                     },
                   });
                 }
@@ -288,7 +296,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               LEMON {lemonNumber}
             </h2>
             <div className="flex mb-11">
-              <img loading="lazy"
+              <img
+                loading="lazy"
                 src={info}
                 alt="info"
                 className="mr-[0.625rem] h-[1.063rem] w-[1.063rem]"
@@ -312,7 +321,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     backgroundColor: playerColours[i % playerColours.length],
                   }}
                 >
-                  <img loading="lazy"
+                  <img
+                    loading="lazy"
                     src={
                       p.avatar
                         ? avatarMap[p.avatar as keyof typeof avatarMap]
@@ -337,6 +347,9 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                 socket?.emit("start", {
                   game_pin: gamePin,
                   avatar: avatarImage,
+                  game_data: {
+                    time,
+                  },
                 });
               }}
             />

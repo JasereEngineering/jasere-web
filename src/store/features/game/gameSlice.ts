@@ -31,7 +31,8 @@ const initialState: GameState = {
   lemonResult: [],
   loading: false,
   sessionCreated: false,
-  genders: []
+  genders: [],
+  time: 60,
 };
 
 export const createGame = createAsyncThunk(
@@ -98,7 +99,7 @@ export const validateGame = createAsyncThunk(
     return await request({
       url: `/game/validate/${code}`,
       method: "get",
-      onSuccess
+      onSuccess,
     });
   }
 );
@@ -167,6 +168,7 @@ export const gameSlice = createSlice({
       if (payload.lemon_number_next_turn)
         state.lemonNumberNext = payload.lemon_number_next_turn;
       if (payload.result) state.lemonResult = payload.result.data;
+      if (payload.time) state.time = payload.time;
     },
   },
   extraReducers(builder) {
@@ -189,6 +191,7 @@ export const gameSlice = createSlice({
             state.categories = action.payload;
             break;
           case "game/create/fulfilled":
+            state.time = action.payload.data.time;
             state.gameName = action.payload.data.name;
             state.gameSession = action.payload.data.game_session_id;
             state.sessionCreated = true;

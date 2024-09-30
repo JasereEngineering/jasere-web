@@ -35,6 +35,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     lemonNumberPrev,
     lemonNumberNext,
     lemonsDisplayed,
+    time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -56,7 +57,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         info: {
           selected_lemon_number: selectedLemon,
           transition: 1,
-          time_to_answer: 10 - seconds,
+          time_to_answer: time - seconds,
         },
       });
       setTimeout(() => {
@@ -81,7 +82,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
             info: {
               selected_lemon_number: null,
               transition: 1,
-              time_to_answer: 10,
+              time_to_answer: time,
             },
           });
           setSeconds(undefined);
@@ -95,8 +96,8 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   }, [seconds]);
 
   useEffect(() => {
-    if (lemonNumber === lemonNumberNext) setSeconds(10);
-  }, [lemonNumber, lemonNumberNext]);
+    if (lemonNumber === lemonNumberNext) setSeconds(time);
+  }, [lemonNumber, lemonNumberNext, time]);
 
   useEffect(() => {
     socket?.on("reconnect", () => {
@@ -168,7 +169,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
               <div className="w-full bg-white rounded-[3px] h-[0.25rem]">
                 <div
                   className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"
-                  style={{ width: `${(seconds / 10) * 100}%` }}
+                  style={{ width: `${(seconds / time) * 100}%` }}
                 ></div>
               </div>
             ) : null}
