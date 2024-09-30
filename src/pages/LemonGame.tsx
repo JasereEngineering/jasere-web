@@ -165,7 +165,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
                 />
               ) : null}
             </div>
-            {seconds ? (
+            {seconds !== undefined ? (
               <div className="w-full bg-white rounded-[3px] h-[0.25rem]">
                 <div
                   className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"

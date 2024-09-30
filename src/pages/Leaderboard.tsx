@@ -46,12 +46,10 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       });
     });
 
-    const intervalId = setInterval(() => {
-      socket?.emit("leaderboard", {
-        game_pin: gamePin,
-        game_session_id: gameSession,
-      });
-    }, 10000);
+    socket?.emit("leaderboard", {
+      game_pin: gamePin,
+      game_session_id: gameSession,
+    });
 
     socket?.on("leaderboard", (response: any) => {
       console.log({ response });
@@ -65,10 +63,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         );
       }
     });
-
-    return () => {
-      clearInterval(intervalId);
-    };
     // eslint-disable-next-line
   }, [gamePin, gameSession]);
 

@@ -144,13 +144,15 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     setResult(newResult);
   };
 
-  const handleSubmit = () => {
-    const solution = result
-      .map((item) => item.letter)
-      .join("")
-      .toLowerCase();
+  const handleSubmit = (skip?: boolean) => {
+    const solution = skip
+      ? ""
+      : result
+          .map((item) => item.letter)
+          .join("")
+          .toLowerCase();
     const is_correct = solution === word.toLowerCase();
-    setHurray(is_correct);
+    if (!skip) setHurray(is_correct);
     socket?.emit("poll-answer", {
       game_session_id: gameSession,
       player_name: username,
@@ -164,9 +166,12 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       },
     });
     setPrevAnswerTime(seconds);
-    setTimeout(() => {
-      dispatch(updateTrivia(currentTrivia));
-    }, 1000);
+    setTimeout(
+      () => {
+        dispatch(updateTrivia(currentTrivia));
+      },
+      skip ? 1 : 1000
+    );
   };
 
   useEffect(() => {
@@ -329,7 +334,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         <div className="w-full flex justify-between items-center">
           <div
             className="bg-[#3D3C3C] rounded-[26px] py-[0.563rem] px-[1.188rem] font-inter font-semibold text-[0.983rem] leading-[1.188rem] tracking-[-0.13px]"
-            onClick={handleSubmit}
+            onClick={() => handleSubmit(true)}
           >
             SKIP
           </div>
@@ -343,7 +348,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       </div>
       <button
         className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0"
-        onClick={handleSubmit}
+        onClick={() => handleSubmit()}
       >
         {trivia.every((item) => item.completed) ? "NEXT" : "SUBMIT"}
       </button>
