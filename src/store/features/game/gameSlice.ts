@@ -148,6 +148,13 @@ export const gameSlice = createSlice({
       state.trivia = [];
       state.players = [];
     },
+    resetGame: (state) => {
+      state.currentTrivia = 0;
+      state.trivia = state.trivia.map((item: any) => ({
+        ...item,
+        completed: false,
+      }));
+    },
     joinGame: (state, { payload }) => {
       if (payload.trivia)
         state.trivia = payload.trivia.map((item: any) => ({
@@ -224,6 +231,7 @@ export const {
   clearGameSession,
   updateTrivia,
   endGame,
+  resetGame,
   joinGame,
 } = gameSlice.actions;
 

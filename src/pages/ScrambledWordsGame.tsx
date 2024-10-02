@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Socket } from "socket.io-client";
@@ -17,6 +17,9 @@ import * as ROUTES from "../routes";
 const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameSession } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const notCreator = searchParams.get("player");
 
   const dispatch = useDispatch<AppDispatch>();
   const { trivia, currentTrivia, difficulty, categoryName, time } =
@@ -191,23 +194,31 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       }, 1000);
     } else {
       navigate(
-        ROUTES.PLAY.LEADERBOARD_FOR("scrambed-words", gameSession as string)
+        ROUTES.PLAY.LEADERBOARD_FOR(
+          "scrambed-words",
+          gameSession as string,
+          !!notCreator
+        )
       );
     }
 
     return () => clearInterval(intervalId);
-  }, [seconds, gameSession, navigate]);
+  }, [seconds, gameSession, navigate, notCreator]);
 
   useEffect(() => {
     const gameCompleted = trivia.every((item) => item.completed);
     if (gameCompleted)
       navigate(
-        ROUTES.PLAY.LEADERBOARD_FOR("scrambled-words", gameSession as string)
+        ROUTES.PLAY.LEADERBOARD_FOR(
+          "scrambled-words",
+          gameSession as string,
+          !!notCreator
+        )
       );
 
     setWord(trivia[currentTrivia].answer.toUpperCase());
     // eslint-disable-next-line
-  }, [currentTrivia, gameSession, navigate]);
+  }, [currentTrivia, gameSession, navigate, notCreator]);
 
   useEffect(() => {
     setHurray(null);

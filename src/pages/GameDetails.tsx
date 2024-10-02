@@ -86,12 +86,14 @@ const GameDetails = () => {
                   </p>
                 </div>
                 <div className="flex gap-x-2 items-center mt-auto">
-                  <img
-                    loading="lazy"
-                    src={trophy}
-                    alt="trophy"
-                    className="w-[1.563rem] h-[1.563rem]"
-                  />
+                  {i === 0 ? (
+                    <img
+                      loading="lazy"
+                      src={trophy}
+                      alt="trophy"
+                      className="w-[1.563rem] h-[1.563rem]"
+                    />
+                  ) : null}
                   <p className="font-semibold text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
                     {player.point} PTS
                   </p>

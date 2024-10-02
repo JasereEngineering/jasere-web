@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
@@ -16,7 +16,7 @@ import pad from "../assets/images/game-pad.svg";
 
 import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
-import { endGame } from "../store/features/game";
+import { endGame, resetGame, joinGame } from "../store/features/game";
 import { playerColours } from "../helpers/misc";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
@@ -25,6 +25,9 @@ import BottomModal from "../components/misc/BottomModal";
 const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameSession } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const notCreator = searchParams.get("player");
 
   const dispatch = useDispatch<AppDispatch>();
   const {
@@ -33,6 +36,8 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     gameTitle,
     gamePin,
     avatar: avatarImage,
+    trivia,
+    time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -40,6 +45,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
   const [result, setResult] = useState<any>([]);
   const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     socket?.on("reconnect", () => {
@@ -49,6 +55,27 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         avatar: avatarImage,
         user_id: id,
       });
+    });
+
+    socket?.on("start", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+        setLoading(false);
+      } else {
+        dispatch(joinGame(response.game_data));
+        navigate(
+          ROUTES.PLAY.BEGIN_GAME_FOR(
+            response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+            response.game_data.game_session_id,
+            !!notCreator
+          )
+        );
+      }
+    });
+
+    socket?.on("exit", () => {
+      navigate(ROUTES.PLAY.GET_STARTED);
     });
 
     socket?.emit("leaderboard", {
@@ -68,12 +95,21 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         );
       }
     });
-    // eslint-disable-next-line
-  }, [gamePin, gameSession]);
+  }, [
+    gamePin,
+    gameSession,
+    socket,
+    avatarImage,
+    username,
+    id,
+    notCreator,
+    dispatch,
+    navigate,
+  ]);
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
-      {!result.length ? <Loader /> : null}
+      {!result.length || loading ? <Loader /> : null}
       <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
@@ -140,12 +176,11 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       <button
         className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
         onClick={() => {
-          dispatch(endGame());
           setModal(true);
-          // navigate(ROUTES.PLAY.GET_STARTED);
         }}
+        disabled={!!notCreator}
       >
-        NEXT ROUND
+        {notCreator ? "WAITING FOR HOST..." : "NEXT"}
       </button>
       <BottomModal onClose={() => setModal(false)} showModal={modal}>
         <div className="px-[2.625rem] pb-[5rem]">
@@ -155,7 +190,17 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div
               className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]"
-              onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
+              onClick={() => {
+                setLoading(true);
+                dispatch(resetGame());
+                socket?.emit("start", {
+                  game_pin: gamePin,
+                  game_data: {
+                    trivia,
+                    time,
+                  },
+                });
+              }}
             >
               <img
                 loading="lazy"
@@ -183,7 +228,12 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
             </div>
             <div
               className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]"
-              onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
+              onClick={() => {
+                dispatch(endGame());
+                socket?.emit("exit", {
+                  game_pin: gamePin,
+                });
+              }}
             >
               <img
                 loading="lazy"

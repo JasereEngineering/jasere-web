@@ -31,8 +31,14 @@ export const PLAY = {
   GAME_SESSION_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
   LEADERBOARD: "/:gameTitle/game/:gameSession/leaderboard",
-  LEADERBOARD_FOR: (gameTitle: string, gameSession: string) =>
-    `/${gameTitle}/game/${gameSession}/leaderboard`,
+  LEADERBOARD_FOR: (
+    gameTitle: string,
+    gameSession: string,
+    participant?: boolean
+  ) =>
+    `/${gameTitle}/game/${gameSession}/leaderboard${
+      participant ? "?player=participant" : ""
+    }`,
   JOIN_GAME: "/join",
 };
 
