@@ -11,7 +11,11 @@ import check from "../assets/images/check-sign-white.svg";
 
 import { titleMap, colorMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
-import { fetchGameCategories, selectCategory } from "../store/features/game";
+import {
+  endGame,
+  fetchGameCategories,
+  selectCategory,
+} from "../store/features/game";
 import * as ROUTES from "../routes";
 import { GameState } from "../types";
 
@@ -37,6 +41,7 @@ const SelectCategory = () => {
 
   useEffect(() => {
     dispatch(fetchGameCategories(game as string));
+    dispatch(endGame());
   }, [dispatch, game]);
 
   useEffect(() => {
@@ -58,22 +63,21 @@ const SelectCategory = () => {
               Choose Category
             </p>
           </div>
-          <img loading="lazy" src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+          <img
+            loading="lazy"
+            src={helpIcon}
+            alt="help"
+            className="h-[2rem] w-[2rem] pt-2"
+          />
         </div>
         {categories?.map((c, i) => (
           <div
             className={`border rounded-[20px] px-5 py-3 flex justify-between items-center  ${
               category === c.category_id
                 ? `border-[${
-                    colorMap[
-                      gameTitle
-                        ?.toLowerCase() as keyof typeof colorMap
-                    ]
+                    colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
                   }] bg-[${
-                    colorMap[
-                      gameTitle
-                        ?.toLowerCase() as keyof typeof colorMap
-                    ]
+                    colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
                   }]`
                 : "border-white"
             } ${i === categories.length - 1 ? "mb-[9rem]" : "mb-3"}`}
@@ -82,17 +86,11 @@ const SelectCategory = () => {
             style={{
               backgroundColor:
                 category === c.category_id
-                  ? colorMap[
-                      gameTitle
-                        ?.toLowerCase() as keyof typeof colorMap
-                    ]
+                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
                   : "transparent",
               borderColor:
                 category === c.category_id
-                  ? colorMap[
-                      gameTitle
-                        ?.toLowerCase() as keyof typeof colorMap
-                    ]
+                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
                   : "white",
             }}
           >

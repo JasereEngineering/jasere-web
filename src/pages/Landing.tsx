@@ -12,7 +12,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <AppLayout className="pt-[10rem] px-[1.875rem] pb-[5.25rem] flex flex-col justify-between">
+    <AppLayout className="pt-[7.625rem] px-[1.875rem] pb-[5.25rem] flex flex-col justify-between">
       <div className="flex flex-col items-center grow">
         <img loading="lazy" src={landing} alt="landing" className="mb-4" />
         <h1 className="text-center text-[#E9A401] text-[1.5rem] leading-[2.351rem] tracking-[-0.25px] font-lal max-w-[12.063rem] mb-1.5">

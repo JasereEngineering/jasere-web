@@ -10,6 +10,9 @@ import Loader from "../components/misc/Loader";
 import avatar from "../assets/images/avatar2.png";
 import crown from "../assets/images/crown.svg";
 import share from "../assets/images/share.svg";
+import replay from "../assets/images/replay.svg";
+import category from "../assets/images/category.svg";
+import pad from "../assets/images/game-pad.svg";
 
 import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
@@ -17,6 +20,7 @@ import { endGame } from "../store/features/game";
 import { playerColours } from "../helpers/misc";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
+import BottomModal from "../components/misc/BottomModal";
 
 const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -35,6 +39,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   ) as AuthState;
 
   const [result, setResult] = useState<any>([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     socket?.on("reconnect", () => {
@@ -133,14 +138,66 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         </div>
       </div>
       <button
-        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0"
+        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
         onClick={() => {
           dispatch(endGame());
-          navigate(ROUTES.PLAY.GET_STARTED);
+          setModal(true);
+          // navigate(ROUTES.PLAY.GET_STARTED);
         }}
       >
         NEXT ROUND
       </button>
+      <BottomModal onClose={() => setModal(false)} showModal={modal}>
+        <div className="px-[2.625rem] pb-[5rem]">
+          <h3 className="text-[1.5rem] text-center text-white leading-[2.351rem] tracking-[1px] mb-6">
+            Choose an Option
+          </h3>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div
+              className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]"
+              onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
+            >
+              <img
+                loading="lazy"
+                src={replay}
+                alt="replay"
+                className="mb-7 w-[3.375rem] h-[3.375rem]"
+              />
+              <p className="text-[1rem] leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                Replay
+              </p>
+            </div>
+            <div
+              className="border border-white rounded-[9px] flex flex-col items-center pt-11"
+              onClick={() => navigate(ROUTES.SCRAMBLED_WORDS.CATEGORY)}
+            >
+              <img
+                loading="lazy"
+                src={category}
+                alt="category"
+                className="mb-7 w-[3.375rem] h-[3.375rem]"
+              />
+              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                Choose Game Category
+              </p>
+            </div>
+            <div
+              className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]"
+              onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
+            >
+              <img
+                loading="lazy"
+                src={pad}
+                alt="pad"
+                className="mb-4 w-[3.375rem] h-[3.375rem]"
+              />
+              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px]">
+                Create a New Game Session
+              </p>
+            </div>
+          </div>
+        </div>
+      </BottomModal>
     </AppLayout>
   );
 };

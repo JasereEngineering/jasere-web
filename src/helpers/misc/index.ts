@@ -115,9 +115,10 @@ export const generateRandomLetters = (count: number): string => {
   ).join("");
 };
 
-export const fillScrambled = (word: string, columns = 7): string => {
-  const extraLettersNeeded = columns - (word.length % columns);
-  if (extraLettersNeeded !== columns) {
+export const fillScrambled = (word: string, targetLength = 14): string => {
+  if (!word) return "";
+  if (word.length < targetLength) {
+    const extraLettersNeeded = targetLength - word.length;
     return word + generateRandomLetters(extraLettersNeeded);
   }
   return word;
