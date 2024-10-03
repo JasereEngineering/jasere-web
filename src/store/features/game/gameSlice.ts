@@ -33,6 +33,7 @@ const initialState: GameState = {
   sessionCreated: false,
   genders: [],
   time: 60,
+  triggerReplay: false,
 };
 
 export const createGame = createAsyncThunk(
@@ -104,6 +105,19 @@ export const validateGame = createAsyncThunk(
   }
 );
 
+export const fetchTrivia = createAsyncThunk(
+  "game/trivia",
+  async (_, { getState }) => {
+    const {
+      game: { category, level },
+    } = getState() as RootState;
+    return await request({
+      url: `/game/trivia/${category}/${level}`,
+      method: "get",
+    });
+  }
+);
+
 export const fetchGenders = createAsyncThunk("game/genders", async () => {
   return await request({
     url: "/genders",
@@ -142,6 +156,9 @@ export const gameSlice = createSlice({
       } else {
         state.currentTrivia = 0;
       }
+    },
+    setTriggerReplay: (state, { payload }) => {
+      state.triggerReplay = payload;
     },
     endGame: (state) => {
       state.currentTrivia = 0;
@@ -208,6 +225,14 @@ export const gameSlice = createSlice({
                 (item: any) => ({ ...item, completed: false })
               );
             break;
+          case "game/trivia/fulfilled":
+            state.time = action.payload.time;
+            state.trivia = action.payload.trivia.map((item: any) => ({
+              ...item,
+              completed: false,
+            }));
+            state.triggerReplay = true;
+            break;
           case "game/result/fulfilled":
             state.results = action.payload.results.sort(
               (a: any, b: any) => b.point - a.point
@@ -233,6 +258,7 @@ export const {
   endGame,
   resetGame,
   joinGame,
+  setTriggerReplay,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

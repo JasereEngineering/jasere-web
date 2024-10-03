@@ -174,7 +174,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         </div>
       </div>
       <button
-        className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
+        className={`capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0 ${
+          notCreator ? "opacity-75" : ""
+        }`}
         onClick={() => {
           setModal(true);
         }}
@@ -214,7 +216,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
             </div>
             <div
               className="border border-white rounded-[9px] flex flex-col items-center pt-11"
-              onClick={() => navigate(ROUTES.SCRAMBLED_WORDS.CATEGORY)}
+              onClick={() => {
+                navigate(ROUTES.SCRAMBLED_WORDS.CATEGORY + "?replay=true");
+              }}
             >
               <img
                 loading="lazy"

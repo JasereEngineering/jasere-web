@@ -74,6 +74,7 @@ export interface GameState {
   lemonResult: any[];
   genders: any[];
   time: number;
+  triggerReplay: boolean;
 }
 
 export interface RequestArgs {

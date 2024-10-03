@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Socket } from "socket.io-client";
+import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Button from "../components/forms/Button";
@@ -14,29 +16,41 @@ import { RootState, AppDispatch } from "../store";
 import {
   endGame,
   fetchGameCategories,
+  fetchTrivia,
   selectCategory,
+  setTriggerReplay,
+  joinGame,
 } from "../store/features/game";
 import * as ROUTES from "../routes";
 import { GameState } from "../types";
 
-const SelectCategory = () => {
+const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
+  const [searchParams] = useSearchParams();
+  const replay = searchParams.get("replay");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { categories, loading, game } = useSelector<RootState>(
-    ({ game }) => game
-  ) as GameState;
+  const { categories, loading, game, triggerReplay, gamePin, trivia, time } =
+    useSelector<RootState>(({ game }) => game) as GameState;
 
   const [category, setCategory] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const handleClick = () => {
     if (category !== "new") dispatch(selectCategory(category));
-    navigate(
-      category === "new"
-        ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
-        : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(gameTitle?.toLowerCase() as string)
-    );
+
+    if (replay) {
+      dispatch(fetchTrivia());
+    } else {
+      navigate(
+        category === "new"
+          ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
+          : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
+              gameTitle?.toLowerCase() as string
+            )
+      );
+    }
   };
 
   useEffect(() => {
@@ -50,9 +64,45 @@ const SelectCategory = () => {
     setCategory(categories[0].category_id);
   }, [category, categories]);
 
+  useEffect(() => {
+    if (triggerReplay && socket) {
+      setLoader(true);
+      socket?.emit("start", {
+        game_pin: gamePin,
+        game_data: {
+          trivia,
+          time,
+        },
+      });
+    }
+
+    return () => {
+      if (socket) dispatch(setTriggerReplay(false));
+    };
+    // eslint-disable-next-line
+  }, [triggerReplay, socket]);
+
+  useEffect(() => {
+    socket?.on("start", (response: any) => {
+      console.log({ response });
+      if (response.statusCode !== "00") {
+        toast.error("an error occurred");
+        setLoader(false);
+      } else {
+        dispatch(joinGame(response.game_data));
+        navigate(
+          ROUTES.PLAY.BEGIN_GAME_FOR(
+            response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+            response.game_data.game_session_id
+          )
+        );
+      }
+    });
+  }, [gamePin, socket, dispatch, navigate]);
+
   return (
     <AppLayout className="font-lal flex flex-col justify-between px-4 pt-[8rem] pb-[4.25rem]">
-      {loading ? <Loader /> : null}
+      {loading || loader ? <Loader /> : null}
       <div>
         <div className="flex justify-between mb-6">
           <div>

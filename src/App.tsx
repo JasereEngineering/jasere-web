@@ -78,7 +78,7 @@ export default function App() {
 
       newSocket.on("disconnect", () => {
         console.log("disconnected!");
-        disconnects.current = disconnects.current + 1
+        disconnects.current = disconnects.current + 1;
       });
     } else if (socket.disconnected) {
       socket.connect();
@@ -110,7 +110,10 @@ export default function App() {
         element={<Leaderboard socket={socket} />}
       />
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
-      <Route path={ROUTES.PLAY.SELECT_CATEGORY} element={<SelectCategory />} />
+      <Route
+        path={ROUTES.PLAY.SELECT_CATEGORY}
+        element={<SelectCategory socket={socket} />}
+      />
       <Route
         path={ROUTES.PLAY.SELECT_DIFFICULTY}
         element={<SelectDifficulty />}
