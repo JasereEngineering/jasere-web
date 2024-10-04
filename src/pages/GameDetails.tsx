@@ -76,7 +76,10 @@ const GameDetails = () => {
           </h3>
           <div className="flex flex-col gap-y-2.5 mb-6">
             {game?.results.map((player: any, i: number) => (
-              <div className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2">
+              <div
+                className="flex justify-between items-center border-b-[0.4px] border-white border-opacity-[25%] pb-2"
+                key={i}
+              >
                 <div>
                   <p className="font-normal text-[0.625rem] leading-[0.756rem] tracking-[-0.25px] mb-3">
                     {numberToOrdinal(i + 1)} Place
