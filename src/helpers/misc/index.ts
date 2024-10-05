@@ -115,7 +115,7 @@ export const generateRandomLetters = (count: number): string => {
   ).join("");
 };
 
-export const fillScrambled = (word: string, targetLength = 14): string => {
+export const fillScrambled = (word: string, targetLength = 10): string => {
   if (!word) return "";
   if (word.length < targetLength) {
     const extraLettersNeeded = targetLength - word.length;

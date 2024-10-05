@@ -329,7 +329,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
             </span>
           )}
         </div>
-        <div className="grid grid-cols-7 gap-x-[1.375rem] gap-y-6 mb-6">
+        <div className="grid grid-cols-5 gap-x-[1.375rem] gap-y-6 mb-6">
           {scrambled.map((l, i) => (
             <div
               key={i}
