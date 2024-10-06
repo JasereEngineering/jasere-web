@@ -6,7 +6,7 @@ import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
+// import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
 import avatar from "../assets/images/avatar2.png";
@@ -21,6 +21,8 @@ import { joinGame, setPlayers } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
+import FooterButton from "../components/forms/FooterButton";
+// import FooterButton from "../components/forms/FooterButton";
 
 const StartGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -244,9 +246,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               ))}
             </div>
           </div>
-          <div className="fixed bottom-0 left-0 right-0 bg-black px-8 pb-[4.25rem] pt-[2rem]">
-            <Button
-              text={notCreator ? "Waiting For Host..." : "Let's Play"}
+
+          <FooterButton text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
               onClick={() => {
                 setLoading(true);
@@ -264,9 +265,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     },
                   });
                 }
-              }}
-            />
-          </div>
+              }}  
+              />
         </>
       ) : (
         <>
@@ -338,9 +338,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               ))}
             </div>
           </div>
-          <div className="fixed bottom-0 left-0 right-0 bg-black px-8 pb-[4.25rem] pt-[2rem]">
-            <Button
-              text={notCreator ? "Waiting For Host..." : "Let's Play"}
+        
+          <FooterButton text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
               onClick={() => {
                 setLoading(true);
@@ -351,10 +350,9 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     time,
                   },
                 });
-              }}
-            />
-          </div>
+              }} />
         </>
+        
       )}
     </AppLayout>
   );
