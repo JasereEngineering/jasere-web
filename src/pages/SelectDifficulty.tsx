@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
+// import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
 import helpIcon from "../assets/images/help-icon.svg";
@@ -14,6 +14,7 @@ import { fetchGameLevels, selectLevel } from "../store/features/game";
 import * as ROUTES from "../routes";
 import { GameState } from "../types";
 import { colorMap, titleMap } from "../helpers/misc";
+import FooterButton from "../components/forms/FooterButton";
 
 const SelectDifficulty = () => {
   const navigate = useNavigate();
@@ -24,13 +25,16 @@ const SelectDifficulty = () => {
     ({ game }) => game
   ) as GameState;
 
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(0);
 
-  const handleClick = () => {
-    dispatch(selectLevel(level));
-    navigate(
-      ROUTES.PLAY.CREATE_GAME_SESSION_FOR(gameTitle?.toLowerCase() as string)
-    );
+  const handleClick = (level:any) => {
+    setLevel(level);
+    setTimeout( ()=>{
+      dispatch(selectLevel(level));
+      navigate(
+        ROUTES.PLAY.CREATE_GAME_SESSION_FOR(gameTitle?.toLowerCase() as string)
+      );
+    },1500)
   };
 
   useEffect(() => {
@@ -69,7 +73,7 @@ const SelectDifficulty = () => {
                   }]`
                 : "border-white"
             }`}
-            onClick={() => setLevel(l.level_value)}
+            onClick={() => handleClick(l.level_value)}
             key={i}
             style={{
               backgroundColor:
@@ -96,7 +100,7 @@ const SelectDifficulty = () => {
           </div>
         ))}
       </div>
-      <Button text="Next" onClick={handleClick} />
+      <FooterButton text="Next" />
     </AppLayout>
   );
 };

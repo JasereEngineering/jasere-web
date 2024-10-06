@@ -5,7 +5,7 @@ import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
+// import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
 import helpIcon from "../assets/images/help-icon.svg";
@@ -23,6 +23,7 @@ import {
 } from "../store/features/game";
 import * as ROUTES from "../routes";
 import { GameState } from "../types";
+import FooterButton from "../components/forms/FooterButton";
 
 const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -37,19 +38,22 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   const [category, setCategory] = useState(null);
   const [loader, setLoader] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (category:any) => {
     if (category !== "new") dispatch(selectCategory(category));
-
     if (replay) {
       dispatch(fetchTrivia());
     } else {
-      navigate(
-        category === "new"
-          ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
-          : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
-              gameTitle?.toLowerCase() as string
-            )
-      );
+      setCategory(category);
+      setTimeout( ()=>{
+        navigate(
+          category === "new"
+            ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
+            : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
+                gameTitle?.toLowerCase() as string
+              )
+        );
+
+      },500)
     }
   };
 
@@ -59,10 +63,8 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   }, [dispatch, game]);
 
   useEffect(() => {
-    if (category) return;
     if (!categories.length) return;
-    setCategory(categories[0].category_id);
-  }, [category, categories]);
+  }, [categories]);
 
   useEffect(() => {
     if (triggerReplay && socket) {
@@ -84,7 +86,6 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     socket?.on("start", (response: any) => {
-      console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
         setLoader(false);
@@ -131,7 +132,7 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
                   }]`
                 : "border-white"
             } ${i === categories.length - 1 ? "mb-[9rem]" : "mb-3"}`}
-            onClick={() => setCategory(c.category_id)}
+            onClick={() => handleClick(c.category_id)}
             key={i}
             style={{
               backgroundColor:
@@ -153,7 +154,7 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
           </div>
         ))}
       </div>
-      <Button text="Next" onClick={handleClick} disabled={!category} />
+        <FooterButton text="Next" />
     </AppLayout>
   );
 };

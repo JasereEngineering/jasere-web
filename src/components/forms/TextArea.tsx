@@ -1,6 +1,6 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-import passwordIcon from "../../assets/images/password-icon.svg";
+// import passwordIcon from "../../assets/images/password-icon.svg";
 
 const TextArea = ({
   label,
