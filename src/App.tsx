@@ -77,7 +77,7 @@ export default function App() {
         });
       });
 
-      newSocket.on("disconnected", () => {
+      newSocket.on("reconnected", () => {
         console.log("reconnected!");
         newSocket.emit("reconnected", {
           game_pin: gamePin,
@@ -99,8 +99,8 @@ export default function App() {
       if (socket) {
         socket.off("connect");
         socket.off("reconnect");
+        socket.off("reconnected");
         socket.off("disconnect");
-        socket.off("disconnected");
       }
     };
     // eslint-disable-next-line
