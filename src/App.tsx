@@ -53,9 +53,10 @@ export default function App() {
     if (!socket || !socket.connected) {
       const newSocket = io(`${process.env.REACT_APP_BASE_URL}/game`);
       setSocket(newSocket);
-
       newSocket.on("connect", () => {
         console.log("connected!");
+        // console.log( "reconnectng stuff...." );
+        // console.log( disconnects.current );
         if (disconnects.current) {
           newSocket.emit("reconnected", {
             game_pin: gamePin,
@@ -67,6 +68,16 @@ export default function App() {
       });
 
       newSocket.on("reconnect", () => {
+        console.log("reconnected!");
+        newSocket.emit("reconnected", {
+          game_pin: gamePin,
+          player_name: username,
+          avatar: avatarImage,
+          user_id: id,
+        });
+      });
+
+      newSocket.on("disconnected", () => {
         console.log("reconnected!");
         newSocket.emit("reconnected", {
           game_pin: gamePin,
@@ -89,6 +100,7 @@ export default function App() {
         socket.off("connect");
         socket.off("reconnect");
         socket.off("disconnect");
+        socket.off("disconnected");
       }
     };
     // eslint-disable-next-line

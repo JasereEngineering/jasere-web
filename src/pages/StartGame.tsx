@@ -6,7 +6,6 @@ import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
-// import Button from "../components/forms/Button";
 import Loader from "../components/misc/Loader";
 
 import avatar from "../assets/images/avatar2.png";
@@ -22,7 +21,6 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 import FooterButton from "../components/forms/FooterButton";
-// import FooterButton from "../components/forms/FooterButton";
 
 const StartGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -71,6 +69,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
   };
 
   useEffect(() => {
+
     socket?.emit("join", {
       game_pin: gamePin,
       player_name: username,
@@ -79,7 +78,6 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("join", (response: any) => {
-      console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
         navigate(-1);
@@ -91,7 +89,6 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("broadcast_lemons", (response: any) => {
-      console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
         setBroadcast(false);
@@ -107,7 +104,6 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
