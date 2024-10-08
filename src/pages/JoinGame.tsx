@@ -16,6 +16,7 @@ import { AuthState, GameState } from "../types";
 import { addGuest } from "../store/features/auth";
 import { joinGame, setPlayers, validateGame } from "../store/features/game";
 import * as ROUTES from "../routes";
+import FooterButton from "../components/forms/FooterButton";
 
 const JoinGame = () => {
   const navigate = useNavigate();
@@ -132,13 +133,12 @@ const JoinGame = () => {
               // disabled={!!name}
             />
           </div>
-          <Button
+          {/* <Button
             text="Let's Play"
             className="!text-[1.375rem] !p-2 mb-[2.125rem]"
-            disabled={!username || !avatar}
             onClick={handleSubmit}
-          />
-          {/* {!name ? ( */}
+          /> */}
+
           <div className="flex">
             <img
               loading="lazy"
@@ -151,7 +151,14 @@ const JoinGame = () => {
               save user scores on the leaderboard
             </p>
           </div>
-          {/* ) : null} */}
+          
+          <FooterButton 
+            text="Let's Play" 
+            onClick={handleSubmit} 
+            loading={loading} 
+            disabled={!username || !avatar} 
+          />
+
         </>
       )}
     </AppLayout>

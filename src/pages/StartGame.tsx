@@ -126,8 +126,6 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
 
   return (
     <AppLayout className="font-lal flex flex-col px-8 pt-[8rem]">
-
-      <button onClick={()=>alert(gamePin)}>Test Button</button>
       {loading ? <Loader /> : null}
       {!broadcast ? (
         <>
