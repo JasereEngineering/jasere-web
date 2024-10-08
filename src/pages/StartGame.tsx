@@ -70,6 +70,9 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
 
+    // console.log( "starting game" );
+    // console.log( gamePin );
+
     socket?.emit("join", {
       game_pin: gamePin,
       player_name: username,
@@ -123,6 +126,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
 
   return (
     <AppLayout className="font-lal flex flex-col px-8 pt-[8rem]">
+
+      <button onClick={()=>alert(gamePin)}>Test Button</button>
       {loading ? <Loader /> : null}
       {!broadcast ? (
         <>
