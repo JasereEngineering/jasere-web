@@ -26,7 +26,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const {
     gameTitle,
     gamePin,
-    avatar: avatarImage,
+    // avatar: avatarImage,
     levels,
     level,
     difficulty,
