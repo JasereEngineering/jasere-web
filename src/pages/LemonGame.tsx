@@ -125,7 +125,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
       }
     });
     // eslint-disable-next-line
-  }, [socket?.connected]);
+  }, [socket?.connected,heartbeat]);
 
   useEffect(() => {
     const heartbeatInterval = setInterval(() => {
@@ -134,10 +134,10 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
+      toggleHeartBeat( !heartbeat );
     }, 3000);
 
     return () => {
-      toggleHeartBeat( !heartbeat );
       clearInterval(heartbeatInterval);
     }
     // eslint-disable-next-line
