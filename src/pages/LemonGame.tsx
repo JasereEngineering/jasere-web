@@ -103,14 +103,14 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   }, [lemonNumber, lemonNumberNext, time]);
 
   useEffect(() => {
-    socket?.on("reconnect", () => {
-      socket?.emit("join", {
-        game_pin: gamePin,
-        player_name: username,
-        avatar: avatarImage,
-        user_id: id,
-      });
-    });
+    // socket?.on("reconnect", () => {
+    //   socket?.emit("join", {
+    //     game_pin: gamePin,
+    //     player_name: username,
+    //     avatar: avatarImage,
+    //     user_id: id,
+    //   });
+    // });
 
     socket?.on("poll-room", (response: any) => {
       console.log({ response });
@@ -134,11 +134,11 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
+      toggleHeartBeat( !heartbeat );
     }, 3000);
 
     return () => {
       clearInterval(heartbeatInterval);
-      toggleHeartBeat( !heartbeat );
     }
     // eslint-disable-next-line
   }, [gamePin, username]);
