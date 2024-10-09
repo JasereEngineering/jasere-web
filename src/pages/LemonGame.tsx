@@ -49,6 +49,8 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
+  console.log( "rerendering" );
+
   useEffect(() => {
     if (selectedLemon && seconds) {
       socket?.emit("poll-room", {
