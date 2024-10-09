@@ -45,7 +45,6 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const [selectedLemon, setSelectedLemon] = useState<number | undefined>(
     undefined
   );
-  const [heartbeat,toggleHeartBeat] = useState<boolean>(false);
 
   const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
@@ -125,7 +124,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
       }
     });
     // eslint-disable-next-line
-  }, [socket?.connected,heartbeat]);
+  }, [socket?.connected]);
 
   useEffect(() => {
     const heartbeatInterval = setInterval(() => {
@@ -133,9 +132,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
-      console.log( "logging heartbeat" );
       socket?.on("poll-room", (response: any) => {
-        console.log( "logging heartbeat poller" );
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
         } else {
@@ -146,7 +143,6 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
             );
         }
       });
-      toggleHeartBeat( !heartbeat );
     }, 3000);
 
     return () => {
