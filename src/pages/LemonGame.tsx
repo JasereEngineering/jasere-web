@@ -129,10 +129,22 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     const heartbeatInterval = setInterval(() => {
-      console.log("logging heartbeat");
       socket?.emit("heartbeat", {
         game_pin: gamePin,
         player_name: username,
+      });
+      console.log( "logging heartbeat" );
+      socket?.on("poll-room", (response: any) => {
+        console.log( "logging heartbeat poller" );
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          dispatch(joinGame(response.game_data));
+          if (!response.game_data.is_valid_lemon)
+            navigate(
+              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+            );
+        }
       });
       toggleHeartBeat( !heartbeat );
     }, 3000);
