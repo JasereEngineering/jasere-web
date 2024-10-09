@@ -134,11 +134,11 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
-      toggleHeartBeat( !heartbeat );
     }, 3000);
 
     return () => {
       clearInterval(heartbeatInterval);
+      toggleHeartBeat( !heartbeat );
     }
     // eslint-disable-next-line
   }, [gamePin, username]);
