@@ -129,6 +129,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     const heartbeatInterval = setInterval(() => {
+      console.log("logging heartbeat");
       socket?.emit("heartbeat", {
         game_pin: gamePin,
         player_name: username,
@@ -136,8 +137,8 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     }, 3000);
 
     return () => {
-      clearInterval(heartbeatInterval);
       toggleHeartBeat( !heartbeat );
+      clearInterval(heartbeatInterval);
     }
     // eslint-disable-next-line
   }, [gamePin, username]);
