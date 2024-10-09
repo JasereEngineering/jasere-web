@@ -154,7 +154,7 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
           </div>
         ))}
       </div>
-        <FooterButton text="Next" />
+        <FooterButton text="Back" onClick={() => navigate(-1)}  />
     </AppLayout>
   );
 };
