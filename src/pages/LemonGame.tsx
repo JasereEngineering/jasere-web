@@ -45,6 +45,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const [selectedLemon, setSelectedLemon] = useState<number | undefined>(
     undefined
   );
+  // const [heartbeat,toggleHeartBeat] = useState<boolean>(false);
 
   const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
@@ -130,6 +131,20 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
+      
+      socket?.on("poll-room", (response: any) => {
+        console.log({ response });
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          dispatch(joinGame(response.game_data));
+          if (!response.game_data.is_valid_lemon)
+            navigate(
+              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+            );
+        }
+      });
+
     }, 3000);
 
     return () => clearInterval(heartbeatInterval);
