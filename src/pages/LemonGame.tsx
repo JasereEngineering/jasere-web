@@ -48,8 +48,6 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
-  console.log( "rerendering" );
-
   useEffect(() => {
     if (selectedLemon && seconds) {
       socket?.emit("poll-room", {
@@ -143,7 +141,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
             );
         }
       });
-    }, 3000);
+    }, 2000);
 
     return () => {
       clearInterval(heartbeatInterval);
