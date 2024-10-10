@@ -64,6 +64,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     navigator.clipboard.writeText(
       `${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`
     );
+    toast.success("Game Link copied successfully. ");
     setCopied(true);
     setTimeout(() => setCopied(false), 300);
   };
@@ -244,7 +245,10 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                 </div>
               ))}
             </div>
+
+
           </div>
+
 
           <FooterButton text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
