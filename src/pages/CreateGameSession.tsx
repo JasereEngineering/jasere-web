@@ -18,6 +18,7 @@ import * as ROUTES from "../routes";
 import FooterButton from "../components/forms/FooterButton";
 
 const CreateGameSession = () => {
+
   const navigate = useNavigate();
   const { gameTitle } = useParams();
 
@@ -40,7 +41,10 @@ const CreateGameSession = () => {
   };
 
   useEffect(() => {
-    if (gameSession && sessionCreated) navigate(ROUTES.PLAY.START_GAME);
+
+    if (gameSession && sessionCreated){
+      navigate(ROUTES.PLAY.START_GAME);
+    } 
     return () => {
       dispatch(clearGameSession());
     };

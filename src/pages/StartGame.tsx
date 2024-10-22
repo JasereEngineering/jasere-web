@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
+// import { Howl } from 'howler';
+
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
@@ -13,6 +15,7 @@ import copy from "../assets/images/copy.svg";
 import check from "../assets/images/check-sign.svg";
 import info from "../assets/images/info-icon.svg";
 import lemons from "../assets/images/lemon-coloured.svg";
+// import lobbySound from "../assets/sounds/lobby-background.mp3";
 
 import { playerColours, colorMap, titleMap } from "../helpers/misc";
 import { avatarMap } from "../helpers/misc";
@@ -21,6 +24,7 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 import FooterButton from "../components/forms/FooterButton";
+
 
 const StartGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -68,12 +72,85 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 300);
   };
+  
+  // const [sound,setSound] = useState<Howl| null>(null);
+  
+  // const initializeSound = (file:string) => {
 
+  //   const newSound = new Howl({
+  //     src: [file],
+  //     preload: true,  // Preload asynchronously
+  //     volume: 1.0,
+  //     loop:true,
+  //     xhr:{
+        
+  //     },
+  //     onload: () => {
+  //       console.log('Sound loaded successfully!');
+  //     },
+  //     onloaderror: (id, error) => {
+  //       console.error('Failed to load sound:', error);
+  //     },
+  //   });
+  //   setSound(newSound);
+  //   newSound.play();
+  // }
+
+
+  // Initialize and load the sound
+  // const loadSound = (refsound:Howl) => {
+  //   if( refsound ){
+  //     refsound.play();
+  //   }
+  //   else{
+  //     sound.current = initializeSound(lobbySound);
+  //   }
+    
+ 
+  // };
+  
+  // useEffect( ()=> {
+
+  //   if( soundMouseMoveEffect.current === 1 ){ 
+  //   }
+  //   const handleMouseMove = (event:any) => {
+  //     setMousePosition({
+  //       x: event.clientX,
+  //       y: event.clientY,
+  //     });
+  //   };
+
+  //   // Add event listener for mouse movement
+  //   window.addEventListener('mousemove', handleMouseMove);
+
+  //   // Cleanup function to remove the event listener when the component unmounts
+  //   return () => {
+  //     window.removeEventListener('mousemove', handleMouseMove);
+  //   };
+
+  // },[mousePosition] )
+
+  // const handlePlay = () => {
+
+  //   const resumeAudioContext = () => {
+  //     if (Howler.ctx && Howler.ctx.state === 'suspended') {
+  //       Howler.ctx.resume().then(() => {
+  //         console.log('AudioContext resumed');
+  //       });
+  //     }
+
+  //   };
+  //   resumeAudioContext();
+  //   if( sound ){
+  //     sound?.play();
+  //   }
+  //   else{
+  //     initializeSound("https://storage.googleapis.com/jasere-assets/static/audio/correct/lemon-assigned-sound.mp3");
+  //   }
+  // };
+  
   useEffect(() => {
-
-    // console.log( "starting game" );
-    // console.log( gamePin );
-
+    
     socket?.emit("join", {
       game_pin: gamePin,
       player_name: username,
@@ -88,6 +165,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
       } else {
         dispatch(setPlayers(response.players));
         dispatch(joinGame(response.game_data));
+        
       }
       setLoading(false);
     });
@@ -122,11 +200,17 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
         );
       }
     });
-    // eslint-disable-next-line
+     // eslint-disable-next-line
+    return () => { 
+      //sound?.unload(); 
+    }
+     // eslint-disable-next-line
   }, [socket?.connected]);
 
   return (
     <AppLayout className="font-lal flex flex-col px-8 pt-[8rem]">
+      <div>
+
       {loading ? <Loader /> : null}
       {!broadcast ? (
         <>
@@ -357,6 +441,8 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
         </>
         
       )}
+
+      </div>
     </AppLayout>
   );
 };

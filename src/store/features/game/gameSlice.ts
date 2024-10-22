@@ -220,10 +220,11 @@ export const gameSlice = createSlice({
             state.gameSession = action.payload.data.game_session_id;
             state.sessionCreated = true;
             state.gamePin = action.payload.data.game_pin;
-            if (action.payload.data.trivia)
+            if (action.payload.data.trivia){
               state.trivia = JSON.parse(action.payload.data.trivia).map(
                 (item: any) => ({ ...item, completed: false })
               );
+            }
             break;
           case "game/trivia/fulfilled":
             state.time = action.payload.time;

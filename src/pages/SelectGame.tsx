@@ -11,6 +11,7 @@ import lemon from "../assets/images/lemon.jpg";
 import words from "../assets/images/words.jpg";
 import scrambled from "../assets/images/scrambled.jpg";
 import check from "../assets/images/check-sign.svg";
+import correct from "../assets/images/correct-game.jpeg";
 
 import { colorMap } from "../helpers/misc";
 import { useAuth } from "../hooks/useAuth";
@@ -20,11 +21,13 @@ import { fetchGames, selectGame } from "../store/features/game";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
+
 const imageMap = {
   charades,
   lemon,
   words,
   "scrambled-words": scrambled,
+  correct
 };
 
 const SelectGame = () => {
@@ -55,7 +58,9 @@ const SelectGame = () => {
   }, [dispatch]);
 
   return (
+    // <AudioPlayer sound={lobbySound} />
     <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12">
+
       {loading ? <Loader /> : null}
       <div>
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
@@ -90,11 +95,12 @@ const SelectGame = () => {
               pending={!game.isActive}
               onClick={() => {
                 if (!game.isActive) return;
+                const { id,name,tag } = game;
                 dispatch(
                   selectGame({
-                    id: game.id,
-                    title: game.name.toLowerCase().replaceAll(" ", "-"),
-                    tag: game.tag,
+                    id,
+                    title:name.toLowerCase().replaceAll(" ", "-"),
+                    tag,
                   })
                 );
                 navigate(

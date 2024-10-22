@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import logo from "../../assets/images/full-logo.svg";
+import logo from "../../assets/images/new-logo.svg";
 import create from "../../assets/images/create-game.svg";
 import games from "../../assets/images/my-games.svg";
 import profile from "../../assets/images/profile.svg";

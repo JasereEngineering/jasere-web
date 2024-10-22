@@ -100,6 +100,7 @@ export const colorMap = {
   lemon: "#F34348",
   words: "#F34348",
   "scrambled-words": "#FF9B9D",
+  correct:"#093B65"
 };
 
 export const titleMap = {
@@ -107,6 +108,7 @@ export const titleMap = {
   lemon: "lemon lemon",
   words: "what words?",
   "scrambled-words": "scrambled words",
+  correct: "correct"
 };
 
 export const generateRandomLetters = (count: number): string => {

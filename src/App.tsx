@@ -34,6 +34,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 // import { RootState } from "./store";
 // import { AuthState, GameState } from "./types";
 import * as ROUTES from "./routes";
+import CorrectSelectCategory from "./pages/games/correct/CorrectSelectCategory";
+import CorrectGame from "./pages/games/correct/CorrectGame";
 
 export default function App() {
   const location = useLocation();
@@ -46,13 +48,11 @@ export default function App() {
   // ) as AuthState;
 
   const [socket, setSocket] = useState<Socket | null>(null);
-
-
   const disconnects = useRef(0);
   const reconnectSocketEvent = (socket:Socket) => {
 
     /* we have to read it directly from the localstorage because the 
-    initial code was reading a previous state on the App component
+    initial code was reading an older state on the App component
     */
 
     const rootLocalStorage = localStorage.getItem("persist:root") || "";
@@ -71,10 +71,15 @@ export default function App() {
     });
   }
 
+
+
+
+
   useEffect(() => {
     if (!socket || !socket.connected) {
       const newSocket = io(`${process.env.REACT_APP_BASE_URL}/game`);
       setSocket(newSocket);
+
 
       newSocket.on("connect", () => {
         console.log("connected!");
@@ -131,6 +136,16 @@ export default function App() {
         path={ROUTES.PLAY.LEADERBOARD}
         element={<Leaderboard socket={socket} />}
       />
+      <Route
+        path={ROUTES.PLAY.SELECT_CATEGORY}
+        element={<CorrectSelectCategory socket={socket} />}
+      />
+
+      <Route
+        path={ROUTES.CORRECT.GAME}
+        element={<CorrectGame socket={socket} />}
+      />
+
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
       <Route
         path={ROUTES.PLAY.SELECT_CATEGORY}
