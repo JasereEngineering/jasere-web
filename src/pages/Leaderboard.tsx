@@ -217,7 +217,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
             <div
               className="border border-white rounded-[9px] flex flex-col items-center pt-11"
               onClick={() => {
-                navigate(ROUTES.SCRAMBLED_WORDS.CATEGORY + "?replay=true");
+                navigate(ROUTES.CORRECT.CATEGORY + "?replay=true");
               }}
             >
               <img
