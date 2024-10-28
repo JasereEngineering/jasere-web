@@ -271,7 +271,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                       <div className="w-px bg-white h-10"></div>
                   </div>
       
-                  <div>
+                  <div className="place-items-center">
                       <h3> Position  </h3>
                       <p>{ (result.findIndex( (res:any)=>res.player_name === username))+1 }</p>
                   </div>
@@ -291,7 +291,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
               )
             }
             </div>
-
           )
         }
         <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
