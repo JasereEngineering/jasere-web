@@ -123,7 +123,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                             <div className="flex justify-center mb-2">
                                 <img
                                 loading="lazy"
-                                src={avatar}
+                                src={r?.avatar
+                                  ? avatarMap[r?.avatar as keyof typeof avatarMap]
+                                  : avatar}
                                 alt="avatar"
                                 className="h-[3.375rem] w-[3.375rem] rounded-full"
                                 />
@@ -169,7 +171,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                           <div className="border-0 border-white">
                           <img
                               loading="lazy"
-                              src={avatar}
+                              src={r?.avatar
+                                ? avatarMap[r?.avatar as keyof typeof avatarMap]
+                                : avatar}
                               alt="avatar"
                               className="mr-1.5 h-[2rem] it w-[2rem] rounded-full"
                           />
@@ -252,7 +256,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                   <div className="border-0 border-white">
                   <img
                       loading="lazy"
-                      src={avatar}
+                      src={result[ result.findIndex( (res:any)=>res.player_name === username)].avatar
+                        ? avatarMap[result[ result.findIndex( (res:any)=>res.player_name === username)].avatar as keyof typeof avatarMap]
+                        : avatar}
                       alt="avatar"
                       className="mr-1.5 h-[2rem] it w-[2rem] rounded-full"
                   />
