@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
@@ -8,19 +8,18 @@ import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
 
 import avatar from "../assets/images/avatar2.png";
-import crown from "../assets/images/crown.svg";
 import share from "../assets/images/share.svg";
-import replay from "../assets/images/replay.svg";
-import category from "../assets/images/category.svg";
-import pad from "../assets/images/game-pad.svg";
 
 import { avatarMap } from "../helpers/misc";
 import { RootState, AppDispatch } from "../store";
-import { endGame, resetGame, joinGame } from "../store/features/game";
-import { playerColours } from "../helpers/misc";
+import { endGame, joinGame, resetGame } from "../store/features/game";
+//import { playerColours } from "../helpers/misc";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 import BottomModal from "../components/misc/BottomModal";
+import replay from "../assets/images/replay.svg";
+import category from "../assets/images/category.svg";
+import pad from "../assets/images/game-pad.svg";
 
 const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -31,9 +30,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const {
-    categoryName,
+    //categoryName,
     difficulty,
-    gameTitle,
+    //gameTitle,
     gamePin,
     avatar: avatarImage,
     trivia,
@@ -46,6 +45,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const [result, setResult] = useState<any>([]);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const playerPositionRef = useRef<number>(0)
 
   useEffect(() => {
     socket?.on("reconnect", () => {
@@ -107,65 +107,144 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     navigate,
   ]);
 
+  
+  // const leaderboardHeights:number[] = [1.9,7.25,4.25];
+
+    const heightRef = useRef(7.25); 
+
+
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
       {!result.length || loading ? <Loader /> : null}
       <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
-          {gameTitle?.replaceAll("-", " ")}
-        </h1>
-        <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[2.75rem] capitalize">
-          {categoryName} | {difficulty}
-        </p>
-        <div className="p-[1.625rem] bg-green rounded-[1.875rem] font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.25px] relative mb-8 uppercase">
-          <img
-            loading="lazy"
-            src={
-              result[0]?.avatar
-                ? avatarMap[result[0]?.avatar as keyof typeof avatarMap]
-                : avatar
-            }
-            alt="avatar"
-            className="h-[3.375rem] w-[3.375rem] rounded-full absolute top-[-1.5rem] left-0"
-          />
-          {result[0]?.player_name} WINS THIS ROUND!
-        </div>
-        <h1 className="font-lal text-[1.5rem] leading-[2.375rem] tracking-[4px] relative mb-[1.125rem]">
           LEADERBOARD
         </h1>
-        {result.map((r: any, i: number) => (
-          <div
-            key={i}
-            className={`flex justify-between items-center rounded-[25px] p-1.5 pr-3 w-full mb-[0.625rem] bg-[${
-              playerColours[i % playerColours.length]
-            }]`}
-            style={{
-              backgroundColor: playerColours[i % playerColours.length],
-            }}
-          >
-            <div className="flex items-center">
-              <img
-                loading="lazy"
-                src={
-                  r.avatar
-                    ? avatarMap[r.avatar as keyof typeof avatarMap]
-                    : avatar
+
+
+        <div className={`grid grid-cols-${ result.slice(0,3).length || 0 } gap-x-5 w-full items-center mt-2 mb-10`}>
+
+            {
+                result.slice(0,3).reverse().map( (r:any,index:number)=>(
+                        <div className="place-self-end w-full" key={index}>
+        
+                            <div className="flex justify-center mb-2">
+                                <img
+                                loading="lazy"
+                                src={avatar}
+                                alt="avatar"
+                                className="h-[3.375rem] w-[3.375rem] rounded-full"
+                                />
+                            </div>
+            
+                            <div className="flex justify-center border-0 border-white z-10">
+                                <p className="font-thin text-[1.25rem]">{r.player_name}</p>
+                            </div>
+                            <div className="flex justify-center mb-5 border-0 border-white">
+                                <p className="font-light font-inter text-[0.85rem] tracking-tighter">{r.point} Point(s)</p>
+                            </div>
+                            <div className={`flex place-items-center h-[${heightRef.current*(index+1)}rem] justify-center  bg-white text-black rounded-[15px] font-lal text-[2.7rem]`}>
+                                <label>{ result.findIndex( (res:any)=>res.player_name === r.player_name   )+1 }</label>
+                            </div>
+            
+                        </div>
+                ))
+            }
+
+        </div>
+
+        {result.map((r: any, i: number) => 
+        (  
+            <div key={i} className={`w-full ${ 
+            !(
+                
+                ((result[i].player_name || "").toLowerCase() === (username || "").toLowerCase())
+                // eslint-disable-next-line
+                || ( (result[i+1]) && (result[i+1].player_name ) || "" ).toLowerCase() === (username || "").toLowerCase()
+            
+            ) 
+            && "border-b border-[#EEEEEE]-50"  }`}>
+                {
+                    (r.player_name || "").toLowerCase() === (username || "" ).toLowerCase() ? (
+                    <div
+                        className={`flex justify-between items-center rounded-[25px] p-6 w-full mb-[0.625rem] h-[4.93rem] bg-[#FBAF00]
+                        }]`} 
+                    >
+                        <span className="hidden"> { playerPositionRef.current = 1  } </span>
+                        <div className="border-0 border-white">
+                        <img
+                            loading="lazy"
+                            src={avatar}
+                            alt="avatar"
+                            className="mr-1.5 h-[2rem] it w-[2rem] rounded-full"
+                        />
+                        <span className="font-lal text-[0.875rem] tracking-[-0.34px] capitalize">
+                            { r.player_name }
+                        </span>
+                        </div>
+
+                        <div className="flex items-center">
+                            <div className="w-px bg-white h-10"></div>
+                        </div>
+
+                        <div>
+                            <h3> Position  </h3>
+                            <p>{  result.length <= result.slice(0,3).length? (i+1):(i+1+3) }</p>
+                        </div>
+                        
+
+                        <div>
+                            <h3> Difficulty  </h3>
+                            <p>{difficulty}</p>
+                        </div>
+
+                        <div>
+                            <h3> Points  </h3>
+                            <p>{ r.point }pts</p>
+                        </div>
+
+                    
+                    </div>):(
+                    <div
+                        className={`flex justify-between items-center rounded-[25px] } p-1.5 pr-3 w-full mb-[0.625rem] 
+                        }]`}
+                    >
+                        <span style={{display:'none'}}> { playerPositionRef.current = 0  } </span>
+                    
+                        <div className="flex items-center">
+                            <span className="text-[2.7rem]">{ i+1+3 }</span>
+                        <img
+                            loading="lazy"
+                            src={
+                            r.avatar
+                                ? avatarMap[r.avatar as keyof typeof avatarMap]
+                                : avatar
+                            }
+                            alt="avatar"
+                            className="mr-1.5 ml-3 h-[1.875rem] w-[1.875rem] rounded-full"
+                        />
+                        <span className="font-lal  text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
+                            {r.player_name}
+                        </span>
+                        </div>
+
+
+                        <div className="flex flex-row-reverse items-center gap-x-1">
+                            <span className="font-lex text-[0.688rem] leading-[0.859rem] tracking-[-0.34px] mr-6">
+                                {r.point}pts
+                            </span>
+                            {/* {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null} */}
+                        </div>
+                
+                    </div>)
                 }
-                alt="avatar"
-                className="mr-1.5 h-[1.875rem] w-[1.875rem] rounded-full"
-              />
-              <span className="font-lal text-black text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-                {r.player_name}
-              </span>
+
+          
             </div>
-            <div className="flex flex-row-reverse items-center gap-x-1">
-              <span className="font-lex text-black text-[0.688rem] leading-[0.859rem] tracking-[-0.34px]">
-                {r.point}pts
-              </span>
-              {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null}
-            </div>
-          </div>
-        ))}
+        )
+        
+        
+        )}
         <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
           <img loading="lazy" src={share} alt="share" className="mr-2" />
           <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
@@ -184,6 +263,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       >
         {notCreator ? "WAITING FOR HOST..." : "NEXT"}
       </button>
+
       <BottomModal onClose={() => setModal(false)} showModal={modal}>
         <div className="px-[2.625rem] pb-[5rem]">
           <h3 className="text-[1.5rem] text-center text-white leading-[2.351rem] tracking-[1px] mb-6">

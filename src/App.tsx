@@ -169,7 +169,7 @@ export default function App() {
         path={ROUTES.LEMON.RESULT}
         element={<LemonResult socket={socket} />}
       />
-
+      
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.BEGIN_SIGNUP} element={<InitialiseSignUp />} />
@@ -198,6 +198,8 @@ export default function App() {
           element={<CreateGame />}
         />
       </Route>
+
+      
 
       <Route
         path="*"
