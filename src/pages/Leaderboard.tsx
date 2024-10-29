@@ -333,7 +333,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                 modalOption.current = "share"
                 setModal(true);
               
-            }} className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
+            }} className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px] cursor-pointer">
               Share
             </span>
           </div>

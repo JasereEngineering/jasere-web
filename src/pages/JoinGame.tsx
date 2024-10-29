@@ -75,12 +75,13 @@ const JoinGame = () => {
               </div>
             </div>
           </div>
-          <Button
-            text="Join Game"
+
+          <FooterButton 
+            text="Join Game" 
             onClick={() =>
               dispatch(validateGame({ code, onSuccess: () => setPage(2) }))
-            }
-            loading={loading}
+            } 
+            loading={loading} 
             disabled={code?.length !== 6}
           />
         </>
