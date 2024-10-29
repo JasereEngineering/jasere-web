@@ -24,13 +24,13 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const {
-    gameTitle,
+    //gameTitle,
     gamePin,
     // avatar: avatarImage,
-    levels,
-    level,
-    difficulty,
-    players,
+    //levels,
+    //level,
+    //difficulty,
+    //players,
     lemonNumber,
     lemonNumberPrev,
     lemonNumberNext,
@@ -46,7 +46,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     undefined
   );
 
-  const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
+  //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
   useEffect(() => {
     if (selectedLemon && seconds) {
@@ -153,12 +153,16 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">
       {/* {loading ? <Loader /> : null} */}
       <div className="flex flex-col">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
+        
+        
+        {/* <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
         </h1>
         <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-7 capitalize">
           {players.length} Players | {difficulty || difficultyLevel}
-        </p>
+        </p> */}
+
+
         <div className="relative rounded-[18px] w-full mb-4 max-h-[9.375rem]">
           <img
             loading="lazy"

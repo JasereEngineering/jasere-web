@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
@@ -18,6 +18,9 @@ import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 import BottomModal from "../components/misc/BottomModal";
 import replay from "../assets/images/replay.svg";
+import whatsapp from "../assets/images/whatsapp.svg";
+import twitter from "../assets/images/twitter.svg";
+import webSvg from "../assets/images/web-link.svg";
 import category from "../assets/images/category.svg";
 import pad from "../assets/images/game-pad.svg";
 
@@ -120,9 +123,21 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       }
     
   }
-  
-   
+  const location = useLocation();
+  const modalOption = useRef<string>("");
+  const query = new URLSearchParams(location.search);
+  const currentShareUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}?q=share`;
 
+  const shareValue = query.get('q') || "";
+  const encodedUrl = encodeURIComponent(currentShareUrl);
+  //const encodedTitle = encodeURIComponent("Test Title (Jasere)");
+  const encodedText = encodeURIComponent("Test Text (Jasere)");
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
+
+
+
+  
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
       {!result.length || loading ? <Loader /> : null}
@@ -308,56 +323,171 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
             </div>
           )
         }
-        <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
-          <img loading="lazy" src={share} alt="share" className="mr-2" />
-          <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
-            Share
-          </span>
-        </div>
-      </div>
-      <button
-        className={`capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0 ${
-          notCreator ? "opacity-75" : ""
-        }`}
-        onClick={() => {
-          setModal(true);
-        }}
-        disabled={!!notCreator}
-      >
-        {notCreator ? "WAITING FOR HOST..." : "NEXT"}
-      </button>
+        
+        {
+          !shareValue && (
+            <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
+            <img loading="lazy" src={share} alt="share" className="mr-2" />
+            <span onClick={()=>{
+              
+                modalOption.current = "share"
+                setModal(true);
+              
+            }} className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px]">
+              Share
+            </span>
+          </div>
+          )
+        }
 
+      </div>
+      
+      {
+        !shareValue && (
+          <button
+            className={`capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0 ${
+              notCreator ? "opacity-75" : ""
+            }`}
+            onClick={() => {
+              modalOption.current = "replay"
+              setModal(true);
+            }}
+            disabled={!!notCreator}
+          >
+            {notCreator ? "WAITING FOR HOST..." : "NEXT"}
+          </button>
+        )
+      }
+      
       <BottomModal onClose={() => setModal(false)} showModal={modal}>
-        <div className="px-[2.625rem] pb-[5rem]">
+
+        {
+          modalOption.current === "replay" ? (<div className="px-[2.625rem] pb-[5rem]">
+            <h3 className="text-[1.5rem] text-center text-white leading-[2.351rem] tracking-[1px] mb-6">
+              Choose an Option
+            </h3>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div
+                className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]"
+                onClick={() => {
+                  setLoading(true);
+                  dispatch(resetGame());
+                  socket?.emit("start", {
+                    game_pin: gamePin,
+                    game_data: {
+                      trivia,
+                      time,
+                    },
+                  });
+                }}
+              >
+                <img
+                  loading="lazy"
+                  src={replay}
+                  alt="replay"
+                  className="mb-7 w-[3.375rem] h-[3.375rem]"
+                />
+                <p className="text-[1rem] leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                  Replay
+                </p>
+              </div>
+              <div
+                className="border border-white rounded-[9px] flex flex-col items-center pt-11"
+                onClick={() => {
+                  navigate(ROUTES.CORRECT.CATEGORY + "?replay=true");
+                }}
+              >
+                <img
+                  loading="lazy"
+                  src={category}
+                  alt="category"
+                  className="mb-7 w-[3.375rem] h-[3.375rem]"
+                />
+                <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                  Choose Game Category
+                </p>
+              </div>
+              <div
+                className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]"
+                onClick={() => {
+                  dispatch(endGame());
+                  socket?.emit("exit", {
+                    game_pin: gamePin,
+                  });
+                }}
+              >
+                <img
+                  loading="lazy"
+                  src={pad}
+                  alt="pad"
+                  className="mb-4 w-[3.375rem] h-[3.375rem]"
+                />
+                <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px]">
+                  Create a New Game Session
+                </p>
+              </div>
+            </div>
+          </div>):(
+            
+            
+            
+            <div className="px-[2.625rem] pb-[5rem]">
           <h3 className="text-[1.5rem] text-center text-white leading-[2.351rem] tracking-[1px] mb-6">
-            Choose an Option
+            Share to
           </h3>
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            
             <div
-              className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]"
-              onClick={() => {
-                setLoading(true);
-                dispatch(resetGame());
-                socket?.emit("start", {
-                  game_pin: gamePin,
-                  game_data: {
-                    trivia,
-                    time,
-                  },
-                });
-              }}
-            >
+              className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]">
+
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <img
                 loading="lazy"
-                src={replay}
-                alt="replay"
+                src={whatsapp}
+                alt="WhatsApp"
                 className="mb-7 w-[3.375rem] h-[3.375rem]"
               />
+              </a>
+
               <p className="text-[1rem] leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
-                Replay
+                WhatsApp
               </p>
             </div>
+
             <div
+              className="border border-white rounded-[9px] flex flex-col items-center pt-11"
+            >
+
+            <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
+              <img
+                loading="lazy"
+                src={twitter}
+                alt="X"
+                className="mb-7 w-[3.375rem] h-[3.375rem]"
+              />
+              </a>
+              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                X
+              </p>
+            </div>
+
+            <div
+              className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]">
+              <a href={currentShareUrl} target="_blank" rel="noopener noreferrer">
+                <img
+                  loading="lazy"
+                  src={webSvg}
+                  alt="Share Link"
+                  className="mb-7 w-[3.375rem] h-[3.375rem]"
+                />
+              </a>
+              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                Share Link
+              </p>
+            </div>
+
+            
+            {/* <div
               className="border border-white rounded-[9px] flex flex-col items-center pt-11"
               onClick={() => {
                 navigate(ROUTES.CORRECT.CATEGORY + "?replay=true");
@@ -370,31 +500,34 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                 className="mb-7 w-[3.375rem] h-[3.375rem]"
               />
               <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
-                Choose Game Category
+                Snapchat
               </p>
             </div>
+
             <div
-              className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]"
-              onClick={() => {
-                dispatch(endGame());
-                socket?.emit("exit", {
-                  game_pin: gamePin,
-                });
-              }}
+              className="border border-white rounded-[9px] flex flex-col items-center pt-11"
             >
               <img
                 loading="lazy"
-                src={pad}
-                alt="pad"
-                className="mb-4 w-[3.375rem] h-[3.375rem]"
+                src={category}
+                alt="category"
+                className="mb-7 w-[3.375rem] h-[3.375rem]"
               />
-              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px]">
-                Create a New Game Session
+              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
+                Instagram
               </p>
-            </div>
+            </div> */}
+
+
+
+
           </div>
-        </div>
+        </div>)
+        }
+        
       </BottomModal>
+
+
     </AppLayout>
   );
 };

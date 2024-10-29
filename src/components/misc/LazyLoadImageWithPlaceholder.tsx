@@ -24,7 +24,7 @@ function LazyLoadImageWithPlaceholder({ src, alt,notifyParent }:{ src:string,alt
               )
           }
           <img
-          className='w-[18.19rem] h-[18.19rem] object-cover rounded-[15px]'
+          className='w-[13.19rem] h-[13.19rem] object-cover rounded-[15px]'
               src={imageSrc}
               alt={alt}
               onError={ (err) => {

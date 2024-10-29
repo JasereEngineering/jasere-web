@@ -129,30 +129,6 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
     };
   }, [gameSession]);
 
-
-
-
-  // const loadAudioWithNoCors = async (audioUrl:string) => {
-  //   try {
-  //     if( !audioUrl ) return;
-  //     // Fetch audio file with no-cors mode
-  //     const response = await fetch(audioUrl, { mode: 'no-cors' });
-  //     const blob = await response.blob();
-  //     const audioBlobUrl = URL.createObjectURL(blob);
-
-  //     // Load the audio into Wavesurfer
-  //     //waveSurfer.load(audioBlobUrl);
-  //     console.log( audioBlobUrl );
-
-  //   } catch (error) {
-  //     console.error('Error fetching audio file:', error);
-  //   }
-  // };
-  
-  // loadAudioWithNoCors(trivia[currentTrivia].asset_uri);
-
-
-
   return (
     <AppLayout className="font-lal flex flex-col pt-[3.1rem]" navClassName="h-1">
       <div className="flex flex-col items-center px-[1.125rem] pb-[8rem] mb-[20rem]">
@@ -186,7 +162,7 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
                   />
                 </div>)
           }
-
+          
 <div className="w-full bg-white rounded-[3px] h-[0.25rem] m-6">
                 <div
                   className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"

@@ -252,18 +252,32 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               <span className="text-center">GAME CODE</span>
               <span className="text-center">{gamePin}</span>
             </div>
-            <div className="rounded-[10px] p-2 border border-white w-[7.125rem] h-[7.125rem] mb-4">
-              <QRCode
-                style={{ height: "100%", maxWidth: "100%", width: "100%" }}
-                value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
-              />
-            </div>
+            <br />
+
+              {
+                !notCreator && (
+              
+
+                <div className="rounded-[10px] p-2 border border-white w-[7.125rem] h-[7.125rem] mb-4">
+                  <QRCode
+                  style={{ height: "100%", maxWidth: "100%", width: "100%" }}
+                  value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
+                  />
+                  
+                  </div> 
+                
+                )
+              }
+
+
             {/* <p className="font-lex text-[1.125rem] text-center leading-[1.406rem] tracking-[-0.4px] mb-6 max-w-[19.313rem]">
         Your game lobby is full!, proceed to start the game
       </p> */}
-            <p className="font-inter font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mb-6">
+            {/* <p className="font-inter font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mt-2 mb-6">
               Waiting for other players to join
-            </p>
+            </p> */}
+
+
             {notCreator ? (
               <div className="flex justify-center items-center mb-6">
                 <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
