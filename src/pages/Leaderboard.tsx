@@ -186,7 +186,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                               <div className="w-px bg-white h-10"></div>
                           </div>
 
-                          <div>
+                          <div className="place-items-center">
                               <h3> Position  </h3>
                               <p>{  result.length <= result.slice(0,3).length? (i+1):(i+1+3) }</p>
                           </div>
@@ -277,12 +277,12 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                   </div>
                   
       
-                  <div className="place-items-center">
+                  <div>
                       <h3> Difficulty  </h3>
                       <p>{difficulty}</p>
                   </div>
       
-                  <div className="place-items-center">
+                  <div>
                       <h3> Points  </h3>
                       <p>{ result[ result.findIndex( (res:any)=>res.player_name === username)].point }pts</p>
                   </div>
