@@ -5,8 +5,6 @@ function LazyLoadImageWithPlaceholder({ src, alt,notifyParent }:{ src:string,alt
   const [loaded, setLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
   useEffect(() => {
-    // Append a unique value to force the browser to treat the image as new
-    //const timestamp = new Date().getTime();  // Get the current timestamp
     setImageSrc(`${src}`);
   }, [src]);  // Trigger this effect whenever the `src` prop changes
   const override: CSSProperties = {

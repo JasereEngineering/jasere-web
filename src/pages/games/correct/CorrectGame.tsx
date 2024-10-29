@@ -154,30 +154,14 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
 
 
   return (
-    <AppLayout className="font-lal flex flex-col pt-[8rem]">
-      <div className="flex flex-col items-center px-[1.125rem] pb-[8rem]">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
+    <AppLayout className="font-lal flex flex-col pt-[3.1rem]" navClassName="h-1">
+      <div className="flex flex-col items-center px-[1.125rem] pb-[8rem] mb-[20rem]">
+        <h1 className="text-[1.875rem] text-center tracking-[-0.25px]">
           CORRECT!
         </h1>
-        {/* <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem] capitalize">
-          {categoryName} | {difficulty}
-        </p> */}
-        {/* <div className="flex justify-center items-center mb-[1.125rem]">
-          <CountdownCircleTimer
-            isPlaying={seconds > 0}
-            duration={time}
-            colors="#FF9B9D"
-            trailColor="#4F4F4F"
-            size={63}
-            strokeWidth={4}
-            onComplete={() => ({ shouldRepeat: false })}
-          >
-            {renderTime}
-          </CountdownCircleTimer>
-        </div> */}
-        <h4 className={`px-[1.094rem] py-2.5 bg-[${
+        <h4 className={`px-[1.094rem] py-0.1 bg-[${
                     colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
-                  }] rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-2.5`}>
+                  }] rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-1.5`}>
           { conditionTimer && trivia[currentTrivia].question}
         </h4>
           {
@@ -211,7 +195,7 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
               </div>
 
         
-          <div className="grid grid-cols-2 gap-x-2 gap-y-4 items-center w-full m-6">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-4 items-center w-full">
             {
 
                 trivia[currentTrivia].options.map( ( option:string,i:number ) => (
