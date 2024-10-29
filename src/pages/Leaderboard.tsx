@@ -107,6 +107,21 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     navigate,
   ]);  
   const leaderboardHeights:number[] = [7.25,10.25,13.25];
+  const numberToPosition = (num: number): string => {
+    
+      const suffix = ['th', 'st', 'nd', 'rd'];
+      const lastDigit = num % 10;
+      const secondLastDigit = Math.floor(num % 100 / 10);
+    
+      if (secondLastDigit === 1) {
+        return num + 'th';
+      } else {
+        return num + suffix[lastDigit];
+      }
+    
+  }
+  
+   
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
@@ -188,7 +203,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
                           <div className="place-items-center">
                               <h3> Position  </h3>
-                              <p>{  result.length <= result.slice(0,3).length? (i+1):(i+1+3) }</p>
+                              <p>{ numberToPosition(result.length <= result.slice(0,3).length? (i+1):(i+1+3)) }</p>
                           </div>
                           
 
@@ -273,7 +288,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       
                   <div className="place-items-center">
                       <h3> Position  </h3>
-                      <p>{ (result.findIndex( (res:any)=>res.player_name === username))+1 }</p>
+                      <p>{ numberToPosition( (result.findIndex( (res:any)=>res.player_name === username))+1 ) }</p>
                   </div>
                   
       
