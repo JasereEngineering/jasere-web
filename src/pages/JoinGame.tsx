@@ -3,7 +3,6 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
 import OtpInput from "../components/forms/OtpInput";
 import Input from "../components/forms/Input";
 
