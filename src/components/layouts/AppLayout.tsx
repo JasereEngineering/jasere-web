@@ -55,13 +55,13 @@ const AppLayout = ({
       landing && (
 
           <div className="absolute inset-0 text-white flex items-center justify-center font-bold grid grid-cols-2 gap-4">
-              <img src={black_kite} alt="Image 1" className="w-auto h-32 rounded-md" />
-              <img src={black_kite} alt="Image 2" className="w-auto h-32 rounded-md justify-self-end" />
-              <img src={black_kite} alt="Image 3" className="w-auto h-32 rounded-md" />
-              <img src={black_kite} alt="Image 4" className="w-auto h-32 rounded-md justify-self-end" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
 
-              <img src={black_kite} alt="Image 5" className="w-auto h-32 rounded-md" />
-              <img src={black_kite} alt="Image 6" className="w-auto h-32 rounded-md justify-self-end" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
     {/* <img src="https://via.placeholder.com/150" alt="Image 2" class="w-full h-auto rounded-md">
     <img src="https://via.placeholder.com/150" alt="Image 3" class="w-full h-auto rounded-md">
     <img src="https://via.placeholder.com/150" alt="Image 4" class="w-full h-auto rounded-md">
