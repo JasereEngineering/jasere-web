@@ -19,10 +19,10 @@ import { RootState } from "../../store";
 import * as ROUTES from "../../routes";
 
 import black_kite from "../../assets/images/black-kite-asset.svg";
-// import triangle from "../../assets/images/triangle.svg";
-// import triangle_green from "../../assets/images/triangle-green.svg";
+import triangle from "../../assets/images/triangle.svg";
+import triangle_green from "../../assets/images/triangle-green.svg";
 import yellow_kite from "../../assets/images/yellow-kite.svg";
-// import yellow_bar from "../../assets/images/yellow-bar.svg";
+import yellow_bar from "../../assets/images/yellow-bar.svg";
 import parallel from "../../assets/images/parallel.svg";
 import scattered_green from "../../assets/images/scattered-green.svg";
 
@@ -54,37 +54,66 @@ const AppLayout = ({
     {
       landing && (
 
-          <div className="absolute inset-0 text-white flex w-full font-bold grid grid-cols-2 gap-4">
-              <div className="relative">
-                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
-                </div>
-              <div className="relative">
-                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-              </div>
-              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+        <>
+
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div className="self-start">
+            <img src={black_kite} alt="Left" className="w-auto h-32 rounded-md mt-[3rem]" />
+            </div>
+            <div className="self-start">
+            <img src={triangle} alt="Right" className="h-22 w-auto mt-[5rem]" />
+            </div>
+
+          
+        </div>
+        
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div>
+            <img src={triangle_green} alt="Left" className="w-32 h-auto rounded-md" />
+            <img src={yellow_bar} alt="Left" className="w-32 h-auto rounded-md" />
+            </div>
+            <div>
+            <img src={yellow_kite} alt="Right" className="w-32 h-auto rounded-md" />
+            </div>
+
+          
+        </div>
+
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div className="self-end">
+            <img src={parallel} alt="Left" className="w-32 h-auto rounded-md" />
+            </div>
+            <div className="self-end">
+            <img src={scattered_green} alt="Right" className="w-32 h-auto rounded-md" />
+            </div>
+        </div>
+
+        </>
+
+          // <div className="absolute inset-0 text-white flex w-full font-bold grid grid-cols-2 gap-4">
+          //     <div className="relative">
+          //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+          //       </div>
+          //     <div className="relative">
+          //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //     </div>
+          //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
               
-              <div className="relative">
-                <img src={yellow_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-                </div>
+          //     <div className="relative">
+          //       <img src={yellow_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //       </div>
 
 
-              <div className="relative">
-              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+          //     <div className="relative">
+          //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
 
-                <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md" />
-                </div>
-              <div className="relative">
-                <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-              </div>
-    {/* <img src="https://via.placeholder.com/150" alt="Image 2" class="w-full h-auto rounded-md">
-    <img src="https://via.placeholder.com/150" alt="Image 3" class="w-full h-auto rounded-md">
-    <img src="https://via.placeholder.com/150" alt="Image 4" class="w-full h-auto rounded-md">
-    <img src="https://via.placeholder.com/150" alt="Image 5" class="w-full h-auto rounded-md">
-    <img src="https://via.placeholder.com/150" alt="Image 6" class="w-full h-auto rounded-md"></img> */}
-          </div>
-
-
-
+          //       <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md" />
+          //       </div>
+          //     <div className="relative">
+          //       <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //     </div>
+    
+          // </div>
 
 
       )
