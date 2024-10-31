@@ -58,7 +58,7 @@ const AppLayout = ({
 
         <div className="absolute inset-0 flex justify-between items-center">
             <div className="self-start">
-            <img src={black_kite} alt="Left" className="w-auto h-32 rounded-md mt-[3rem]" />
+            <img src={black_kite} alt="Left" className="w-[5rem] h-[5rem] rounded-md mt-[5rem]" />
             </div>
             <div className="self-start">
             <img src={triangle} alt="Right" className="h-22 w-auto mt-[5rem]" />
@@ -69,11 +69,11 @@ const AppLayout = ({
         
         <div className="absolute inset-0 flex justify-between items-center">
             <div>
-            <img src={triangle_green} alt="Left" className="w-[2rem] h-[5rem] rounded-md mb-[3rem]" />
+            <img src={triangle_green} alt="Left" className="w-[4rem] h-[5rem] rounded-md mb-[3rem]" />
             <img src={yellow_bar} alt="Left" className="w-[2rem] h-[5rem] rounded-md" />
             </div>
             <div>
-            <img src={yellow_kite} alt="Right" className="w-32 h-32 rounded-md" />
+            <img src={yellow_kite} alt="Right" className="w-[5rem] h-[5rem] rounded-md" />
             </div>
 
           
@@ -81,10 +81,10 @@ const AppLayout = ({
 
         <div className="absolute inset-0 flex justify-between items-center">
             <div className="self-end">
-            <img src={parallel} alt="Left" className="w-32 h-auto rounded-md" />
+            <img src={parallel} alt="Left" className="w-[5rem] h-[5rem] rounded-md" />
             </div>
             <div className="self-end">
-            <img src={scattered_green} alt="Right" className="w-32 h-auto rounded-md" />
+            <img src={scattered_green} alt="Right" className="w-[5rem] h-[5rem] rounded-md" />
             </div>
         </div>
 
