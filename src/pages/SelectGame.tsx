@@ -58,9 +58,7 @@ const SelectGame = () => {
   }, [dispatch]);
 
   return (
-    // <AudioPlayer sound={lobbySound} />
-    <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12">
-
+    <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12 bg-black">
       {loading ? <Loader /> : null}
       <div>
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">

@@ -131,11 +131,11 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const shareValue = query.get('q') || "";
   const encodedUrl = encodeURIComponent(currentShareUrl);
   //const encodedTitle = encodeURIComponent("Test Title (Jasere)");
-  const encodedText = encodeURIComponent("Test Text (Jasere)");
+  const encodedText = encodeURIComponent(`Think you can do better?Check out exciting games on ${process.env.REACT_APP_URL}`);
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
 
-
+  const resetBottomModal = () => setModal(false);
 
   
   return (
@@ -440,7 +440,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
             <div
               className="border border-white rounded-[9px] flex flex-col items-center pt-11 pb-[1.875rem]">
 
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={resetBottomModal}>
               <img
                 loading="lazy"
                 src={whatsapp}
@@ -458,7 +458,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
               className="border border-white rounded-[9px] flex flex-col items-center pt-11"
             >
 
-            <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
+            <a href={twitterUrl} target="_blank" rel="noopener noreferrer" onClick={resetBottomModal}>
               <img
                 loading="lazy"
                 src={twitter}
@@ -473,7 +473,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
             <div
               className="border border-white rounded-[9px] flex flex-col items-center justify-center col-span-2 h-[9.375rem]">
-              <a href={currentShareUrl} target="_blank" rel="noopener noreferrer">
+              <a href={currentShareUrl} target="_blank" rel="noopener noreferrer" onClick={resetBottomModal}>
                 <img
                   loading="lazy"
                   src={webSvg}

@@ -23,7 +23,7 @@ const Button = ({
 
   return (
     <button
-      className={`bg-white w-full p-[0.75rem] flex justify-center items-center text-center text-black rounded-[78px] font-lal text-[1.5rem] ${
+      className={`w-full p-[0.75rem] flex justify-center items-center text-center rounded-[78px] font-lal text-[1.5rem] ${
         className ? className : ""
       } ${disabled ? "opacity-75" : ""}`}
       onClick={onClick}

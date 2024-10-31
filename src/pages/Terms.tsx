@@ -2,7 +2,8 @@ import AppLayout from "../components/layouts/AppLayout";
 
 const Terms = () => {
   return (
-    <AppLayout className="flex flex-col font-inter text-[0.938rem] leading-[1.5em] tracking-[0.25px] pt-[8rem] px-[1.125rem] pb-[2.875rem]">
+    <AppLayout className="flex flex-col font-inter text-[0.938rem] leading-[1.5em] tracking-[0.25px] pt-[8rem] px-[1.125rem] pb-[2.875rem] bg-black">
+      <div>
       <h1 className="font-lal text-center text-[1.5rem] leading-[2.351rem] tracking-[-0.25px] mb-[1.125rem]">
         Terms Of Use
       </h1>
@@ -112,6 +113,7 @@ const Terms = () => {
         If you have any questions or concerns about these Terms, please contact
         us at <a href="mailto:jaseregames@gmail.com">jaseregames@gmail.com</a> 
       </p>
+      </div>
     </AppLayout>
   );
 };

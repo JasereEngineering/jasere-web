@@ -18,16 +18,27 @@ import { AuthContextType, AuthState } from "../../types";
 import { RootState } from "../../store";
 import * as ROUTES from "../../routes";
 
+import black_kite from "../../assets/images/black-kite-asset.svg";
+import triangle from "../../assets/images/triangle.svg";
+import triangle_green from "../../assets/images/triangle-green.svg";
+import yellow_kite from "../../assets/images/yellow-kite.svg";
+import yellow_bar from "../../assets/images/yellow-bar.svg";
+import parallel from "../../assets/images/parallel.svg";
+import scattered_green from "../../assets/images/scattered-green.svg";
+
+
 const AppLayout = ({
   children,
   className,
   navClassName,
-  help
+  help,
+  landing
 }: {
   children: any;
   className?: string;
   navClassName?: string;
   help?: boolean;
+  landing?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -38,9 +49,52 @@ const AppLayout = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full">
-      
-      
+    <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full"> 
+
+    {
+      landing && (
+
+        <div className="grid grid-cols-2 justify-between w-full h-full absolute">
+
+              <div className="col-start-1">
+                <img src={black_kite} alt="Left" className="h-32 w-auto mt-[5rem]" />
+              </div>
+              <div className="col-start-2">
+                <img src={triangle} alt="Left" className="h-20 w-auto mt-[4rem] justify-self-end" />
+              </div>
+              <div className="col-start-1">
+                <img src={triangle_green} alt="Left" className="h-32 w-auto" />
+              </div>
+              <div className="col-start-2"></div>
+              <div className="col-start-1">
+                <img src={yellow_bar} alt="Left" className="h-32 w-auto mt-[5rem]" />
+              </div>
+              <div className="col-start-2">
+                <img src={yellow_kite} alt="Left" className="h-32 w-auto justify-self-end mb-[7rem]" />
+              </div>
+              
+              <div className="col-start-1">
+                <img src={parallel} alt="Left" className="h-32 w-auto mt-[5rem]" />
+              </div>
+              <div className="col-start-2">
+                <img src={scattered_green} alt="Left" className="h-32 w-auto justify-self-end mt-[6rem]" />
+              </div>
+
+
+              {/* <img src={triangle} alt="Right" className="h-22 w-auto  justify-self-end" />
+              <img src={triangle_green} alt="Right" className="h-32 w-auto" />
+              <img src={yellow_kite} alt="Right" className="h-[9rem] w-auto mt-[8rem] ml-[3rem] justify-self-end" />
+              <img src={yellow_bar} alt="Right" className="h-32 w-auto mb-[8rem]" />
+              <img src={scattered_green} alt="Right" className="h-32 w-auto mb-[8rem] justify-self-end" /> */}
+              
+              {/* <img src={triangle_green} alt="Right" className="h-32 w-auto mb-[28rem]" />
+              <img src={triangle_green} alt="Right" className="h-32 w-auto mb-[28rem]" /> */}
+        </div>
+
+      )
+    }
+
+
       <div
         className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
