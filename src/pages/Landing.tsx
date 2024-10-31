@@ -59,7 +59,7 @@ const Landing = () => {
         
       </div>
       <div>
-        <p className="font-lat text-[1rem] font-thicker text-[#E96200] text-center leading-[1.094rem] tracking-[-0.4px] mt-3 mb-3">
+        <p className="font-lat text-[1rem] font-bold text-[#E96200] text-center leading-[1.094rem] tracking-[-0.4px] text-xl mt-3 mb-3">
           The best party games on mobile
         </p>
         <Button
