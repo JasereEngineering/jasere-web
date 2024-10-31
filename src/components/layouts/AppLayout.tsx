@@ -69,11 +69,11 @@ const AppLayout = ({
         
         <div className="absolute inset-0 flex justify-between items-center">
             <div>
-            <img src={triangle_green} alt="Left" className="w-32 h-auto rounded-md" />
-            <img src={yellow_bar} alt="Left" className="w-32 h-auto rounded-md" />
+            <img src={triangle_green} alt="Left" className="w-32 h-auto rounded-md mb-[5rem]" />
+            <img src={yellow_bar} alt="Left" className="w-32 h-32 rounded-md" />
             </div>
             <div>
-            <img src={yellow_kite} alt="Right" className="w-32 h-auto rounded-md" />
+            <img src={yellow_kite} alt="Right" className="w-32 h-32 rounded-md" />
             </div>
 
           
