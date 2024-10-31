@@ -67,7 +67,7 @@ const Landing = () => {
           className="rounded-[78px] mb-6 bg-[#E6A101] text-black z-index relative"
           onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
-        <div className="flex justify-center text-[#80A800] items-center gap-x-1.5 font-inter text-[0.875rem] leading-[1.059rem] tracking-[-0.4px] mb-8">
+        <div className="flex z-index relative justify-center text-[#80A800] items-center gap-x-1.5 font-inter text-[0.875rem] leading-[1.059rem] tracking-[-0.4px] mb-8">
           <a href="/terms">Terms of use</a>
           <div className="bg-[#80A800]"><img loading="lazy" src={dot} alt="dot" /></div>
           <a href="/privacy">Privacy policy</a>
