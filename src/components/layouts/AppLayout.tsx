@@ -19,12 +19,12 @@ import { RootState } from "../../store";
 import * as ROUTES from "../../routes";
 
 import black_kite from "../../assets/images/black-kite-asset.svg";
-import triangle from "../../assets/images/triangle.svg";
-import triangle_green from "../../assets/images/triangle-green.svg";
-import yellow_kite from "../../assets/images/yellow-kite.svg";
-import yellow_bar from "../../assets/images/yellow-bar.svg";
-import parallel from "../../assets/images/parallel.svg";
-import scattered_green from "../../assets/images/scattered-green.svg";
+// import triangle from "../../assets/images/triangle.svg";
+// import triangle_green from "../../assets/images/triangle-green.svg";
+// import yellow_kite from "../../assets/images/yellow-kite.svg";
+// import yellow_bar from "../../assets/images/yellow-bar.svg";
+// import parallel from "../../assets/images/parallel.svg";
+// import scattered_green from "../../assets/images/scattered-green.svg";
 
 
 const AppLayout = ({
@@ -54,49 +54,57 @@ const AppLayout = ({
     {
       landing && (
 
-          <div className="absolute inset-0 z-10 flex items-center justify-center font-bold">
-                    <div className="grid grid-cols-2 justify-between w-full h-full">
+          <div className="absolute inset-0 text-white flex items-center justify-center font-bold grid grid-cols-2 gap-4">
+              <img src={black_kite} alt="Image 1" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="Image 2" className="w-auto h-32 rounded-md justify-self-end" />
+              <img src={black_kite} alt="Image 3" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="Image 4" className="w-auto h-32 rounded-md justify-self-end" />
 
-                      <div className="col-start-1">
-                        <img src={black_kite} alt="Left" className="h-32 w-auto mt-[5rem]" />
-                      </div>
-                      <div className="col-start-2">
-                        <img src={triangle} alt="Left" className="h-20 w-auto mt-[4rem] justify-self-end" />
-                      </div>
-                      <div className="col-start-1">
-                        <img src={triangle_green} alt="Left" className="h-32 w-auto" />
-                      </div>
-                      <div className="col-start-2"></div>
-                      <div className="col-start-1">
-                        <img src={yellow_bar} alt="Left" className="h-32 w-auto mt-[5rem]" />
-                      </div>
-                      <div className="col-start-2">
-                        <img src={yellow_kite} alt="Left" className="h-32 w-auto justify-self-end mb-[7rem]" />
-                      </div>
-
-                      <div className="col-start-1">
-                        <img src={parallel} alt="Left" className="h-32 w-auto mt-[5rem]" />
-                      </div>
-                      <div className="col-start-2">
-                        <img src={scattered_green} alt="Left" className="h-32 w-auto justify-self-end mt-[6rem]" />
-                      </div>
-
-
-                      {/* <img src={triangle} alt="Right" className="h-22 w-auto  justify-self-end" />
-                      <img src={triangle_green} alt="Right" className="h-32 w-auto" />
-                      <img src={yellow_kite} alt="Right" className="h-[9rem] w-auto mt-[8rem] ml-[3rem] justify-self-end" />
-                      <img src={yellow_bar} alt="Right" className="h-32 w-auto mb-[8rem]" />
-                      <img src={scattered_green} alt="Right" className="h-32 w-auto mb-[8rem] justify-self-end" /> */}
-
-                      {/* <img src={triangle_green} alt="Right" className="h-32 w-auto mb-[28rem]" />
-                      <img src={triangle_green} alt="Right" className="h-32 w-auto mb-[28rem]" /> */}
-                    </div>
+              <img src={black_kite} alt="Image 5" className="w-auto h-32 rounded-md" />
+              <img src={black_kite} alt="Image 6" className="w-auto h-32 rounded-md justify-self-end" />
+    {/* <img src="https://via.placeholder.com/150" alt="Image 2" class="w-full h-auto rounded-md">
+    <img src="https://via.placeholder.com/150" alt="Image 3" class="w-full h-auto rounded-md">
+    <img src="https://via.placeholder.com/150" alt="Image 4" class="w-full h-auto rounded-md">
+    <img src="https://via.placeholder.com/150" alt="Image 5" class="w-full h-auto rounded-md">
+    <img src="https://via.placeholder.com/150" alt="Image 6" class="w-full h-auto rounded-md"></img> */}
           </div>
+
+
 
 
 
       )
     }
+
+    {/* <div className="grid grid-cols-2 justify-between w-full h-full">
+
+<div className="col-start-1">
+  <img src={black_kite} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={triangle} alt="Left" className="h-20 w-auto mt-[4rem] justify-self-end" />
+</div>
+<div className="col-start-1">
+  <img src={triangle_green} alt="Left" className="h-32 w-auto" />
+</div>
+<div className="col-start-2"></div>
+<div className="col-start-1">
+  <img src={yellow_bar} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={yellow_kite} alt="Left" className="h-32 w-auto justify-self-end mb-[7rem]" />
+</div>
+
+<div className="col-start-1">
+  <img src={parallel} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={scattered_green} alt="Left" className="h-32 w-auto justify-self-end mt-[6rem]" />
+</div>
+
+
+
+</div> */}
 
 
       <div
