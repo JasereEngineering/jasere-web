@@ -56,25 +56,25 @@ const AppLayout = ({
 
           <div className="absolute inset-0 text-white flex items-center justify-center font-bold grid grid-cols-2 gap-4">
               <div className="relative">
-                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md transform translate-y-[1rem]" />
+                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
                 </div>
               <div className="relative">
-                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end transform translate-y-[1rem]" />
+                <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
               </div>
               <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
               
-              <div className="relative transform translate-y-[8.1rem]">
+              <div className="relative">
                 <img src={yellow_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
                 </div>
 
 
               <div className="relative">
-              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md mb-[5rem]" />
+              <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
 
-                <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md transform translate-y-[2rem]" />
+                <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md" />
                 </div>
               <div className="relative">
-                <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end transform translate-y-[8.1rem]" />
+                <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
               </div>
     {/* <img src="https://via.placeholder.com/150" alt="Image 2" class="w-full h-auto rounded-md">
     <img src="https://via.placeholder.com/150" alt="Image 3" class="w-full h-auto rounded-md">
