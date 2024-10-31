@@ -106,7 +106,7 @@ const Login = () => {
       />
       <Button
         text="Sign In"
-        className="!text-[1.375rem] !p-2 mb-4"
+        className="!text-[1.375rem] !p-2 mb-4 bg-black"
         loading={loading}
         disabled={!username || !password}
         onClick={handleSubmit}

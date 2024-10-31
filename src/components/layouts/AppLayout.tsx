@@ -54,7 +54,7 @@ const AppLayout = ({
     {
       landing && (
 
-          <div className="absolute inset-0 text-white flex items-center justify-center font-bold grid grid-cols-2 gap-4">
+          <div className="absolute inset-0 text-white flex font-bold grid grid-cols-2 gap-4">
               <div className="relative">
                 <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
                 </div>
