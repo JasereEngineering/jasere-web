@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 
@@ -31,63 +31,90 @@ import CompleteSignUp from "./pages/CompleteSignUp";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 
-import { RootState } from "./store";
-import { AuthState, GameState } from "./types";
+// import { RootState } from "./store";
+// import { AuthState, GameState } from "./types";
 import * as ROUTES from "./routes";
+import CorrectSelectCategory from "./pages/games/correct/CorrectSelectCategory";
+import CorrectGame from "./pages/games/correct/CorrectGame";
 
 export default function App() {
   const location = useLocation();
 
-  const { gamePin, avatar: avatarImage } = useSelector<RootState>(
-    ({ game }) => game
-  ) as GameState;
-  const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
-  ) as AuthState;
+  // const { gamePin, avatar: avatarImage } = useSelector<RootState>(
+  //   ({ game }) => game
+  // ) as GameState;
+  // const { username, id } = useSelector<RootState>(
+  //   ({ auth }) => auth
+  // ) as AuthState;
 
   const [socket, setSocket] = useState<Socket | null>(null);
-
   const disconnects = useRef(0);
+  const reconnectSocketEvent = (socket:Socket) => {
+
+    /* we have to read it directly from the localstorage because the 
+    initial code was reading an older state on the App component
+    */
+
+    const rootLocalStorage = localStorage.getItem("persist:root") || "";
+    const parsedRootLocalStorage = JSON.parse( rootLocalStorage );
+    const game = JSON.parse(parsedRootLocalStorage["game"]);
+    const auth = JSON.parse(parsedRootLocalStorage["auth"]);
+
+    const { gamePin } = game;
+    const { username,id,avatar } = auth;
+
+    socket.emit("reconnected", {
+      game_pin: gamePin,
+      player_name: username,
+      avatar: avatar,
+      user_id: id,
+    });
+  }
+
+
+
+
 
   useEffect(() => {
     if (!socket || !socket.connected) {
       const newSocket = io(`${process.env.REACT_APP_BASE_URL}/game`);
       setSocket(newSocket);
 
+
       newSocket.on("connect", () => {
         console.log("connected!");
+        // console.log( "reconnectng stuff...." );
+        // console.log( disconnects.current );
         if (disconnects.current) {
-          newSocket.emit("reconnected", {
-            game_pin: gamePin,
-            player_name: username,
-            avatar: avatarImage,
-            user_id: id,
-          });
+          console.log( "send remitting" );
+          reconnectSocketEvent(newSocket);
         }
       });
 
-      newSocket.on("reconnect", () => {
-        console.log("reconnected!");
-        newSocket.emit("reconnected", {
-          game_pin: gamePin,
-          player_name: username,
-          avatar: avatarImage,
-          user_id: id,
-        });
+      // newSocket.on("reconnect", () => {
+      //   console.log("reconnecting");
+      //   reconnectSocketEvent(newSocket);
+      // });
+
+      newSocket.on("reconnected", () => {
+        console.log("reconnectedddddd!");
+        reconnectSocketEvent(newSocket);
       });
 
       newSocket.on("disconnect", () => {
         console.log("disconnected!");
         disconnects.current = disconnects.current + 1;
+        console.log( disconnects.current );
       });
     } else if (socket.disconnected) {
       socket.connect();
     }
-
+    
     return () => {
       if (socket) {
         socket.off("connect");
-        socket.off("reconnect");
+        // socket.off("reconnect");
+        // socket.off("reconnected");
         socket.off("disconnect");
       }
     };
@@ -109,6 +136,16 @@ export default function App() {
         path={ROUTES.PLAY.LEADERBOARD}
         element={<Leaderboard socket={socket} />}
       />
+      <Route
+        path={ROUTES.PLAY.SELECT_CATEGORY}
+        element={<CorrectSelectCategory socket={socket} />}
+      />
+
+      <Route
+        path={ROUTES.CORRECT.GAME}
+        element={<CorrectGame socket={socket} />}
+      />
+
       <Route path={ROUTES.PLAY.JOIN_GAME} element={<JoinGame />} />
       <Route
         path={ROUTES.PLAY.SELECT_CATEGORY}
@@ -132,7 +169,7 @@ export default function App() {
         path={ROUTES.LEMON.RESULT}
         element={<LemonResult socket={socket} />}
       />
-
+      
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.BEGIN_SIGNUP} element={<InitialiseSignUp />} />
@@ -161,6 +198,8 @@ export default function App() {
           element={<CreateGame />}
         />
       </Route>
+
+      
 
       <Route
         path="*"

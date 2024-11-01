@@ -4,14 +4,14 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
 
-import AppLayout from "../components/layouts/AppLayout";
-import Loader from "../components/misc/Loader";
+import AppLayout from "../../../components/layouts/AppLayout";
+import Loader from "../../../components/misc/Loader";
 
-import helpIcon from "../assets/images/help-icon.svg";
-import check from "../assets/images/check-sign-white.svg";
+import helpIcon from "../../../assets/images/help-icon.svg";
+import check from "../../../assets/images/check-sign-white.svg";
 
-import { titleMap, colorMap } from "../helpers/misc";
-import { RootState, AppDispatch } from "../store";
+import { titleMap,colorMap } from "../../../helpers/misc";
+import { RootState, AppDispatch } from "../../../store";
 import {
   endGame,
   fetchGameCategories,
@@ -19,12 +19,12 @@ import {
   selectCategory,
   setTriggerReplay,
   joinGame,
-} from "../store/features/game";
-import * as ROUTES from "../routes";
-import { GameState } from "../types";
-import FooterButton from "../components/forms/FooterButton";
+} from "../../../store/features/game";
+import * as ROUTES from "../../../routes";
+import { GameState } from "../../../types";
+import FooterButton from "../../../components/forms/FooterButton";
 
-const SelectCategory = ({ socket }: { socket: Socket | null }) => {
+const CorrectSelectCategory = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
   const [searchParams] = useSearchParams();
@@ -60,6 +60,9 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
     dispatch(fetchGameCategories(game as string));
     dispatch(endGame());
   }, [dispatch, game]);
+
+  console.log( gameTitle );
+  
 
   useEffect(() => {
     if (!categories.length) return;
@@ -158,4 +161,4 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   );
 };
 
-export default SelectCategory;
+export default CorrectSelectCategory;

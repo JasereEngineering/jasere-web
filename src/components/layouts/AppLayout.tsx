@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import logo from "../../assets/images/full-logo.svg";
+import logo from "../../assets/images/new-logo.svg";
 import create from "../../assets/images/create-game.svg";
 import games from "../../assets/images/my-games.svg";
 import profile from "../../assets/images/profile.svg";
@@ -18,16 +18,27 @@ import { AuthContextType, AuthState } from "../../types";
 import { RootState } from "../../store";
 import * as ROUTES from "../../routes";
 
+import black_kite from "../../assets/images/black-kite-asset.svg";
+import triangle from "../../assets/images/triangle.svg";
+import triangle_green from "../../assets/images/triangle-green.svg";
+import yellow_kite from "../../assets/images/yellow-kite.svg";
+import yellow_bar from "../../assets/images/yellow-bar.svg";
+import parallel from "../../assets/images/parallel.svg";
+import scattered_green from "../../assets/images/scattered-green.svg";
+
+
 const AppLayout = ({
   children,
   className,
   navClassName,
   help,
+  landing
 }: {
   children: any;
   className?: string;
   navClassName?: string;
   help?: boolean;
+  landing?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -38,7 +49,107 @@ const AppLayout = ({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full">
+    <div className="bg-black text-white relative overflow-y-auto no-scrollbar h-full"> 
+
+    {
+      landing && (
+
+        <>
+
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div className="self-start">
+            <img src={black_kite} alt="Left" className="w-[5rem] h-[5rem] rounded-md mt-[5rem]" />
+            </div>
+            <div className="self-start">
+            <img src={triangle} alt="Right" className="h-22 w-auto mt-[5rem]" />
+            </div>
+
+          
+        </div>
+        
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div>
+            <img src={triangle_green} alt="Left" className="w-[4rem] h-[5rem] rounded-md mb-[3rem]" />
+            <img src={yellow_bar} alt="Left" className="w-[2rem] h-[5rem] rounded-md" />
+            </div>
+            <div>
+            <img src={yellow_kite} alt="Right" className="w-[5rem] h-[5rem] rounded-md" />
+            </div>
+
+          
+        </div>
+
+        <div className="absolute inset-0 flex justify-between items-center">
+            <div className="self-end">
+            <img src={parallel} alt="Left" className="w-[5rem] h-[5rem] rounded-md" />
+            </div>
+            <div className="self-end">
+            <img src={scattered_green} alt="Right" className="w-[5rem] h-[5rem] rounded-md" />
+            </div>
+        </div>
+
+        </>
+
+          // <div className="absolute inset-0 text-white flex w-full font-bold grid grid-cols-2 gap-4">
+          //     <div className="relative">
+          //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+          //       </div>
+          //     <div className="relative">
+          //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //     </div>
+          //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+              
+          //     <div className="relative">
+          //       <img src={yellow_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //       </div>
+
+
+          //     <div className="relative">
+          //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
+
+          //       <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md" />
+          //       </div>
+          //     <div className="relative">
+          //       <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
+          //     </div>
+    
+          // </div>
+
+
+      )
+    }
+
+    {/* <div className="grid grid-cols-2 justify-between w-full h-full">
+
+<div className="col-start-1">
+  <img src={black_kite} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={triangle} alt="Left" className="h-20 w-auto mt-[4rem] justify-self-end" />
+</div>
+<div className="col-start-1">
+  <img src={triangle_green} alt="Left" className="h-32 w-auto" />
+</div>
+<div className="col-start-2"></div>
+<div className="col-start-1">
+  <img src={yellow_bar} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={yellow_kite} alt="Left" className="h-32 w-auto justify-self-end mb-[7rem]" />
+</div>
+
+<div className="col-start-1">
+  <img src={parallel} alt="Left" className="h-32 w-auto mt-[5rem]" />
+</div>
+<div className="col-start-2">
+  <img src={scattered_green} alt="Left" className="h-32 w-auto justify-self-end mt-[6rem]" />
+</div>
+
+
+
+</div> */}
+
+
       <div
         className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
@@ -201,12 +312,13 @@ const AppLayout = ({
           ) : null}
         </div>
       </div>
+
       <div
         className={`flex justify-between items-center px-4 pt-[2.375rem] pb-1 fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
           navClassName ? navClassName : ""
         }`}
       >
-        <button className="group" onClick={() => setOpen(!open)}>
+        <button className={`group ${ navClassName ? 'mb-10':'' }`} onClick={() => setOpen(!open)}>
           <div className="grid justify-items-center gap-1">
             <span
               className={`h-[2px] w-6 rounded-full bg-white transition ${
@@ -229,10 +341,10 @@ const AppLayout = ({
           loading="lazy"
           src={logo}
           alt="logo"
-          className="w-[14.313rem] h-[4.063rem] cursor-pointer"
+          className={`cursor-pointer ${ navClassName ? 'w-[13.313rem] h-[2.063rem] mb-8':'w-[14.313rem] h-[4.063rem] ' }`}
           onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
-        <button className="min-w-[1.5rem] min-h-[1.5rem]">
+        <button className={`min-w-[1.5rem] min-h-[1.5rem] ${ navClassName ? 'mb-10':'' }`}>
           <img
             loading="lazy"
             src={helpIcon}
@@ -250,6 +362,8 @@ const AppLayout = ({
           />
         </button>
       </div>
+
+
       {/* <div
         className={`hidden md:flex items-center justify-between pl-[3.438rem] pt-[2.625rem] pr-[3.875rem] sticky top-0 bg-black z-20 font-lal font-bold overflow-x-auto no-scrollbar ${
           navClassName ? navClassName : ""

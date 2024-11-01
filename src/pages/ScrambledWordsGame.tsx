@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+//import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Socket } from "socket.io-client";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -22,7 +22,8 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   const notCreator = searchParams.get("player");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { trivia, currentTrivia, difficulty, categoryName, time } =
+  //const { trivia, currentTrivia, difficulty, categoryName, time } =
+  const { trivia, currentTrivia,time } =
     useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
     ({ auth }) => auth
@@ -76,16 +77,16 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   //   []
   // );
 
-  const renderTime = () => (
-    <div className="flex flex-col justify-center items-center">
-      <span className="font-lal text-[2rem] text-white text-center leading-[3.125rem] tracking-[-0.15px] relative top-[0.25rem]">
-        {seconds}
-      </span>
-      <span className="font-lex text-[0.5rem] text-white text-center leading-[0.625rem] tracking-[-0.15px] relative bottom-[0.75rem]">
-        seconds
-      </span>
-    </div>
-  );
+  // const renderTime = () => (
+  //   <div className="flex flex-col justify-center items-center">
+  //     <span className="font-lal text-[2rem] text-white text-center leading-[3.125rem] tracking-[-0.15px] relative top-[0.25rem]">
+  //       {seconds}
+  //     </span>
+  //     <span className="font-lex text-[0.5rem] text-white text-center leading-[0.625rem] tracking-[-0.15px] relative bottom-[0.75rem]">
+  //       seconds
+  //     </span>
+  //   </div>
+  // );
 
   const handleLetterClick = (
     l: { letter: string; selected: boolean },
@@ -241,13 +242,15 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   return (
     <AppLayout className="font-lal flex flex-col pt-[8rem]">
       <div className="flex flex-col items-center px-[1.125rem] pb-[8rem]">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
+        
+        
+        {/* <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
           SCRAMBLED WORDS
         </h1>
         <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-[1.625rem] capitalize">
           {categoryName} | {difficulty}
-        </p>
-        <div className="flex justify-center items-center mb-[1.125rem]">
+        </p> */}
+        {/* <div className="flex justify-center items-center mb-[1.125rem]">
           <CountdownCircleTimer
             isPlaying={seconds > 0}
             duration={time}
@@ -259,13 +262,21 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
           >
             {renderTime}
           </CountdownCircleTimer>
-        </div>
+        </div> */}
         <h4 className="px-[1.094rem] py-2.5 bg-pink rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-2.5">
           {trivia[currentTrivia].question}
         </h4>
-        <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-inter font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px] mb-6">
+        <div className="bg-[#3D3C3C] rounded-[24px] py-[0.625rem] px-2 font-inter font-medium text-[0.625rem] text-center leading-[0.781rem] tracking-[-0.12px] mb-3">
           HINT: {trivia[currentTrivia].hint || "No hint"}
         </div>
+
+        <div className="w-full bg-white rounded-[3px] h-[0.25rem] m-6">
+          <div
+            className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"
+            style={{ width: `${(seconds / time) * 100}%` }}
+          ></div>
+        </div>
+
         {/* {hurray === null ? (
           <div className="rounded-[10px] aspect-video relative min-h-[10.125rem] mb-3">
             <img

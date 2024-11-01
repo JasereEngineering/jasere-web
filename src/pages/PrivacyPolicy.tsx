@@ -2,7 +2,7 @@ import AppLayout from "../components/layouts/AppLayout";
 
 const PrivacyPolicy = () => {
   return (
-    <AppLayout className="flex flex-col font-inter text-[0.938rem] leading-[1.5em] tracking-[0.25px] pt-[8rem] px-[1.125rem] pb-[2.875rem]">
+    <AppLayout className="flex flex-col font-inter text-[0.938rem] leading-[1.5em] tracking-[0.25px] pt-[8rem] px-[1.125rem] pb-[2.875rem] bg-black">
       <h1 className="font-lal text-center text-[1.5rem] leading-[2.351rem] tracking-[-0.25px] mb-[1.125rem]">
         Privacy Policy
       </h1>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
+// import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
 
 import helpIcon from "../assets/images/help-icon.svg";
@@ -15,8 +15,10 @@ import { AppDispatch, RootState } from "../store";
 import { clearGameSession, createGame } from "../store/features/game";
 import { GameState } from "../types";
 import * as ROUTES from "../routes";
+import FooterButton from "../components/forms/FooterButton";
 
 const CreateGameSession = () => {
+
   const navigate = useNavigate();
   const { gameTitle } = useParams();
 
@@ -39,7 +41,10 @@ const CreateGameSession = () => {
   };
 
   useEffect(() => {
-    if (gameSession && sessionCreated) navigate(ROUTES.PLAY.START_GAME);
+
+    if (gameSession && sessionCreated){
+      navigate(ROUTES.PLAY.START_GAME);
+    } 
     return () => {
       dispatch(clearGameSession());
     };
@@ -73,12 +78,14 @@ const CreateGameSession = () => {
           />
         </div>
       </div>
-      <Button
+      {/* <Button
         text="Next"
         onClick={handleSubmit}
         disabled={!name}
         loading={loading}
-      />
+      /> */}
+
+      <FooterButton text="Next" onClick={handleSubmit} loading={loading} disabled={!name} />
     </AppLayout>
   );
 };

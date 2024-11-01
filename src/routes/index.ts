@@ -31,6 +31,7 @@ export const PLAY = {
   GAME_SESSION_FOR: (gameTitle: string, gameSession: string) =>
     `/${gameTitle}/game/${gameSession}`,
   LEADERBOARD: "/:gameTitle/game/:gameSession/leaderboard",
+  NEW_LEADERBOARD: "/test-leaderboard",
   LEADERBOARD_FOR: (
     gameTitle: string,
     gameSession: string,
@@ -58,6 +59,16 @@ export const SCRAMBLED_WORDS = {
   CREATE_QUESTIONS: "/scrambled-words/create-questions",
   GAME: "/scrambled-words/game/:gameSession",
 };
+
+export const CORRECT = {
+  CATEGORY: "/correct/category",
+  DIFFICULTY: "/correct/difficulty",
+  CREATE_GAME: "/correct/create-game",
+  NEW_GAME: "/correct/new-game",
+  CREATE_QUESTIONS: "/correct/create-questions",
+  GAME: "/correct/game/:gameSession",
+};
+
 
 export const LEMON = {
   DIFFICULTY: "/lemon/difficulty",

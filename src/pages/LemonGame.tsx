@@ -24,13 +24,13 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const {
-    gameTitle,
+    //gameTitle,
     gamePin,
-    avatar: avatarImage,
-    levels,
-    level,
-    difficulty,
-    players,
+    // avatar: avatarImage,
+    //levels,
+    //level,
+    //difficulty,
+    //players,
     lemonNumber,
     lemonNumberPrev,
     lemonNumberNext,
@@ -46,7 +46,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     undefined
   );
 
-  const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
+  //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
   useEffect(() => {
     if (selectedLemon && seconds) {
@@ -100,14 +100,14 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   }, [lemonNumber, lemonNumberNext, time]);
 
   useEffect(() => {
-    socket?.on("reconnect", () => {
-      socket?.emit("join", {
-        game_pin: gamePin,
-        player_name: username,
-        avatar: avatarImage,
-        user_id: id,
-      });
-    });
+    // socket?.on("reconnect", () => {
+    //   socket?.emit("join", {
+    //     game_pin: gamePin,
+    //     player_name: username,
+    //     avatar: avatarImage,
+    //     user_id: id,
+    //   });
+    // });
 
     socket?.on("poll-room", (response: any) => {
       console.log({ response });
@@ -130,9 +130,22 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         game_pin: gamePin,
         player_name: username,
       });
-    }, 3000);
+      socket?.on("poll-room", (response: any) => {
+        if (response.statusCode !== "00") {
+          toast.error("an error occurred");
+        } else {
+          dispatch(joinGame(response.game_data));
+          if (!response.game_data.is_valid_lemon)
+            navigate(
+              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+            );
+        }
+      });
+    }, 2000);
 
-    return () => clearInterval(heartbeatInterval);
+    return () => {
+      clearInterval(heartbeatInterval);
+    }
     // eslint-disable-next-line
   }, [gamePin, username]);
 
@@ -140,12 +153,16 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">
       {/* {loading ? <Loader /> : null} */}
       <div className="flex flex-col">
-        <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
+        
+        
+        {/* <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
         </h1>
         <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-7 capitalize">
           {players.length} Players | {difficulty || difficultyLevel}
-        </p>
+        </p> */}
+
+
         <div className="relative rounded-[18px] w-full mb-4 max-h-[9.375rem]">
           <img
             loading="lazy"
