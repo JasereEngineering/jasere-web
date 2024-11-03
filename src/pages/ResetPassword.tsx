@@ -66,7 +66,7 @@ const ResetPassword = () => {
       </div>
       <Button
         text="Proceed"
-        className="!text-[1.375rem] !p-2 mb-4"
+        className="!text-[1.375rem] !p-2 mb-4 text-black bg-white"
         loading={loading}
         disabled={!password || !confirmPassword || password !== confirmPassword}
         onClick={handleSubmit}
