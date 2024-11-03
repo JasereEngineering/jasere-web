@@ -11,9 +11,7 @@ import { RequestArgs } from "../../types";
 
 export const refreshToken = async (refresh_token: string) => {
   try {
-    const {
-      data: tokens,
-    } = await axios({
+    const { data: tokens } = await axios({
       url: `${process.env.REACT_APP_BASE_URL}/auth/refresh-token`,
       method: "get",
       headers: {
@@ -32,11 +30,11 @@ export const refreshToken = async (refresh_token: string) => {
 };
 
 const onRequest = (
-  config: InternalAxiosRequestConfig<any>
+  config: InternalAxiosRequestConfig<any>,
 ): InternalAxiosRequestConfig<any> => {
   const tokens = JSON.parse(
     (localStorage.getItem("tokens")?.replace("undefined", "{}") as string) ||
-      "{}"
+      "{}",
   );
   config.headers!["Authorization"] = `Bearer ${tokens?.access_token}`;
 
@@ -52,7 +50,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = async (
-  error: AxiosError
+  error: AxiosError,
 ): Promise<AxiosError | AxiosRequestConfig> => {
   if (error.response) {
     // Access Token was expired
@@ -65,7 +63,7 @@ const onResponseError = async (
         const storedTokens = JSON.parse(
           (localStorage
             .getItem("tokens")
-            ?.replace("undefined", "{}") as string) || "{}"
+            ?.replace("undefined", "{}") as string) || "{}",
         );
         const tokens = await refreshToken(storedTokens.refresh_token);
 
@@ -96,7 +94,7 @@ const api = setupInterceptorsTo(
     headers: {
       "Content-Type": "application/json",
     },
-  })
+  }),
 );
 
 const request = async ({ url, method, body, type, onSuccess }: RequestArgs) => {

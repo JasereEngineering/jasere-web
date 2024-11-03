@@ -37,7 +37,7 @@ const Input = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     let value = e.target.value;
     onChange(value);
@@ -71,7 +71,8 @@ const Input = ({
           min={min}
         />
         {initialType === "password" ? (
-          <img loading="lazy"
+          <img
+            loading="lazy"
             src={passwordIcon}
             alt="password icon"
             className="right-[0.75rem] bottom-[0.725rem] absolute"

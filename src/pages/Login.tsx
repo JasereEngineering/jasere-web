@@ -24,10 +24,10 @@ const Login = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
   const { game, level } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
   const { login, user } = useAuth() as AuthContextType;
 
@@ -45,7 +45,7 @@ const Login = () => {
       signin({
         username,
         password,
-      })
+      }),
     );
   };
 
@@ -63,7 +63,7 @@ const Login = () => {
           createGame({
             name: gameName!,
             onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
-          })
+          }),
         );
       } else {
         navigate(ROUTES.PLAY.GET_STARTED);
@@ -144,7 +144,7 @@ const Login = () => {
           className="font-bold text-[#E6A101]"
           onClick={() =>
             navigate(
-              `${ROUTES.AUTH.BEGIN_SIGNUP}${gameName ? `?game_name=${gameName}` : ""}`
+              `${ROUTES.AUTH.BEGIN_SIGNUP}${gameName ? `?game_name=${gameName}` : ""}`,
             )
           }
         >

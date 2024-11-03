@@ -30,7 +30,7 @@ module.exports = {
         inner: "inset 0 50px 50px 0 rgba(0, 0, 0, 0.25)",
       },
       aspectRatio: {
-        'rect': '26 / 46',
+        rect: "26 / 46",
       },
     },
   },

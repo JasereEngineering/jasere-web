@@ -1,18 +1,18 @@
-import { useOutlet, Navigate } from 'react-router-dom'
+import { useOutlet, Navigate } from "react-router-dom";
 
-import { useAuth } from '../../hooks/useAuth'
-import { AuthContextType } from '../../types'
-import * as ROUTES from "../../routes"
+import { useAuth } from "../../hooks/useAuth";
+import { AuthContextType } from "../../types";
+import * as ROUTES from "../../routes";
 
 const AuthedLayout = () => {
-  const { user } = useAuth() as AuthContextType
-  const outlet = useOutlet()
+  const { user } = useAuth() as AuthContextType;
+  const outlet = useOutlet();
 
   if (!user) {
-    return <Navigate to={ROUTES.AUTH.SIGNIN} />
+    return <Navigate to={ROUTES.AUTH.SIGNIN} />;
   }
 
-  return <>{outlet}</>
-}
+  return <>{outlet}</>;
+};
 
-export default AuthedLayout
+export default AuthedLayout;

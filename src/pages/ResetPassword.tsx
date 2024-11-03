@@ -30,7 +30,7 @@ const ResetPassword = () => {
         reset_id,
         password,
         onSuccess: () => navigate(ROUTES.AUTH.SIGNIN),
-      })
+      }),
     );
   };
 

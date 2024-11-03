@@ -28,7 +28,8 @@ const Play = () => {
             Sign-in required
           </div>
         </div>
-        <img loading="lazy"
+        <img
+          loading="lazy"
           src={host}
           alt="host a game"
           className="absolute bottom-0 right-[-0.625rem] h-[12.125rem] w-[11.625rem]"
@@ -49,7 +50,8 @@ const Play = () => {
             No sign-in required
           </div>
         </div>
-        <img loading="lazy"
+        <img
+          loading="lazy"
           src={join}
           alt="join game"
           className="absolute bottom-[-0.0625rem] right-[-0.0625rem] h-[11.25rem] w-[13.625rem]"
@@ -67,7 +69,8 @@ const Play = () => {
             Premium required
           </div>
         </div>
-        <img loading="lazy"
+        <img
+          loading="lazy"
           src={create}
           alt="create game"
           className="absolute bottom-0 right-[-0.0625rem] h-[10.313rem] w-[12.875rem]"

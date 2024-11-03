@@ -33,7 +33,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
 
   useEffect(() => {
@@ -56,8 +56,8 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
           ROUTES.PLAY.BEGIN_GAME_FOR(
             response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
             response.game_data.game_session_id,
-            !!notCreator
-          )
+            !!notCreator,
+          ),
         );
       }
     });

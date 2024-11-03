@@ -22,7 +22,7 @@ const Penalty = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { categories, loading, game } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
 
   const [trigger, setTrigger] = useState("");

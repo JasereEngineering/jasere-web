@@ -21,13 +21,12 @@ import { fetchGames, selectGame } from "../store/features/game";
 import { AuthState, GameState } from "../types";
 import * as ROUTES from "../routes";
 
-
 const imageMap = {
   charades,
   lemon,
   words,
   "scrambled-words": scrambled,
-  correct
+  correct,
 };
 
 const SelectGame = () => {
@@ -37,7 +36,7 @@ const SelectGame = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, games } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
   const { username } = useSelector<RootState>(({ auth }) => auth) as AuthState;
 
@@ -93,22 +92,22 @@ const SelectGame = () => {
               pending={!game.isActive}
               onClick={() => {
                 if (!game.isActive) return;
-                const { id,name,tag } = game;
+                const { id, name, tag } = game;
                 dispatch(
                   selectGame({
                     id,
-                    title:name.toLowerCase().replaceAll(" ", "-"),
+                    title: name.toLowerCase().replaceAll(" ", "-"),
                     tag,
-                  })
+                  }),
                 );
                 navigate(
                   game.tag.includes("lemon")
                     ? ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
-                        game.name.toLowerCase().replaceAll(" ", "-")
+                        game.name.toLowerCase().replaceAll(" ", "-"),
                       )
                     : ROUTES.PLAY.SELECT_CATEGORY_FOR(
-                        game.name.toLowerCase().replaceAll(" ", "-")
-                      )
+                        game.name.toLowerCase().replaceAll(" ", "-"),
+                      ),
                 );
               }}
             />

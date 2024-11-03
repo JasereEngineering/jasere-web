@@ -16,7 +16,7 @@ import { avatarMap, playerColours } from "../helpers/misc";
 const GlobalLeaderboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { leaderboard, loading } = useSelector<RootState>(
-    ({ user }) => user
+    ({ user }) => user,
   ) as UserState;
 
   const [page, setPage] = useState(1);

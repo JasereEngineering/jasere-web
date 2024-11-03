@@ -22,19 +22,19 @@ const SelectDifficulty = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { levels, loading } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
 
   const [level, setLevel] = useState(0);
 
-  const handleClick = (level:any) => {
+  const handleClick = (level: any) => {
     setLevel(level);
-    setTimeout( ()=>{
+    setTimeout(() => {
       dispatch(selectLevel(level));
       navigate(
-        ROUTES.PLAY.CREATE_GAME_SESSION_FOR(gameTitle?.toLowerCase() as string)
+        ROUTES.PLAY.CREATE_GAME_SESSION_FOR(gameTitle?.toLowerCase() as string),
       );
-    },1500)
+    }, 1500);
   };
 
   useEffect(() => {
@@ -60,7 +60,12 @@ const SelectDifficulty = () => {
               Select Difficulty
             </p>
           </div>
-          <img loading="lazy" src={helpIcon} alt="help" className="h-[2rem] w-[2rem] pt-2" />
+          <img
+            loading="lazy"
+            src={helpIcon}
+            alt="help"
+            className="h-[2rem] w-[2rem] pt-2"
+          />
         </div>
         {levels?.map((l, i) => (
           <div
@@ -90,7 +95,9 @@ const SelectDifficulty = () => {
               <h5 className="text-[1.375rem] leading-[2.154rem] tracking-[-0.25px] capitalize">
                 {l.level}
               </h5>
-              {level === l.level_value ? <img loading="lazy" src={check} alt="check" /> : null}
+              {level === l.level_value ? (
+                <img loading="lazy" src={check} alt="check" />
+              ) : null}
             </div>
             {level === l.level_value ? (
               <p className="font-lex text-[0.75rem] leading-[0.938rem] tracking-[-0.25px] max-w-[12.75rem]">

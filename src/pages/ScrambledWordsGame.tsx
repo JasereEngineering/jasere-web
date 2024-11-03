@@ -23,10 +23,11 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
 
   const dispatch = useDispatch<AppDispatch>();
   //const { trivia, currentTrivia, difficulty, categoryName, time } =
-  const { trivia, currentTrivia,time } =
-    useSelector<RootState>(({ game }) => game) as GameState;
+  const { trivia, currentTrivia, time } = useSelector<RootState>(
+    ({ game }) => game,
+  ) as GameState;
   const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
 
   const [word, setWord] = useState(trivia[currentTrivia]?.answer.toUpperCase());
@@ -42,11 +43,11 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
     shuffleArray(
       fillScrambled(word)
         .split("")
-        .map((l: string) => ({ letter: l, selected: false }))
-    )
+        .map((l: string) => ({ letter: l, selected: false })),
+    ),
   );
   const [result, setResult] = useState(
-    Array(word.length).fill({ letter: "", index: null })
+    Array(word.length).fill({ letter: "", index: null }),
   );
 
   // const degreeMap = useMemo(
@@ -90,7 +91,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
 
   const handleLetterClick = (
     l: { letter: string; selected: boolean },
-    index: number
+    index: number,
   ) => {
     if (!seconds) return;
     if (l.selected) return;
@@ -107,7 +108,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
 
   const handleSpaceClick = (
     item: { letter: string; index: number },
-    index: number
+    index: number,
   ) => {
     if (item.index !== null) {
       const newResult = [...result];
@@ -174,7 +175,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       () => {
         dispatch(updateTrivia(currentTrivia));
       },
-      skip ? 1 : 1000
+      skip ? 1 : 1000,
     );
   };
 
@@ -187,7 +188,7 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
             const newSeconds = prevSeconds - 1;
             localStorage.setItem(
               `remaining-time-${gameSession}`,
-              newSeconds.toString()
+              newSeconds.toString(),
             );
             return newSeconds;
           });
@@ -198,8 +199,8 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         ROUTES.PLAY.LEADERBOARD_FOR(
           "scrambed-words",
           gameSession as string,
-          !!notCreator
-        )
+          !!notCreator,
+        ),
       );
     }
 
@@ -213,8 +214,8 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
         ROUTES.PLAY.LEADERBOARD_FOR(
           "scrambled-words",
           gameSession as string,
-          !!notCreator
-        )
+          !!notCreator,
+        ),
       );
 
     setWord(trivia[currentTrivia].answer.toUpperCase());
@@ -227,8 +228,8 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
       shuffleArray(
         fillScrambled(word)
           .split("")
-          .map((l: string) => ({ letter: l, selected: false }))
-      )
+          .map((l: string) => ({ letter: l, selected: false })),
+      ),
     );
     setResult(Array(word.length).fill({ letter: "", index: null }));
   }, [word]);
@@ -242,8 +243,6 @@ const ScrambledWordsGame = ({ socket }: { socket: Socket | null }) => {
   return (
     <AppLayout className="font-lal flex flex-col pt-[8rem]">
       <div className="flex flex-col items-center px-[1.125rem] pb-[8rem]">
-        
-        
         {/* <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px]">
           SCRAMBLED WORDS
         </h1>

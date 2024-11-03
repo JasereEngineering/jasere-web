@@ -24,7 +24,7 @@ const JoinGame = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { username: name } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
   const { loading } = useSelector<RootState>(({ game }) => game) as GameState;
 
@@ -75,12 +75,12 @@ const JoinGame = () => {
             </div>
           </div>
 
-          <FooterButton 
-            text="Join Game" 
+          <FooterButton
+            text="Join Game"
             onClick={() =>
               dispatch(validateGame({ code, onSuccess: () => setPage(2) }))
-            } 
-            loading={loading} 
+            }
+            loading={loading}
             disabled={code?.length !== 6}
           />
         </>
@@ -151,14 +151,13 @@ const JoinGame = () => {
               save user scores on the leaderboard
             </p>
           </div>
-          
-          <FooterButton 
-            text="Let's Play" 
-            onClick={handleSubmit} 
-            loading={loading} 
-            disabled={!username || !avatar} 
-          />
 
+          <FooterButton
+            text="Let's Play"
+            onClick={handleSubmit}
+            loading={loading}
+            disabled={!username || !avatar}
+          />
         </>
       )}
     </AppLayout>

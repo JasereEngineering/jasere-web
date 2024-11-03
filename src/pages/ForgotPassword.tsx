@@ -27,7 +27,7 @@ const ForgotPassword = () => {
         email,
         onSuccess: () =>
           toast.success("A reset email has been sent to your email"),
-      })
+      }),
     );
   };
 

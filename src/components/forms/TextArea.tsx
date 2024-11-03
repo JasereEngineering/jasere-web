@@ -20,7 +20,7 @@ const TextArea = ({
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     let value = e.target.value;
     onChange(value);

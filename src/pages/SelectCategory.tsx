@@ -37,22 +37,21 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
   const [category, setCategory] = useState(null);
   const [loader, setLoader] = useState(false);
 
-  const handleClick = (category:any) => {
+  const handleClick = (category: any) => {
     if (category !== "new") dispatch(selectCategory(category));
     if (replay) {
       dispatch(fetchTrivia());
     } else {
       setCategory(category);
-      setTimeout( ()=>{
+      setTimeout(() => {
         navigate(
           category === "new"
             ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
             : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
-                gameTitle?.toLowerCase() as string
-              )
+                gameTitle?.toLowerCase() as string,
+              ),
         );
-
-      },500)
+      }, 500);
     }
   };
 
@@ -93,8 +92,8 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
         navigate(
           ROUTES.PLAY.BEGIN_GAME_FOR(
             response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
-            response.game_data.game_session_id
-          )
+            response.game_data.game_session_id,
+          ),
         );
       }
     });
@@ -153,7 +152,7 @@ const SelectCategory = ({ socket }: { socket: Socket | null }) => {
           </div>
         ))}
       </div>
-        <FooterButton text="Back" onClick={() => navigate(-1)}  />
+      <FooterButton text="Back" onClick={() => navigate(-1)} />
     </AppLayout>
   );
 };

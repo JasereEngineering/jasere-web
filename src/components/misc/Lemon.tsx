@@ -23,7 +23,8 @@ const Lemon = ({
 }) => {
   return (
     <div className={`relative ${className ? className : ""}`} onClick={onClick}>
-      <img loading="lazy"
+      <img
+        loading="lazy"
         src={color === "white" ? lemonSm : lemonLg}
         alt="lemon"
         className={`${
@@ -32,7 +33,8 @@ const Lemon = ({
             : "h-[8.625rem] w-[8.625rem]"
         }`}
       />
-      <img loading="lazy"
+      <img
+        loading="lazy"
         src={check}
         alt="check"
         className={`absolute bottom-[0.5rem] right-[0.5rem] w-[2.625rem] h-[2.625rem] transition-opacity duration-1000 ${

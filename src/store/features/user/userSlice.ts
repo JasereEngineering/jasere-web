@@ -43,7 +43,7 @@ export const fetchGames = createAsyncThunk(
       url: `/user/games/played?page=${page}&limit=${limit}&status=${status}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const fetchGameDetails = createAsyncThunk(
@@ -53,7 +53,7 @@ export const fetchGameDetails = createAsyncThunk(
       url: `/user/game/details/${session}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const fetchLeaderboard = createAsyncThunk(
@@ -63,7 +63,7 @@ export const fetchLeaderboard = createAsyncThunk(
       url: `/user/leaderboard?page=${page}&limit=${limit}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const userSlice = createSlice({

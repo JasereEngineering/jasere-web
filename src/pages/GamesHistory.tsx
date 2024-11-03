@@ -16,7 +16,7 @@ const GamesHistory = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { games, loading } = useSelector<RootState>(
-    ({ user }) => user
+    ({ user }) => user,
   ) as UserState;
 
   const [type, setType] = useState<"created" | "played">("played");

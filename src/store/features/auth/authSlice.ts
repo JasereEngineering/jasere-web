@@ -11,7 +11,7 @@ const initialState: AuthState = {
   email: null,
   id: null,
   loading: false,
-  gender: null
+  gender: null,
 };
 
 export const beginSignup = createAsyncThunk(
@@ -31,7 +31,7 @@ export const beginSignup = createAsyncThunk(
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 export const completeSignup = createAsyncThunk(
@@ -51,25 +51,19 @@ export const completeSignup = createAsyncThunk(
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 export const forgotPassword = createAsyncThunk(
   "auth/forgot/password",
-  async ({
-    onSuccess,
-    ...body
-  }: {
-    email: string;
-    onSuccess?: () => void;
-  }) => {
+  async ({ onSuccess, ...body }: { email: string; onSuccess?: () => void }) => {
     return await request({
       url: "/auth/reset",
       method: "post",
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 export const resetPassword = createAsyncThunk(
@@ -89,7 +83,7 @@ export const resetPassword = createAsyncThunk(
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 export const signup = createAsyncThunk(
@@ -111,7 +105,7 @@ export const signup = createAsyncThunk(
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 export const signin = createAsyncThunk(
@@ -130,7 +124,7 @@ export const signin = createAsyncThunk(
       body,
       onSuccess,
     });
-  }
+  },
 );
 
 // export const signout = createAsyncThunk(
@@ -178,7 +172,7 @@ export const authSlice = createSlice({
               JSON.stringify({
                 access_token: action.payload.access_token,
                 refresh_token: action.payload.refresh_token,
-              })
+              }),
             );
             break;
         }

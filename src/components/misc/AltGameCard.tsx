@@ -21,7 +21,8 @@ const AltGameCard = ({
       onMouseLeave={onMouseLeave}
     >
       <div className="grow relative min-w-[15.625rem] flex justify-center items-center aspect-video mb-5">
-        <img loading="lazy"
+        <img
+          loading="lazy"
           src={image}
           alt={name}
           className="absolute top-0 h-full w-full object-cover"
