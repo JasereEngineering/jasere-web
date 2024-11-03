@@ -18,42 +18,6 @@ const Landing = () => {
       <div
         className={`flex flex-col items-center grow bg-[url('https://storage.googleapis.com/jasere-assets/static/img/People%20asset.svg')] bg-center bg-no-repeat w-full`}
       >
-        {/* <div className="grid h-full justify-between items-center w-full text-black mb-10 border border-black">
-
-          <div className="col-start-1 border border-black">
-            <img src={black_kite} loading="lazy" className="w-[4rem] h-full object-cover" />
-          </div>
-          <div className="col-start-2 border-1 ">
-          <img src={yellow_kite} loading="lazy" className="mb-10 w-[4rem] h-full object-cover" />
-          </div>
-          <div className="col-start-1 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-2 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-1 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-2 border-1">
-            <label>Test</label>
-          </div>
-
-          <div className="col-start-1 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-2 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-1 border-1">
-            <label>Test</label>
-          </div>
-          <div className="col-start-2 border-1">
-            <label>Test</label>
-          </div>
-
-
-        </div> */}
       </div>
       <div>
         <p className="font-lal text-[1rem] font-bold text-[#E96200] text-center leading-[1.094rem] tracking-[-0.4px] text-xl mt-3 mb-3">

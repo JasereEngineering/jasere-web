@@ -108,60 +108,7 @@ const AppLayout = ({
           </div>
         </>
 
-        // <div className="absolute inset-0 text-white flex w-full font-bold grid grid-cols-2 gap-4">
-        //     <div className="relative">
-        //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
-        //       </div>
-        //     <div className="relative">
-        //       <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-        //     </div>
-        //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
-
-        //     <div className="relative">
-        //       <img src={yellow_kite} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-        //       </div>
-
-        //     <div className="relative">
-        //     <img src={black_kite} alt="black_kite" className="w-auto h-32 rounded-md" />
-
-        //       <img src={parallel} alt="black_kite" className="w-auto h-32 rounded-md" />
-        //       </div>
-        //     <div className="relative">
-        //       <img src={scattered_green} alt="black_kite" className="w-auto h-32 rounded-md justify-self-end" />
-        //     </div>
-
-        // </div>
       )}
-
-      {/* <div className="grid grid-cols-2 justify-between w-full h-full">
-
-<div className="col-start-1">
-  <img src={black_kite} alt="Left" className="h-32 w-auto mt-[5rem]" />
-</div>
-<div className="col-start-2">
-  <img src={triangle} alt="Left" className="h-20 w-auto mt-[4rem] justify-self-end" />
-</div>
-<div className="col-start-1">
-  <img src={triangle_green} alt="Left" className="h-32 w-auto" />
-</div>
-<div className="col-start-2"></div>
-<div className="col-start-1">
-  <img src={yellow_bar} alt="Left" className="h-32 w-auto mt-[5rem]" />
-</div>
-<div className="col-start-2">
-  <img src={yellow_kite} alt="Left" className="h-32 w-auto justify-self-end mb-[7rem]" />
-</div>
-
-<div className="col-start-1">
-  <img src={parallel} alt="Left" className="h-32 w-auto mt-[5rem]" />
-</div>
-<div className="col-start-2">
-  <img src={scattered_green} alt="Left" className="h-32 w-auto justify-self-end mt-[6rem]" />
-</div>
-
-
-
-</div> */}
 
       <div
         className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
