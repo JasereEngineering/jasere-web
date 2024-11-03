@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: any) => {
       setUser(data);
       dispatch(fetchProfile());
     },
-    [setUser, dispatch]
+    [setUser, dispatch],
   );
 
   const logout = useCallback(() => {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: any) => {
       login,
       logout,
     }),
-    [user, login, logout]
+    [user, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

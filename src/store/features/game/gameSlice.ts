@@ -40,7 +40,7 @@ export const createGame = createAsyncThunk(
   "game/create",
   async (
     { name, onSuccess }: { name: string; onSuccess?: () => void },
-    { getState }
+    { getState },
   ) => {
     const {
       game: { game, category, level },
@@ -57,7 +57,7 @@ export const createGame = createAsyncThunk(
       },
       onSuccess,
     });
-  }
+  },
 );
 
 export const fetchGameCategories = createAsyncThunk(
@@ -67,7 +67,7 @@ export const fetchGameCategories = createAsyncThunk(
       url: `/game/categories/${game_id}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const fetchGames = createAsyncThunk("game/all", async () => {
@@ -91,7 +91,7 @@ export const fetchGameResult = createAsyncThunk(
       url: `/game/result/${session}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const validateGame = createAsyncThunk(
@@ -102,7 +102,7 @@ export const validateGame = createAsyncThunk(
       method: "get",
       onSuccess,
     });
-  }
+  },
 );
 
 export const fetchTrivia = createAsyncThunk(
@@ -115,7 +115,7 @@ export const fetchTrivia = createAsyncThunk(
       url: `/game/trivia/${category}/${level}`,
       method: "get",
     });
-  }
+  },
 );
 
 export const fetchGenders = createAsyncThunk("game/genders", async () => {
@@ -220,9 +220,9 @@ export const gameSlice = createSlice({
             state.gameSession = action.payload.data.game_session_id;
             state.sessionCreated = true;
             state.gamePin = action.payload.data.game_pin;
-            if (action.payload.data.trivia){
+            if (action.payload.data.trivia) {
               state.trivia = JSON.parse(action.payload.data.trivia).map(
-                (item: any) => ({ ...item, completed: false })
+                (item: any) => ({ ...item, completed: false }),
               );
             }
             break;
@@ -236,7 +236,7 @@ export const gameSlice = createSlice({
             break;
           case "game/result/fulfilled":
             state.results = action.payload.results.sort(
-              (a: any, b: any) => b.point - a.point
+              (a: any, b: any) => b.point - a.point,
             );
             break;
           case "game/genders/fulfilled":

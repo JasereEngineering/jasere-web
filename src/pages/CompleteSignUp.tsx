@@ -16,7 +16,7 @@ const CompleteSignUp = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
   const { login, user } = useAuth() as AuthContextType;
 
@@ -31,7 +31,7 @@ const CompleteSignUp = () => {
       completeSignup({
         password,
         verification_id,
-      })
+      }),
     );
   };
 

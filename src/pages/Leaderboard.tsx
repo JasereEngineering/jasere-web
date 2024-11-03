@@ -134,7 +134,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const encodedText = encodeURIComponent(`Think you can do better?Check out exciting games on ${process.env.REACT_APP_URL}`);
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
-
   const resetBottomModal = () => setModal(false);
 
   

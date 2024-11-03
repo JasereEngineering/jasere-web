@@ -1,7 +1,8 @@
 const AltPlayerCard = ({ name, image }: { name: string; image: string }) => {
   return (
     <div className="relative w-[20.5rem]">
-      <img loading="lazy"
+      <img
+        loading="lazy"
         className="w-[7.125rem] h-[7.125rem] rounded-full object-cover relative z-10"
         src={image}
         alt={name}

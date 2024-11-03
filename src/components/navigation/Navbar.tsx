@@ -13,7 +13,8 @@ const Navbar = ({ className }: { className?: string }) => {
         className ? className : ""
       }`}
     >
-      <img loading="lazy"
+      <img
+        loading="lazy"
         src={logo}
         alt="logo"
         className="w-[12.25rem] h-[3.5rem] cursor-pointer"

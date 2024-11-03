@@ -27,7 +27,7 @@ type PaginatedData = {
   limit: number;
   total: number;
   totalPages: number;
-}
+};
 
 export interface UserState {
   firstName: string | null;
@@ -43,7 +43,7 @@ export interface UserState {
   badges: number | null;
   games: PaginatedData | null;
   leaderboard: PaginatedData | null;
-  game: any
+  game: any;
 }
 
 export interface GameState {

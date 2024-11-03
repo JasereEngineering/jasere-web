@@ -22,7 +22,7 @@ const GameDetails = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { game, loading } = useSelector<RootState>(
-    ({ user }) => user
+    ({ user }) => user,
   ) as UserState;
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const GameDetails = () => {
             <div>
               <p className="text-right text-[#A6A6A6] text-[0.813rem] leading-[0.983rem] tracking-[-0.25px] mb-1">
                 {dayjs(game?.game_details?.createdAt).format(
-                  "DD MMMM, YYYY | HH:mm"
+                  "DD MMMM, YYYY | HH:mm",
                 )}
               </p>
               <p className="text-right text-[#A6A6A6] text-[0.75rem] leading-[0.908rem] tracking-[-0.25px]">
@@ -166,7 +166,7 @@ const GameDetails = () => {
         </div>
       </div>
       <div className="w-full fixed bottom-0 left-0 right-0 bg-black px-4 pb-[4.188rem] pt-[2rem]">
-        <Button text="Replay" onClick={() => navigate(ROUTES.PLAY.PICK_GAME)} />
+        <Button text="Replay" className="bg-white text-black" onClick={() => navigate(ROUTES.PLAY.PICK_GAME)} />
       </div>
     </AppLayout>
   );

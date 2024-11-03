@@ -33,7 +33,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      console.log({ response });
+      //console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
@@ -56,8 +56,8 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
           ROUTES.PLAY.BEGIN_GAME_FOR(
             response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
             response.game_data.game_session_id,
-            !!notCreator
-          )
+            !!notCreator,
+          ),
         );
       }
     });
@@ -131,6 +131,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
       <div className="flex flex-col gap-y-4 w-full fixed bottom-0 left-0 right-0 bg-black px-[1.875rem] pb-[3.5rem] pt-[2rem]">
         <Button
           text={!notCreator ? "Continue" : "Waiting For Host..."}
+          className="bg-white text-black"
           disabled={!!notCreator}
           onClick={() => {
             socket?.emit("start", {

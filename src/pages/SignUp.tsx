@@ -24,10 +24,10 @@ const SignUp = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
   const { game, level } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
   const { login, user } = useAuth() as AuthContextType;
 
@@ -45,7 +45,7 @@ const SignUp = () => {
   const canSubmit = useMemo(
     () =>
       [username, firstName, lastName, email, password].every((data) => !!data),
-    [username, firstName, lastName, email, password]
+    [username, firstName, lastName, email, password],
   );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,7 +57,7 @@ const SignUp = () => {
         lastName,
         email,
         password,
-      })
+      }),
     );
   };
 
@@ -75,7 +75,7 @@ const SignUp = () => {
           createGame({
             name: gameName!,
             onSuccess: () => navigate(ROUTES.PLAY.START_GAME),
-          })
+          }),
         );
       } else {
         navigate(ROUTES.PLAY.GET_STARTED);
@@ -180,7 +180,7 @@ const SignUp = () => {
           className="font-bold text-[#E6A101]"
           onClick={() =>
             navigate(
-              `${ROUTES.AUTH.SIGNIN}${gameName ? `?game_name=${gameName}` : ""}`
+              `${ROUTES.AUTH.SIGNIN}${gameName ? `?game_name=${gameName}` : ""}`,
             )
           }
         >

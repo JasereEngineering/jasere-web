@@ -38,12 +38,12 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     time,
   } = useSelector<RootState>(({ game }) => game) as GameState;
   const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
 
   const [seconds, setSeconds] = useState<number | undefined>(undefined);
   const [selectedLemon, setSelectedLemon] = useState<number | undefined>(
-    undefined
+    undefined,
   );
 
   //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
@@ -117,7 +117,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         dispatch(joinGame(response.game_data));
         if (!response.game_data.is_valid_lemon)
           navigate(
-            ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+            ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
           );
       }
     });
@@ -137,7 +137,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
           dispatch(joinGame(response.game_data));
           if (!response.game_data.is_valid_lemon)
             navigate(
-              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator)
+              ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
             );
         }
       });
@@ -145,7 +145,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
     return () => {
       clearInterval(heartbeatInterval);
-    }
+    };
     // eslint-disable-next-line
   }, [gamePin, username]);
 
@@ -153,15 +153,12 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     <AppLayout className="font-lal px-4 pt-[8rem] pb-[4.25rem]">
       {/* {loading ? <Loader /> : null} */}
       <div className="flex flex-col">
-        
-        
         {/* <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           {gameTitle?.replaceAll("-", " ")}
         </h1>
         <p className="font-inter font-medium text-[1rem] text-center leading-[1.25rem] tracking-[-0.18px] mb-7 capitalize">
           {players.length} Players | {difficulty || difficultyLevel}
         </p> */}
-
 
         <div className="relative rounded-[18px] w-full mb-4 max-h-[9.375rem]">
           <img

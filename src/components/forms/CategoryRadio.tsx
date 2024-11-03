@@ -31,7 +31,9 @@ const CategoryRadio = ({
               <div className="bg-violet md:bg-[#AFAFAF] rounded-full grow"></div>
             ) : null}
           </div>
-          <p className="font-lato font-bold text-[1rem] md:text-[1.875rem] uppercase">{label}</p>
+          <p className="font-lato font-bold text-[1rem] md:text-[1.875rem] uppercase">
+            {label}
+          </p>
         </div>
       </label>
     </div>

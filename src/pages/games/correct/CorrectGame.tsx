@@ -18,39 +18,45 @@ import audioPauseImage from "../../../assets/images/basil_pause-solid.svg";
 
 const CorrectGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
-  const { gameSession,gameTitle } = useParams();
+  const { gameSession, gameTitle } = useParams();
   const [searchParams] = useSearchParams();
 
   const notCreator = searchParams.get("player");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { trivia, currentTrivia, time } =
-    useSelector<RootState>(({ game }) => game) as GameState;
+  const { trivia, currentTrivia, time } = useSelector<RootState>(
+    ({ game }) => game,
+  ) as GameState;
   const { username, id } = useSelector<RootState>(
-    ({ auth }) => auth
+    ({ auth }) => auth,
   ) as AuthState;
-
-  
 
   const [loaded, setLoaded] = useState(false);
   const [word, setWord] = useState(trivia[currentTrivia]?.answer.toUpperCase());
   const [hurray, setHurray] = useState<any>(null);
-  const [index,setIndex] = useState<any>(null);
+  const [index, setIndex] = useState<any>(null);
   const [seconds, setSeconds] = useState(() => {
     const savedTime = localStorage.getItem(`remaining-time-${gameSession}`);
     return savedTime ? Number(savedTime) : time;
   });
   const [prevAnswerTime, setPrevAnswerTime] = useState(time);
 
-  
-  const questionType = (trivia[currentTrivia].question_type || "").toLowerCase()
-  const conditionTimer = (seconds > 0) &&  (  ( questionType === "text" ) || (loaded === true && (questionType !== "text"))  )
+  const questionType = (
+    trivia[currentTrivia].question_type || ""
+  ).toLowerCase();
+  const conditionTimer =
+    seconds > 0 &&
+    (questionType === "text" || (loaded === true && questionType !== "text"));
   //console.log( `Seconds - ${seconds} ConditionTimer - ${conditionTimer} - Question Type: ${questionType} ` );
-  
-  const handleSubmit = (selected_answer:string,skip?:boolean,index?:number) => {
+
+  const handleSubmit = (
+    selected_answer: string,
+    skip?: boolean,
+    index?: number,
+  ) => {
     const is_correct = selected_answer === word.toLowerCase();
-    if (!skip){
-      setIndex( index );
+    if (!skip) {
+      setIndex(index);
       setHurray(is_correct);
     }
     socket?.emit("poll-answer", {
@@ -72,20 +78,20 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
         setIndex(null);
         dispatch(updateTrivia(currentTrivia));
       },
-      skip ? 1 : 1000
+      skip ? 1 : 1000,
     );
   };
-    
+
   useEffect(() => {
     let intervalId: any;
-    if ( seconds ) {
+    if (seconds) {
       intervalId = setInterval(() => {
         if (conditionTimer) {
           setSeconds((prevSeconds) => {
             const newSeconds = prevSeconds - 1;
             localStorage.setItem(
               `remaining-time-${gameSession}`,
-              newSeconds.toString()
+              newSeconds.toString(),
             );
             return newSeconds;
           });
@@ -96,14 +102,14 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
         ROUTES.PLAY.LEADERBOARD_FOR(
           "correct",
           gameSession as string,
-          !!notCreator
-        )
+          !!notCreator,
+        ),
       );
     }
 
     return () => clearInterval(intervalId);
-  }, [seconds, gameSession, navigate, notCreator,conditionTimer]);
-  
+  }, [seconds, gameSession, navigate, notCreator, conditionTimer]);
+
   useEffect(() => {
     const gameCompleted = trivia.every((item) => item.completed);
     if (gameCompleted)
@@ -111,8 +117,8 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
         ROUTES.PLAY.LEADERBOARD_FOR(
           "correct",
           gameSession as string,
-          !!notCreator
-        )
+          !!notCreator,
+        ),
       );
 
     setWord(trivia[currentTrivia].answer.toUpperCase());
@@ -130,72 +136,76 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
   }, [gameSession]);
 
   return (
-    <AppLayout className="font-lal flex flex-col pt-[3.1rem]" navClassName="h-1">
+    <AppLayout
+      className="font-lal flex flex-col pt-[3.1rem]"
+      navClassName="h-1"
+    >
       <div className="flex flex-col items-center px-[1.125rem] pb-[8rem] mb-[20rem]">
         <h1 className="text-[1.875rem] text-center tracking-[-0.25px]">
           CORRECT!
         </h1>
-        <h4 className={`px-[1.094rem] py-0.1 bg-[${
-                    colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
-                  }] rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-1.5`}>
-          { conditionTimer && trivia[currentTrivia].question}
+        <h4
+          className={`px-[1.094rem] py-0.1 bg-[${
+            colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+          }] rounded-[22px] text-center text-[1.25rem] leading-[1.959rem] tracking-[-0.15px] mb-1.5`}
+        >
+          {conditionTimer && trivia[currentTrivia].question}
         </h4>
-          {
-                (trivia[currentTrivia].question_type || "").toLowerCase() === "image" && 
-                (<div>
-                  <LazyLoadImageWithPlaceholder 
-                    src={trivia[currentTrivia].asset_uri} 
-                    alt="" 
-                    notifyParent={ setLoaded }  
-                  />
-                </div>)
-          }
-          {
-                (trivia[currentTrivia].question_type || "").toLowerCase() === "audio" && 
-                (<div className={`border-${ loaded ? 4:0 } border-white w-full rounded-[11px]`}>
-                  <AudioPlayer 
-                    sound={trivia[currentTrivia].asset_uri} 
-                    height={66} 
-                    notifyParent={setLoaded} 
-                    audioPlayImage={audioPlayImage}   
-                    audioPauseImage={audioPauseImage}
-                  />
-                </div>)
-          }
-          
-<div className="w-full bg-white rounded-[3px] h-[0.25rem] m-6">
-                <div
-                  className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"
-                  style={{ width: `${(seconds / time) * 100}%` }}
-                ></div>
-              </div>
-
-        
-          <div className="grid grid-cols-2 gap-x-2 gap-y-4 items-center w-full">
-            {
-
-                trivia[currentTrivia].options.map( ( option:string,i:number ) => (
-                  <CorrectGameButton 
-                    key={i} componentIndex={i} 
-                    renderedIndex={index} 
-                    text={option} 
-                    hurray={hurray}
-                    onClick={ ()=>{
-                    handleSubmit(option.toLowerCase(),false,i)
-                  }}/>
-
-                ))
-            }
+        {(trivia[currentTrivia].question_type || "").toLowerCase() ===
+          "image" && (
+          <div>
+            <LazyLoadImageWithPlaceholder
+              src={trivia[currentTrivia].asset_uri}
+              alt=""
+              notifyParent={setLoaded}
+            />
           </div>
+        )}
+        {(trivia[currentTrivia].question_type || "").toLowerCase() ===
+          "audio" && (
+          <div
+            className={`border-${loaded ? 4 : 0} border-white w-full rounded-[11px]`}
+          >
+            <AudioPlayer
+              sound={trivia[currentTrivia].asset_uri}
+              height={66}
+              notifyParent={setLoaded}
+              audioPlayImage={audioPlayImage}
+              audioPauseImage={audioPauseImage}
+            />
+          </div>
+        )}
+
+        <div className="w-full bg-white rounded-[3px] h-[0.25rem] m-6">
+          <div
+            className="lemon-countdown bg-[#CE0F15] h-[0.25rem] rounded-[3px] transition-all ease-linear duration-1000"
+            style={{ width: `${(seconds / time) * 100}%` }}
+          ></div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-2 gap-y-4 items-center w-full">
+          { JSON.parse(trivia[currentTrivia]).options.map((option: string, i: number) => (
+            <CorrectGameButton
+              key={i}
+              componentIndex={i}
+              renderedIndex={index}
+              text={option}
+              hurray={hurray}
+              onClick={() => {
+                handleSubmit(option.toLowerCase(), false, i);
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <button
         className="capitalize h-[2.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
-        onClick={ ()=>{
-          handleSubmit( "",true, )
+        onClick={() => {
+          handleSubmit("", true);
         }}
-        >
-         SKIP
+      >
+        SKIP
       </button>
     </AppLayout>
   );

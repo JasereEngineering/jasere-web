@@ -22,7 +22,8 @@ const GameCard = ({
       }`}
       onClick={onClick}
     >
-      <img loading="lazy"
+      <img
+        loading="lazy"
         src={image}
         alt={name}
         className="h-full w-full rounded-[18px] object-cover"

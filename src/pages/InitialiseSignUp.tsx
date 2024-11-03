@@ -43,7 +43,7 @@ const InitialiseSignUp = () => {
         email,
         gender,
         onSuccess: () => setEmailSent(true),
-      })
+      }),
     );
   };
 

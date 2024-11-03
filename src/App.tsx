@@ -49,19 +49,18 @@ export default function App() {
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const disconnects = useRef(0);
-  const reconnectSocketEvent = (socket:Socket) => {
-
+  const reconnectSocketEvent = (socket: Socket) => {
     /* we have to read it directly from the localstorage because the 
     initial code was reading an older state on the App component
     */
 
     const rootLocalStorage = localStorage.getItem("persist:root") || "";
-    const parsedRootLocalStorage = JSON.parse( rootLocalStorage );
+    const parsedRootLocalStorage = JSON.parse(rootLocalStorage);
     const game = JSON.parse(parsedRootLocalStorage["game"]);
     const auth = JSON.parse(parsedRootLocalStorage["auth"]);
 
     const { gamePin } = game;
-    const { username,id,avatar } = auth;
+    const { username, id, avatar } = auth;
 
     socket.emit("reconnected", {
       game_pin: gamePin,
@@ -69,24 +68,19 @@ export default function App() {
       avatar: avatar,
       user_id: id,
     });
-  }
-
-
-
-
+  };
 
   useEffect(() => {
     if (!socket || !socket.connected) {
       const newSocket = io(`${process.env.REACT_APP_BASE_URL}/game`);
       setSocket(newSocket);
 
-
       newSocket.on("connect", () => {
         console.log("connected!");
         // console.log( "reconnectng stuff...." );
         // console.log( disconnects.current );
         if (disconnects.current) {
-          console.log( "send remitting" );
+          console.log("send remitting");
           reconnectSocketEvent(newSocket);
         }
       });
@@ -104,12 +98,12 @@ export default function App() {
       newSocket.on("disconnect", () => {
         console.log("disconnected!");
         disconnects.current = disconnects.current + 1;
-        console.log( disconnects.current );
+        console.log(disconnects.current);
       });
     } else if (socket.disconnected) {
       socket.connect();
     }
-    
+
     return () => {
       if (socket) {
         socket.off("connect");
@@ -169,7 +163,7 @@ export default function App() {
         path={ROUTES.LEMON.RESULT}
         element={<LemonResult socket={socket} />}
       />
-      
+
       <Route path={ROUTES.AUTH.SIGNIN} element={<Login />} />
       <Route element={<UnauthedLayout />}>
         <Route path={ROUTES.AUTH.BEGIN_SIGNUP} element={<InitialiseSignUp />} />
@@ -198,8 +192,6 @@ export default function App() {
           element={<CreateGame />}
         />
       </Route>
-
-      
 
       <Route
         path="*"

@@ -21,18 +21,17 @@ const FooterButton = ({
     background: "transparent",
   };
   return (
-
     <button
-    className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
-    onClick={onClick}
+      className="capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0"
+      onClick={onClick}
       disabled={loading || disabled}
-  >
-    {loading ? (
+    >
+      {loading ? (
         <PacmanLoader cssOverride={override} size={15} color="#1E1E1E" />
       ) : (
         text
       )}
-  </button>
+    </button>
 
     // <button
     //   className={`bg-white w-full p-[0.75rem] flex justify-center items-center text-center text-black rounded-[78px] font-lal text-[1.5rem] ${

@@ -50,7 +50,7 @@ const OtpInput = ({
 
   const inputOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     const target = e.target;
     let targetValue = target.value.trim();

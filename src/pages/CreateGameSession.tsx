@@ -18,7 +18,6 @@ import * as ROUTES from "../routes";
 import FooterButton from "../components/forms/FooterButton";
 
 const CreateGameSession = () => {
-
   const navigate = useNavigate();
   const { gameTitle } = useParams();
 
@@ -26,7 +25,7 @@ const CreateGameSession = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { loading, gameSession, sessionCreated } = useSelector<RootState>(
-    ({ game }) => game
+    ({ game }) => game,
   ) as GameState;
 
   const [name, setName] = useState("");
@@ -41,10 +40,9 @@ const CreateGameSession = () => {
   };
 
   useEffect(() => {
-
-    if (gameSession && sessionCreated){
+    if (gameSession && sessionCreated) {
       navigate(ROUTES.PLAY.START_GAME);
-    } 
+    }
     return () => {
       dispatch(clearGameSession());
     };
@@ -85,7 +83,12 @@ const CreateGameSession = () => {
         loading={loading}
       /> */}
 
-      <FooterButton text="Next" onClick={handleSubmit} loading={loading} disabled={!name} />
+      <FooterButton
+        text="Next"
+        onClick={handleSubmit}
+        loading={loading}
+        disabled={!name}
+      />
     </AppLayout>
   );
 };

@@ -16,7 +16,7 @@ export const PLAY = {
   BEGIN_GAME_FOR: (
     gameTitle: string,
     gameSession: string,
-    participant?: boolean
+    participant?: boolean,
   ) =>
     `/${gameTitle}/game/${gameSession}${
       participant ? "?player=participant" : ""
@@ -35,7 +35,7 @@ export const PLAY = {
   LEADERBOARD_FOR: (
     gameTitle: string,
     gameSession: string,
-    participant?: boolean
+    participant?: boolean,
   ) =>
     `/${gameTitle}/game/${gameSession}/leaderboard${
       participant ? "?player=participant" : ""
@@ -68,7 +68,6 @@ export const CORRECT = {
   CREATE_QUESTIONS: "/correct/create-questions",
   GAME: "/correct/game/:gameSession",
 };
-
 
 export const LEMON = {
   DIFFICULTY: "/lemon/difficulty",
