@@ -184,7 +184,7 @@ const CorrectGame = ({ socket }: { socket: Socket | null }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-x-2 gap-y-4 items-center w-full">
-          { JSON.parse(trivia[currentTrivia]).options.map((option: string, i: number) => (
+          {trivia[currentTrivia].options.map((option: string, i: number) => (
             <CorrectGameButton
               key={i}
               componentIndex={i}

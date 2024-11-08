@@ -107,7 +107,6 @@ const AppLayout = ({
             </div>
           </div>
         </>
-
       )}
 
       <div
