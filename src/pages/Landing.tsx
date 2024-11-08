@@ -17,8 +17,7 @@ const Landing = () => {
     >
       <div
         className={`flex flex-col items-center grow bg-[url('https://storage.googleapis.com/jasere-assets/static/img/People%20asset.svg')] bg-center bg-no-repeat w-full`}
-      >
-      </div>
+      ></div>
       <div>
         <p className="font-lal text-[1rem] font-bold text-[#E96200] text-center leading-[1.094rem] tracking-[-0.4px] text-xl mt-3 mb-3">
           The best party games on mobile

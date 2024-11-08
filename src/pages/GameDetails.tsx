@@ -166,7 +166,11 @@ const GameDetails = () => {
         </div>
       </div>
       <div className="w-full fixed bottom-0 left-0 right-0 bg-black px-4 pb-[4.188rem] pt-[2rem]">
-        <Button text="Replay" className="bg-white text-black" onClick={() => navigate(ROUTES.PLAY.PICK_GAME)} />
+        <Button
+          text="Replay"
+          className="bg-white text-black"
+          onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
+        />
       </div>
     </AppLayout>
   );
