@@ -53,7 +53,7 @@ const ForgotPassword = () => {
       </div>
       <Button
         text="Proceed"
-        className="!text-[1.375rem] !p-2 mb-4"
+        className="!text-[1.375rem] !p-2 mb-4 bg-white text-black"
         loading={loading}
         disabled={!email}
         onClick={handleSubmit}
