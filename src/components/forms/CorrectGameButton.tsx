@@ -16,10 +16,10 @@ const CorrectGameButton = ({
     bgAddendum = hurray ? (bgAddendum = "bg-[#24B04C]") : "bg-red";
     textAddendum = hurray !== null ? "text-white" : textAddendum;
   }
-  const className = `${bgAddendum} p-[0.75rem] h-[6.69rem] text-center ${textAddendum} rounded-[12px] font-lal text-[1.5rem]`;
+  const className = `${bgAddendum} p-[0.75rem] h-[6.69rem] text-center ${textAddendum} rounded-[12px] font-lal text-[1.2rem]`;
   return (
     <button className={className} onClick={onClick} type="button">
-      {text.toUpperCase()}
+      {text}
     </button>
   );
 };
