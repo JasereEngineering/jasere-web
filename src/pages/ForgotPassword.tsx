@@ -4,12 +4,12 @@ import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Input from "../components/forms/Input";
-import Button from "../components/forms/Button";
 
 import { isValidEmail } from "../helpers/misc";
 import { forgotPassword } from "../store/features/auth";
 import { AppDispatch, RootState } from "../store";
 import { AuthState } from "../types";
+import FooterButton from "../components/forms/FooterButton";
 
 const ForgotPassword = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -51,7 +51,8 @@ const ForgotPassword = () => {
           />
         </div>
       </div>
-      <Button
+
+      <FooterButton
         text="Proceed"
         className="!text-[1.375rem] !p-2 mb-4 bg-white text-black"
         loading={loading}
