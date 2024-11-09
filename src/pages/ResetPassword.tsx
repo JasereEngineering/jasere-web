@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Input from "../components/forms/Input";
-import Button from "../components/forms/Button";
 
 import { resetPassword } from "../store/features/auth";
 import { AppDispatch, RootState } from "../store";
 import { AuthState } from "../types";
 import * as ROUTES from "../routes";
+import FooterButton from "../components/forms/FooterButton";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -64,7 +64,8 @@ const ResetPassword = () => {
           />
         </div>
       </div>
-      <Button
+
+      <FooterButton
         text="Proceed"
         className="!text-[1.375rem] !p-2 mb-4 text-black bg-white"
         loading={loading}
