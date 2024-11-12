@@ -129,8 +129,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const location = useLocation();
   const modalOption = useRef<string>("");
   const query = new URLSearchParams(location.search);
-  const currentShareUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}?q=share`;
-
+  // const currentShareUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}?q=share`;
+  
+  const currentShareUrl = `${window.location.origin}?q=share`;
   const shareValue = query.get("q") || "";
   const encodedUrl = encodeURIComponent(currentShareUrl);
   //const encodedTitle = encodeURIComponent("Test Title (Jasere)");
