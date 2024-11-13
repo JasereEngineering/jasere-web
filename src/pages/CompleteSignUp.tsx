@@ -73,7 +73,7 @@ const CompleteSignUp = () => {
       </div>
       <Button
         text="Create Account"
-        className="!text-[1.375rem] !p-2 mb-4"
+        className="!text-[1.375rem] !p-2 mb-4 bg-white text-black"
         loading={loading}
         disabled={!password || !confirmPassword || password !== confirmPassword}
         onClick={handleSubmit}
