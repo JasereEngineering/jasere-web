@@ -142,7 +142,7 @@ const SignUp = () => {
       />
       <Button
         text="Sign Up"
-        className="!text-[1.375rem] !p-2 mb-4 bg-black"
+        className="!text-[1.375rem] !p-2 mb-4 bg-white text-black"
         loading={loading}
         disabled={!canSubmit}
         onClick={handleSubmit}
