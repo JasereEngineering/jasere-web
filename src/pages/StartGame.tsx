@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
-import { Howl } from "howler";
+// import { Howl } from "howler";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
@@ -75,34 +75,36 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     setTimeout(() => setCopied(false), 300);
   };
 
-  const [sound, setSound] = useState<Howl | null>(null);
+  const [sound, setSound] = useState<HTMLAudioElement | null>(null);
   const initializeSound = (file: string) => {
-    Howler.unload();
-    const newSound = new Howl({
-      src: [file],
-      preload: true, // Preload asynchronously
-      //volume: 1.0,
-      loop: true,
-      xhr: {},
-      onload: () => {
-        console.log("Sound loaded successfully!");
-      },
-      onloaderror: (id, error) => {
-        console.error("Failed to load sound:", error);
-      },
-    });
+    //Howler.unload();
+    // const newSound = new Howl({
+    //   src: [file],
+    //   preload: true, // Preload asynchronously
+    //   //volume: 1.0,
+    //   loop: true,
+    //   xhr: {},
+    //   onload: () => {
+    //     console.log("Sound loaded successfully!");
+    //   },
+    //   onloaderror: (id, error) => {
+    //     console.error("Failed to load sound:", error);
+    //   },
+    // });
+
+    const newSound = new Audio(file);
     setSound(newSound);
     newSound.play();
   };
   const handlePlay = () => {
-    const resumeAudioContext = () => {
-      if (Howler.ctx && Howler.ctx.state === "suspended") {
-        Howler.ctx.resume().then(() => {
-          console.log("AudioContext resumed");
-        });
-      }
-    };
-    resumeAudioContext();
+    //const resumeAudioContext = () => {
+    //   if (Howler.ctx && Howler.ctx.state === "suspended") {
+    //     Howler.ctx.resume().then(() => {
+    //       console.log("AudioContext resumed");
+    //     });
+    //   }
+    // };
+    // resumeAudioContext();
     // console.log( sound );
     // console.log( mute );
     if (sound && mute) sound?.pause();
@@ -323,7 +325,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     game_session_id: gameSession,
                   });
                 } else {
-                  sound?.unload();
+                  sound?.pause();
                   socket?.emit("start", {
                     game_pin: gamePin,
                     game_data: {
@@ -437,7 +439,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               onClick={() => {
                 // sound?.pause();
                 // sound?.stop();
-                sound?.unload();
+                sound?.pause();
                 //setMute( true );
                 setLoading(true);
                 socket?.emit("start", {

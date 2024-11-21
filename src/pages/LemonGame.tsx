@@ -14,7 +14,6 @@ import { joinGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
-import { Howl } from "howler";
 
 const LemonGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -50,35 +49,36 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
 
-  const [sound, setSound] = useState<Howl | null>(null);
+  const [sound, setSound] = useState<HTMLAudioElement | null>(null);
 
   const initializeSound = (file: string) => {
-    const newSound = new Howl({
-      src: [file],
-      preload: true, // Preload asynchronously
-      volume: 1.0,
-      loop: false,
-      xhr: {},
-      onload: () => {
-        console.log("Sound loaded successfully!");
-      },
-      onloaderror: (id, error) => {
-        console.error("Failed to load sound:", error);
-      },
-    });
+    // const newSound = new Howl({
+    //   src: [file],
+    //   preload: true, // Preload asynchronously
+    //   volume: 1.0,
+    //   loop: false,
+    //   xhr: {},
+    //   onload: () => {
+    //     console.log("Sound loaded successfully!");
+    //   },
+    //   onloaderror: (id, error) => {
+    //     console.error("Failed to load sound:", error);
+    //   },
+    // });
+    const newSound = new Audio(file);
     setSound(newSound);
     newSound.play();
   };
 
   const handlePlay = () => {
-    const resumeAudioContext = () => {
-      if (Howler.ctx && Howler.ctx.state === "suspended") {
-        Howler.ctx.resume().then(() => {
-          console.log("AudioContext resumed");
-        });
-      }
-    };
-    resumeAudioContext();
+    // const resumeAudioContext = () => {
+    //   if (Howler.ctx && Howler.ctx.state === "suspended") {
+    //     Howler.ctx.resume().then(() => {
+    //       console.log("AudioContext resumed");
+    //     });
+    //   }
+    // };
+    // resumeAudioContext();
     if (sound) {
       sound?.play();
     } else {
