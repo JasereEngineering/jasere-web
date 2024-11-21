@@ -314,6 +314,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
               onClick={() => {
+                
                 setLoading(true);
                 if (gameTitle?.toLowerCase().includes("lemon")) {
                   socket?.emit("broadcast-lemons", {
@@ -321,6 +322,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                     game_session_id: gameSession,
                   });
                 } else {
+                  sound?.unload();
                   socket?.emit("start", {
                     game_pin: gamePin,
                     game_data: {
@@ -432,6 +434,10 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
               onClick={() => {
+                // sound?.pause();
+                // sound?.stop();
+                sound?.unload();
+                //setMute( true );
                 setLoading(true);
                 socket?.emit("start", {
                   game_pin: gamePin,

@@ -97,7 +97,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         </div>
         <h2 className="text-[1.301rem] text-center leading-[1.518rem] tracking-[-0.16px] mb-2.5">
           LEMON {lemonNumberPrev} <br />
-          picked the wrong answer!
+          picked the wrong lemon!
         </h2>
         <div className="h-[1px] w-full bg-white bg-opacity-[39%] mb-[1.375rem]"></div>
         {lemonResult.map((r: any, i: number) => (
