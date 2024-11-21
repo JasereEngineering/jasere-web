@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
@@ -18,6 +18,7 @@ import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket | null }) => {
+  const [ loading,setLoading ] = useState<boolean>(false)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -47,7 +48,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      //console.log({ response });
+      setLoading(false);
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
@@ -132,8 +133,10 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         <Button
           text={!notCreator ? "Continue" : "Waiting For Host..."}
           className="bg-white text-black"
+          loading={loading}
           disabled={!!notCreator}
           onClick={() => {
+            setLoading(true);
             socket?.emit("start", {
               game_pin: gamePin,
               avatar: avatarImage,
