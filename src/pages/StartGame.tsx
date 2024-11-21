@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
 import { Socket } from "socket.io-client";
 import { toast } from "react-toastify";
-// import { Howl } from 'howler';
+import { Howl } from "howler";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
@@ -14,7 +14,9 @@ import copy from "../assets/images/copy.svg";
 import check from "../assets/images/check-sign.svg";
 import info from "../assets/images/info-icon.svg";
 import lemons from "../assets/images/lemon-coloured.svg";
-// import lobbySound from "../assets/sounds/lobby-background.mp3";
+import volumeOn from "../assets/images/volume-on.svg";
+import volumeOff from "../assets/images/volume-off.svg";
+import lobbySound from "../assets/sounds/lobby-background.mp3";
 
 import { playerColours, colorMap, titleMap } from "../helpers/misc";
 import { avatarMap } from "../helpers/misc";
@@ -23,6 +25,7 @@ import { AppDispatch, RootState } from "../store";
 import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 import FooterButton from "../components/forms/FooterButton";
+import Image from "../components/misc/Image";
 
 const StartGame = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -55,6 +58,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
   const [copied, setCopied] = useState(false);
   const [broadcast, setBroadcast] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [mute, setMute] = useState(false);
 
   const gameCategory = categories.find(
     (c) => c.category_id === category,
@@ -71,79 +75,40 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     setTimeout(() => setCopied(false), 300);
   };
 
-  // const [sound,setSound] = useState<Howl| null>(null);
-
-  // const initializeSound = (file:string) => {
-
-  //   const newSound = new Howl({
-  //     src: [file],
-  //     preload: true,  // Preload asynchronously
-  //     volume: 1.0,
-  //     loop:true,
-  //     xhr:{
-
-  //     },
-  //     onload: () => {
-  //       console.log('Sound loaded successfully!');
-  //     },
-  //     onloaderror: (id, error) => {
-  //       console.error('Failed to load sound:', error);
-  //     },
-  //   });
-  //   setSound(newSound);
-  //   newSound.play();
-  // }
-
-  // Initialize and load the sound
-  // const loadSound = (refsound:Howl) => {
-  //   if( refsound ){
-  //     refsound.play();
-  //   }
-  //   else{
-  //     sound.current = initializeSound(lobbySound);
-  //   }
-
-  // };
-
-  // useEffect( ()=> {
-
-  //   if( soundMouseMoveEffect.current === 1 ){
-  //   }
-  //   const handleMouseMove = (event:any) => {
-  //     setMousePosition({
-  //       x: event.clientX,
-  //       y: event.clientY,
-  //     });
-  //   };
-
-  //   // Add event listener for mouse movement
-  //   window.addEventListener('mousemove', handleMouseMove);
-
-  //   // Cleanup function to remove the event listener when the component unmounts
-  //   return () => {
-  //     window.removeEventListener('mousemove', handleMouseMove);
-  //   };
-
-  // },[mousePosition] )
-
-  // const handlePlay = () => {
-
-  //   const resumeAudioContext = () => {
-  //     if (Howler.ctx && Howler.ctx.state === 'suspended') {
-  //       Howler.ctx.resume().then(() => {
-  //         console.log('AudioContext resumed');
-  //       });
-  //     }
-
-  //   };
-  //   resumeAudioContext();
-  //   if( sound ){
-  //     sound?.play();
-  //   }
-  //   else{
-  //     initializeSound("https://storage.googleapis.com/jasere-assets/static/audio/correct/lemon-assigned-sound.mp3");
-  //   }
-  // };
+  const [sound, setSound] = useState<Howl | null>(null);
+  const initializeSound = (file: string) => {
+    const newSound = new Howl({
+      src: [file],
+      preload: true, // Preload asynchronously
+      volume: 1.0,
+      loop: true,
+      xhr: {},
+      onload: () => {
+        console.log("Sound loaded successfully!");
+      },
+      onloaderror: (id, error) => {
+        console.error("Failed to load sound:", error);
+      },
+    });
+    setSound(newSound);
+    newSound.play();
+  };
+  const handlePlay = () => {
+    const resumeAudioContext = () => {
+      if (Howler.ctx && Howler.ctx.state === "suspended") {
+        Howler.ctx.resume().then(() => {
+          console.log("AudioContext resumed");
+        });
+      }
+    };
+    resumeAudioContext();
+    // console.log( sound );
+    // console.log( mute );
+    if (sound && mute) sound?.pause();
+    else if (sound && !mute) sound?.play();
+    else initializeSound(lobbySound);
+    setMute(!mute);
+  };
 
   useEffect(() => {
     socket?.emit("join", {
@@ -207,6 +172,30 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
         {loading ? <Loader /> : null}
         {!broadcast ? (
           <>
+            <div className="flex justify-between mb-3">
+              <span></span>
+              {mute ? (
+                <Image
+                  src={volumeOn}
+                  alt="Volume On"
+                  className=""
+                  onClick={() => {
+                    setMute(true);
+                    handlePlay();
+                  }}
+                />
+              ) : (
+                <Image
+                  src={volumeOff}
+                  alt="Volume Off"
+                  className=""
+                  onClick={() => {
+                    setMute(false);
+                    handlePlay();
+                  }}
+                />
+              )}
+            </div>
             <div className="flex flex-col items-center">
               <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
                 {
@@ -248,7 +237,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               <br />
 
               {!notCreator && (
-                <div className="rounded-[10px] p-2 border border-white w-[7.125rem] h-[7.125rem] mb-4">
+                <div className="rounded-[10px] p-1 border border-white w-[7.125rem] h-[7.125rem] mb-6">
                   <QRCode
                     style={{ height: "100%", maxWidth: "100%", width: "100%" }}
                     value={`${process.env.REACT_APP_URL}${ROUTES.PLAY.JOIN_GAME}?code=${gamePin}`}
@@ -256,22 +245,11 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
                 </div>
               )}
 
-              {/* <p className="font-lex text-[1.125rem] text-center leading-[1.406rem] tracking-[-0.4px] mb-6 max-w-[19.313rem]">
-        Your game lobby is full!, proceed to start the game
-      </p> */}
-              {/* <p className="font-inter font-semibold text-[0.875rem] text-center leading-[1.094rem] tracking-[-0.4px] mt-2 mb-6">
-              Waiting for other players to join
-            </p> */}
-
               {notCreator ? (
                 <div className="flex justify-center items-center mb-6">
                   <div className="max-w-fit bg-[#24E95B] rounded-[10px] px-4 py-3 flex items-center">
-                    <img
-                      loading="lazy"
-                      src={check}
-                      alt="checkmark"
-                      className="mr-2"
-                    />
+                    <Image src={check} alt="checkmark" className="mr-2" />
+
                     <span className="font-inter text-black text-[0.938rem] leading-[1.172rem] tracking-[-0.18px]">
                       Joined as{" "}
                       <span className="font-semibold capitalize">
@@ -356,6 +334,31 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
           </>
         ) : (
           <>
+            <div className="flex justify-between mb-3">
+              <span></span>
+
+              {mute ? (
+                <Image
+                  src={volumeOn}
+                  alt="Volume On"
+                  className=""
+                  onClick={() => {
+                    setMute(true);
+                    handlePlay();
+                  }}
+                />
+              ) : (
+                <Image
+                  src={volumeOff}
+                  alt="Volume Off"
+                  className=""
+                  onClick={() => {
+                    setMute(false);
+                    handlePlay();
+                  }}
+                />
+              )}
+            </div>
             <div className="flex flex-col items-center mb-10">
               <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
                 {
