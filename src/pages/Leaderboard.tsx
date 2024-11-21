@@ -129,18 +129,34 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const location = useLocation();
   const modalOption = useRef<string>("");
   const query = new URLSearchParams(location.search);
-  // const currentShareUrl = `${window.location.origin}${location.pathname}${location.search}${location.hash}?q=share`;
-  
   const currentShareUrl = `${window.location.origin}?q=share`;
   const shareValue = query.get("q") || "";
   const encodedUrl = encodeURIComponent(currentShareUrl);
-  //const encodedTitle = encodeURIComponent("Test Title (Jasere)");
-  const encodedText = encodeURIComponent(
-    `Think you can do better?Check out exciting games on ${process.env.REACT_APP_URL}`,
-  );
+  const url = process.env.REACT_APP_URL || "";
+  const shareText = process.env.REACT_APP_SHARE_TEXT || "";
+  const title = process.env.REACT_APP_SHARE_TITLE || "";
+  const encodedText = `${shareText}`; 
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
   const resetBottomModal = () => setModal(false);
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text: encodedText,
+          url
+        });
+        console.log("Content shared successfully!");
+      } catch (error) {
+        console.error("Error sharing content:", error);
+      }
+    } else {
+      console.warn("Web Share API is not supported in this browser.");
+    }
+
+  }
+
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
@@ -380,13 +396,18 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         )}
 
         {!shareValue && (
-          <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center">
+          <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center"
+          onClick={
+            handleShare
+          //   () => {
+          //   modalOption.current = "share";
+          //   setModal(true);
+          // }
+        
+        }
+          >
             <img loading="lazy" src={share} alt="share" className="mr-2" />
             <span
-              onClick={() => {
-                modalOption.current = "share";
-                setModal(true);
-              }}
               className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px] cursor-pointer"
             >
               Share
@@ -400,10 +421,14 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
           className={`capitalize h-[6.25rem] bg-white font-lal text-[1.5rem] leading-[2.375rem] tracking-[-0.1px] text-black flex items-center justify-center w-full fixed bottom-0 left-0 right-0 ${
             notCreator ? "opacity-75" : ""
           }`}
-          onClick={() => {
-            modalOption.current = "replay";
-            setModal(true);
-          }}
+          onClick={
+            handleShare
+          //   () => {
+          //   modalOption.current = "replay";
+          //   setModal(true);
+          // }
+        
+        }
           disabled={!!notCreator}
         >
           {notCreator ? "WAITING FOR HOST..." : "NEXT"}
