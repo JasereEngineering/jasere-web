@@ -8,7 +8,7 @@ import AppLayout from "../components/layouts/AppLayout";
 import Lemon from "../components/misc/Lemon";
 
 import lemonBg from "../assets/images/lemon.jpg";
-import lemonOneSound from "../assets/sounds/lemon-1.mp3";
+import lemonOneSound from "../assets/sounds/lemon-one.mp3";
 
 import { joinGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
