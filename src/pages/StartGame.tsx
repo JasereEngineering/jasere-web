@@ -94,6 +94,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
 
     const newSound = new Audio(file);
     newSound.preload = "auto";
+    newSound.loop = true;
     setSound(newSound);
     newSound.play();
   };
