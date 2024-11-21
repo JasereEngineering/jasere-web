@@ -135,9 +135,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const url = process.env.REACT_APP_URL || "";
   const shareText = process.env.REACT_SHARE_TEXT || "";
   const title = process.env.REACT_SHARE_TITLE || "";
-  const encodedText = encodeURIComponent(
-    `${shareText}${url}`,
-  );
+  const encodedText = `${shareText}${url}`; 
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
   const resetBottomModal = () => setModal(false);
