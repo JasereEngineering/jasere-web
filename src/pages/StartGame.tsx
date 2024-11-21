@@ -77,10 +77,11 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
 
   const [sound, setSound] = useState<Howl | null>(null);
   const initializeSound = (file: string) => {
+    Howler.unload();
     const newSound = new Howl({
       src: [file],
       preload: true, // Preload asynchronously
-      volume: 1.0,
+      //volume: 1.0,
       loop: true,
       xhr: {},
       onload: () => {
