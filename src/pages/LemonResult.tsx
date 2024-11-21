@@ -18,7 +18,7 @@ import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket | null }) => {
-  const [ loading,setLoading ] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
