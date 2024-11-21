@@ -66,6 +66,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     //   },
     // });
     const newSound = new Audio(file);
+    newSound.preload = "auto";
     setSound(newSound);
     newSound.play();
   };
@@ -227,7 +228,9 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
               seconds ? "text-white" : "text-black"
             }`}
           >
-            {seconds ? "Tap on a lemon to select" : "Waiting for other lemons (Don't snooze)"}
+            {seconds
+              ? "Tap on a lemon to select"
+              : "Waiting for other lemons (Don't snooze)"}
           </p>
         </div>
         <div className="px-1 grid grid-cols-3 gap-x-4 gap-y-4">

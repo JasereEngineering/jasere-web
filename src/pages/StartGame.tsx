@@ -93,6 +93,7 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
     // });
 
     const newSound = new Audio(file);
+    newSound.preload = "auto";
     setSound(newSound);
     newSound.play();
   };
@@ -317,7 +318,6 @@ const StartGame = ({ socket }: { socket: Socket | null }) => {
               text={notCreator ? "Waiting For Host..." : "Let's Play"}
               disabled={!!notCreator}
               onClick={() => {
-                
                 setLoading(true);
                 if (gameTitle?.toLowerCase().includes("lemon")) {
                   socket?.emit("broadcast-lemons", {

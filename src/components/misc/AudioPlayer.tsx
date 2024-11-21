@@ -71,7 +71,6 @@ const AudioPlayer = ({
             backend="MediaElement"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
-            
           />
         </div>
       </div>
