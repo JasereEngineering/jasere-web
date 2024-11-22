@@ -71,18 +71,6 @@ const AudioPlayer = ({
             backend="MediaElement"
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
-            // fetchParams={
-            //     {
-
-            //         mode:'no-cors',
-            //         cache:'no-cache',
-            //         referrerPolicy:'same-origin',
-            //         headers:{
-            //             'Accept': 'audio/mpeg, audio/mp3'
-            //         }
-            //     }
-
-            // }
           />
         </div>
       </div>

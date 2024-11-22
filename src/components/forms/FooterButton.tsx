@@ -32,21 +32,6 @@ const FooterButton = ({
         text
       )}
     </button>
-
-    // <button
-    //   className={`bg-white w-full p-[0.75rem] flex justify-center items-center text-center text-black rounded-[78px] font-lal text-[1.5rem] ${
-    //     className ? className : ""
-    //   } ${disabled ? "opacity-75" : ""}`}
-    //   onClick={onClick}
-    //   disabled={loading || disabled}
-    //   type={type}
-    // >
-    //   {loading ? (
-    //     <PacmanLoader cssOverride={override} size={15} color="#1E1E1E" />
-    //   ) : (
-    //     text
-    //   )}
-    // </button>
   );
 };
 

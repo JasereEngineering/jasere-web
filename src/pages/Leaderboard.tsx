@@ -135,7 +135,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const url = process.env.REACT_APP_URL || "";
   const shareText = process.env.REACT_APP_SHARE_TEXT || "";
   const title = process.env.REACT_APP_SHARE_TITLE || "";
-  const encodedText = `${shareText}`; 
+  const encodedText = `${shareText}`;
   const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedText}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`;
   const resetBottomModal = () => setModal(false);
@@ -145,7 +145,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         await navigator.share({
           title,
           text: encodedText,
-          url
+          url,
         });
         console.log("Content shared successfully!");
       } catch (error) {
@@ -154,9 +154,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     } else {
       console.warn("Web Share API is not supported in this browser.");
     }
-
-  }
-
+  };
 
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
@@ -396,20 +394,18 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
         )}
 
         {!shareValue && (
-          <div className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center"
-          onClick={
-            handleShare
-          //   () => {
-          //   modalOption.current = "share";
-          //   setModal(true);
-          // }
-        
-        }
+          <div
+            className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center"
+            onClick={
+              handleShare
+              //   () => {
+              //   modalOption.current = "share";
+              //   setModal(true);
+              // }
+            }
           >
             <img loading="lazy" src={share} alt="share" className="mr-2" />
-            <span
-              className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px] cursor-pointer"
-            >
+            <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px] cursor-pointer">
               Share
             </span>
           </div>
@@ -423,12 +419,11 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
           }`}
           onClick={
             handleShare
-          //   () => {
-          //   modalOption.current = "replay";
-          //   setModal(true);
-          // }
-        
-        }
+            //   () => {
+            //   modalOption.current = "replay";
+            //   setModal(true);
+            // }
+          }
           disabled={!!notCreator}
         >
           {notCreator ? "WAITING FOR HOST..." : "NEXT"}

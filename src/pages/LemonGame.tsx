@@ -8,6 +8,7 @@ import AppLayout from "../components/layouts/AppLayout";
 import Lemon from "../components/misc/Lemon";
 
 import lemonBg from "../assets/images/lemon.jpg";
+import lemonOneSound from "../assets/sounds/lemon-one.mp3";
 
 import { joinGame } from "../store/features/game";
 import { AppDispatch, RootState } from "../store";
@@ -47,6 +48,45 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   );
 
   //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
+
+  const [sound, setSound] = useState<HTMLAudioElement | null>(null);
+
+  const initializeSound = (file: string) => {
+    // const newSound = new Howl({
+    //   src: [file],
+    //   preload: true, // Preload asynchronously
+    //   volume: 1.0,
+    //   loop: false,
+    //   xhr: {},
+    //   onload: () => {
+    //     console.log("Sound loaded successfully!");
+    //   },
+    //   onloaderror: (id, error) => {
+    //     console.error("Failed to load sound:", error);
+    //   },
+    // });
+    const newSound = new Audio(file);
+    newSound.preload = "auto";
+    newSound.loop = true;
+    setSound(newSound);
+    newSound.play();
+  };
+
+  const handlePlay = () => {
+    // const resumeAudioContext = () => {
+    //   if (Howler.ctx && Howler.ctx.state === "suspended") {
+    //     Howler.ctx.resume().then(() => {
+    //       console.log("AudioContext resumed");
+    //     });
+    //   }
+    // };
+    // resumeAudioContext();
+    if (sound) {
+      sound?.play();
+    } else {
+      initializeSound(lemonOneSound);
+    }
+  };
 
   useEffect(() => {
     if (selectedLemon && seconds) {
@@ -100,17 +140,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
   }, [lemonNumber, lemonNumberNext, time]);
 
   useEffect(() => {
-    // socket?.on("reconnect", () => {
-    //   socket?.emit("join", {
-    //     game_pin: gamePin,
-    //     player_name: username,
-    //     avatar: avatarImage,
-    //     user_id: id,
-    //   });
-    // });
-
     socket?.on("poll-room", (response: any) => {
-      console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
@@ -199,7 +229,9 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
               seconds ? "text-white" : "text-black"
             }`}
           >
-            {seconds ? "Tap on a lemon to select" : "Waiting for your turn"}
+            {seconds
+              ? "Tap on a lemon to select"
+              : "Waiting for other lemons (Don't snooze)"}
           </p>
         </div>
         <div className="px-1 grid grid-cols-3 gap-x-4 gap-y-4">
@@ -210,7 +242,10 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
               key={l}
               checked={l === selectedLemon}
               onClick={() => {
-                if (!selectedLemon && seconds) setSelectedLemon(l);
+                if (!selectedLemon && seconds) {
+                  handlePlay();
+                  setSelectedLemon(l);
+                }
               }}
             />
           ))}

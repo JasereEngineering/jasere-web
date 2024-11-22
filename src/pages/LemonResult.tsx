@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
@@ -18,6 +18,7 @@ import { GameState, AuthState } from "../types";
 import * as ROUTES from "../routes";
 
 const LemonResult = ({ socket }: { socket: Socket | null }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -47,7 +48,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      //console.log({ response });
+      setLoading(false);
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
@@ -96,7 +97,7 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         </div>
         <h2 className="text-[1.301rem] text-center leading-[1.518rem] tracking-[-0.16px] mb-2.5">
           LEMON {lemonNumberPrev} <br />
-          picked the wrong answer!
+          picked the wrong lemon!
         </h2>
         <div className="h-[1px] w-full bg-white bg-opacity-[39%] mb-[1.375rem]"></div>
         {lemonResult.map((r: any, i: number) => (
@@ -132,8 +133,10 @@ const LemonResult = ({ socket }: { socket: Socket | null }) => {
         <Button
           text={!notCreator ? "Continue" : "Waiting For Host..."}
           className="bg-white text-black"
+          loading={loading}
           disabled={!!notCreator}
           onClick={() => {
+            setLoading(true);
             socket?.emit("start", {
               game_pin: gamePin,
               avatar: avatarImage,
