@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import AppLayout from "../components/layouts/AppLayout";
-import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
 // import Select from "../components/forms/Select";
 // import Range from "../components/forms/Range";
@@ -11,6 +10,7 @@ import twoPlayers from "../assets/images/2players.svg";
 import threePlayers from "../assets/images/3players.svg";
 import fourPlayers from "../assets/images/4players.svg";
 import fourPlayersDark from "../assets/images/4players-dark.svg";
+import FooterButton from "../components/forms/FooterButton";
 
 const CreateGame = () => {
   const [title, setTitle] = useState("");
@@ -104,7 +104,11 @@ const CreateGame = () => {
           </div>
         </div>
       </div>
-      <Button text="Next" onClick={() => {}} />
+      <FooterButton
+            text="Let's Play"
+            onClick={() => alert('create game')}
+            loading={false}
+          />
     </AppLayout>
   );
 };

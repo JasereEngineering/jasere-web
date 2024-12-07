@@ -122,6 +122,7 @@ export default function App() {
       <Route path="/privacy" element={<PrivacyPolicy />} />
       <Route path={ROUTES.PLAY.GET_STARTED} element={<Play />} />
       <Route path={ROUTES.PLAY.PLAY_GAME} element={<Landing />} />
+      <Route path={ROUTES.PLAY.CREATE_GAME} element={<CreateGame />} />
       <Route
         path={ROUTES.PLAY.START_GAME}
         element={<StartGame socket={socket} />}

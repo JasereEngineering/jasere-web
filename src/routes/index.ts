@@ -7,6 +7,7 @@ export const AUTH = {
 };
 
 export const PLAY = {
+  CREATE_GAME: "/create-game",
   GET_STARTED: "/get-started",
   HURRAY: "/hurray",
   PLAY_GAME: "/play",
