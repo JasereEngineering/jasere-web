@@ -47,9 +47,14 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     undefined,
   );
 
-  //const difficultyLevel = levels.find((l) => l.level_value === level)?.level;
-
-  const [sound, setSound] = useState<HTMLAudioElement | null>(null);
+  const [sound] = useState<HTMLAudioElement>(new Audio(lemonOneSound));
+  const stopAudio = (sound: HTMLAudioElement | null) => {
+    console.log( sound );
+    if (!sound) return;
+    console.log( "stop sound" );
+    sound.pause();
+    sound.currentTime = 0;
+  };
 
   const initializeSound = (file: string) => {
     // const newSound = new Howl({
@@ -65,22 +70,14 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
     //     console.error("Failed to load sound:", error);
     //   },
     // });
-    const newSound = new Audio(file);
-    newSound.preload = "auto";
-    newSound.loop = true;
-    setSound(newSound);
-    newSound.play();
+    // const newSound = new Audio(file);
+    sound.preload = "auto";
+    sound.loop = true;
+    // setSound(newSound);
+    sound.play();
   };
 
   const handlePlay = () => {
-    // const resumeAudioContext = () => {
-    //   if (Howler.ctx && Howler.ctx.state === "suspended") {
-    //     Howler.ctx.resume().then(() => {
-    //       console.log("AudioContext resumed");
-    //     });
-    //   }
-    // };
-    // resumeAudioContext();
     if (sound) {
       sound?.play();
     } else {
@@ -141,14 +138,16 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   useEffect(() => {
     socket?.on("poll-room", (response: any) => {
+      stopAudio(sound);
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
       } else {
         dispatch(joinGame(response.game_data));
-        if (!response.game_data.is_valid_lemon)
+        if (!response.game_data.is_valid_lemon) {
           navigate(
             ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
           );
+        }
       }
     });
     // eslint-disable-next-line
@@ -161,14 +160,16 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         player_name: username,
       });
       socket?.on("poll-room", (response: any) => {
+        stopAudio(sound);
         if (response.statusCode !== "00") {
           toast.error("an error occurred");
         } else {
           dispatch(joinGame(response.game_data));
-          if (!response.game_data.is_valid_lemon)
+          if (!response.game_data.is_valid_lemon) {
             navigate(
               ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
             );
+          }
         }
       });
     }, 2000);

@@ -56,12 +56,16 @@ const SelectGame = () => {
     dispatch(fetchGames());
   }, [dispatch]);
 
+  const playType = localStorage.getItem("play_type") || "";
+  const isPlayTypeCreate = playType === "create";
+  console.log(playType);
+
   return (
     <AppLayout className="flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12 bg-black">
       {loading ? <Loader /> : null}
       <div>
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
-          HOST A GAME
+          {isPlayTypeCreate ? "CREATE A GAME" : "HOST A GAME"}
         </h1>
         <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
           Select from our list of popular party games
@@ -100,6 +104,10 @@ const SelectGame = () => {
                     tag,
                   }),
                 );
+                if (isPlayTypeCreate) {
+                  navigate(ROUTES.PLAY.CREATE_GAME);
+                  return;
+                }
                 navigate(
                   game.tag.includes("lemon")
                     ? ROUTES.PLAY.SELECT_DIFFICULTY_FOR(

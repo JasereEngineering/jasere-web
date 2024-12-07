@@ -17,6 +17,7 @@ const Input = ({
   className,
   min,
   hideForgotPassword,
+  maxLength,
 }: {
   label?: string;
   required?: boolean;
@@ -29,6 +30,7 @@ const Input = ({
   onChange: (value: any) => void;
   min?: number;
   hideForgotPassword?: boolean;
+  maxLength?: number;
 }) => {
   const navigate = useNavigate();
 
@@ -69,6 +71,7 @@ const Input = ({
           placeholder={placeholder}
           disabled={disabled}
           min={min}
+          maxLength={maxLength}
         />
         {initialType === "password" ? (
           <img
