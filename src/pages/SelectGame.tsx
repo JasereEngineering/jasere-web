@@ -65,7 +65,7 @@ const SelectGame = () => {
       {loading ? <Loader /> : null}
       <div>
         <h1 className="font-lal text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
-          { isPlayTypeCreate ?  "CREATE A GAME":"HOST A GAME"}
+          {isPlayTypeCreate ? "CREATE A GAME" : "HOST A GAME"}
         </h1>
         <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
           Select from our list of popular party games
@@ -104,8 +104,8 @@ const SelectGame = () => {
                     tag,
                   }),
                 );
-                if( isPlayTypeCreate ){
-                  navigate(ROUTES.PLAY.CREATE_GAME)
+                if (isPlayTypeCreate) {
+                  navigate(ROUTES.PLAY.CREATE_GAME);
                   return;
                 }
                 navigate(

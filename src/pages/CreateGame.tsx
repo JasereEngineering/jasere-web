@@ -105,10 +105,10 @@ const CreateGame = () => {
         </div>
       </div>
       <FooterButton
-            text="Let's Play"
-            onClick={() => alert('create game')}
-            loading={false}
-          />
+        text="Let's Play"
+        onClick={() => alert("create game")}
+        loading={false}
+      />
     </AppLayout>
   );
 };

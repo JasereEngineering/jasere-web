@@ -17,7 +17,7 @@ const Input = ({
   className,
   min,
   hideForgotPassword,
-  maxLength
+  maxLength,
 }: {
   label?: string;
   required?: boolean;
@@ -30,7 +30,7 @@ const Input = ({
   onChange: (value: any) => void;
   min?: number;
   hideForgotPassword?: boolean;
-  maxLength?:number;
+  maxLength?: number;
 }) => {
   const navigate = useNavigate();
 

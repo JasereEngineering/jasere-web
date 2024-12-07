@@ -51,11 +51,11 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   const [sound, setSound] = useState<HTMLAudioElement | null>(null);
 
-  const stopAudio = (sound:HTMLAudioElement | null) =>{
-    if( !sound ) return;
+  const stopAudio = (sound: HTMLAudioElement | null) => {
+    if (!sound) return;
     sound.pause();
     sound.currentTime = 0;
-}
+  };
 
   const initializeSound = (file: string) => {
     // const newSound = new Howl({
@@ -151,7 +151,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
         toast.error("an error occurred");
       } else {
         dispatch(joinGame(response.game_data));
-        if (!response.game_data.is_valid_lemon){
+        if (!response.game_data.is_valid_lemon) {
           stopAudio(sound);
           navigate(
             ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
@@ -173,10 +173,12 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
           toast.error("an error occurred");
         } else {
           dispatch(joinGame(response.game_data));
-          if (!response.game_data.is_valid_lemon)
+          if (!response.game_data.is_valid_lemon) {
+            stopAudio(sound);
             navigate(
               ROUTES.LEMON.RESULT_FOR(gameSession as string, !!notCreator),
             );
+          }
         }
       });
     }, 2000);

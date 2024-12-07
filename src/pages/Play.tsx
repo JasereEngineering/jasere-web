@@ -16,8 +16,8 @@ const Play = () => {
       <div
         className="bg-[#8538E8] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10"
         onClick={() => {
-          navigate(ROUTES.PLAY.PICK_GAME)
-          localStorage.setItem("play_type","host");
+          navigate(ROUTES.PLAY.PICK_GAME);
+          localStorage.setItem("play_type", "host");
         }}
       >
         <div className="flex flex-col">
@@ -60,13 +60,13 @@ const Play = () => {
           className="absolute bottom-[-0.0625rem] right-[-0.0625rem] h-[11.25rem] w-[13.625rem]"
         />
       </div>
-      <div className="bg-[#F34348] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10 opacity-50"
-      // onClick={()=>{
-      //   navigate(ROUTES.PLAY.PICK_GAME);
-      //   localStorage.setItem("play_type","create");
-      //   }}
-        
-        >
+      <div
+        className="bg-[#F34348] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10 opacity-50"
+        // onClick={()=>{
+        //   navigate(ROUTES.PLAY.PICK_GAME);
+        //   localStorage.setItem("play_type","create");
+        //   }}
+      >
         <div className="flex flex-col">
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">
             CREATE A GAME
