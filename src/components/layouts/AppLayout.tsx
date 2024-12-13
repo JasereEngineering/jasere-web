@@ -327,51 +327,12 @@ const AppLayout = ({
         </button>
       </div>
 
-      {/* <div
-        className={`hidden md:flex items-center justify-between pl-[3.438rem] pt-[2.625rem] pr-[3.875rem] sticky top-0 bg-black z-20 font-lal font-bold overflow-x-auto no-scrollbar ${
-          navClassName ? navClassName : ""
-        }`}
-      >
-        <img loading="lazy"
-          src={logo}
-          className="cursor-pointer w-[20.563rem] h-[6rem]"
-          alt="logo"
-          onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
-        />
-        <div className="flex items-center gap-x-[0.875rem]">
-          <button
-            className="p-[0.688rem] rounded-[6px] text-[0.938rem] bg-violet w-[9.563rem]"
-            onClick={() => navigate(ROUTES.PLAY.JOIN_GAME)}
-          >
-            JOIN A GAME
-          </button>
-          <button
-            className="p-[0.688rem] rounded-[6px] text-[0.938rem] border border-violet w-[9.563rem]"
-            onClick={() => navigate(ROUTES.PLAY.PICK_GAME)}
-          >
-            START A GAME
-          </button>
-          <button
-            className="p-[0.688rem] rounded-[6px] text-[0.938rem] border border-violet w-[9.563rem]"
-            onClick={() => {
-              if (user) {
-                logout();
-              } else {
-                navigate(ROUTES.AUTH.SIGNIN);
-              }
-            }}
-          >
-            {user ? "LOGOUT" : "LOGIN"}
-          </button>
-        </div>
-      </div> */}
       <div
         className={`flex grow z-10 h-full w-full ${className ? className : ""}`}
         onClick={() => setOpen(false)}
       >
         {children}
       </div>
-      {/* </div> */}
     </div>
   );
 };
