@@ -59,6 +59,7 @@ export const SCRAMBLED_WORDS = {
   NEW_GAME: "/scrambled-words/new-game",
   CREATE_QUESTIONS: "/scrambled-words/create-questions",
   GAME: "/scrambled-words/game/:gameSession",
+  AVAILABLE_CATEGORY: "/scrambled-words/available-category"
 };
 
 export const CORRECT = {

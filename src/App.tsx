@@ -30,12 +30,14 @@ import InitialiseSignUp from "./pages/InitialiseSignUp";
 import CompleteSignUp from "./pages/CompleteSignUp";
 import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
+import CreateScrambledWordsQuestions from "./pages/CreateScrambledWordsQuestions";
 
 // import { RootState } from "./store";
 // import { AuthState, GameState } from "./types";
 import * as ROUTES from "./routes";
 import CorrectSelectCategory from "./pages/games/correct/CorrectSelectCategory";
 import CorrectGame from "./pages/games/correct/CorrectGame";
+import ScrambledAvailableCategory from "./pages/games/scrambled/ScrambledAvailableCategory";
 
 export default function App() {
   const location = useLocation();
@@ -192,12 +194,25 @@ export default function App() {
           path={ROUTES.SCRAMBLED_WORDS.NEW_GAME}
           element={<CreateGame />}
         />
+
+      <Route path={ROUTES.SCRAMBLED_WORDS.CREATE_QUESTIONS}
+      element={<CreateScrambledWordsQuestions />} />
+
+<Route path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY}
+      element={<ScrambledAvailableCategory socket={socket} />} />
+
+
+
       </Route>
+
+
+     
 
       <Route
         path="*"
         element={<Navigate to={ROUTES.PLAY.GET_STARTED} replace />}
       />
+
     </Routes>
   );
 }

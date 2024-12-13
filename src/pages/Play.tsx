@@ -22,7 +22,7 @@ const Play = () => {
       >
         <div className="flex flex-col">
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">
-            HOST A GAME
+            PLAY A GAME
           </h3>
           <p className="font-inter text-[0.75rem] text-white leading-[0.938rem] tracking-[-0.4px] max-w-[9.438rem] mb-3">
             Create a game server for your friends to join & play!

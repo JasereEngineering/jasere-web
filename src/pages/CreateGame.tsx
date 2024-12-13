@@ -1,19 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Input from "../components/forms/Input";
 // import Select from "../components/forms/Select";
 // import Range from "../components/forms/Range";
 import TextArea from "../components/forms/TextArea";
+import * as ROUTES from "../routes";
 
-import twoPlayers from "../assets/images/2players.svg";
-import threePlayers from "../assets/images/3players.svg";
-import fourPlayers from "../assets/images/4players.svg";
-import fourPlayersDark from "../assets/images/4players-dark.svg";
+// import twoPlayers from "../assets/images/2players.svg";
+// import threePlayers from "../assets/images/3players.svg";
+// import fourPlayers from "../assets/images/4players.svg";
+// import fourPlayersDark from "../assets/images/4players-dark.svg";
 import FooterButton from "../components/forms/FooterButton";
 
 const CreateGame = () => {
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
   // const [category, setCategory] = useState("");
   // const [questions, setQuestions] = useState(5);
 
@@ -28,7 +31,7 @@ const CreateGame = () => {
           CREATE A GAME
         </h1>
         <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-5">
-          Create a new game with your own set of rules
+          Create a new game and define your content.
         </p>
         <h2 className="font-lal text-[1.125rem] leading-[1.75rem] tracking-[-0.25px] mb-2">
           Step 1 of 2
@@ -41,20 +44,20 @@ const CreateGame = () => {
           <Input
             type="text"
             label="Name of Game"
-            placeholder="Enter name of game"
+            placeholder="Example: #BridalShower2024"
             value={title}
             onChange={setTitle}
           />
         </div>
         <div className="mb-[1.125rem]">
           <TextArea
-            label="Name of Game"
-            placeholder="Enter name of game"
+            label="Game Description (Optional)"
+            placeholder="Example: This is a game to get to know all my bridesmaid"
             value={title}
             onChange={setTitle}
           />
         </div>
-        <label className="block font-inter font-light text-white text-[0.688rem] leading-[0.859rem] mb-[0.875rem]">
+        {/* <label className="block font-inter font-light text-white text-[0.688rem] leading-[0.859rem] mb-[0.875rem]">
           Number of players
         </label>
         <div className="grid grid-cols-3 gap-4">
@@ -102,11 +105,11 @@ const CreateGame = () => {
               Max Players
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
       <FooterButton
         text="Let's Play"
-        onClick={() => alert("create game")}
+        onClick={() =>  navigate(ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY) }
         loading={false}
       />
     </AppLayout>

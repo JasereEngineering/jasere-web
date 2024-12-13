@@ -49,9 +49,7 @@ const LemonGame = ({ socket }: { socket: Socket | null }) => {
 
   const [sound] = useState<HTMLAudioElement>(new Audio(lemonOneSound));
   const stopAudio = (sound: HTMLAudioElement | null) => {
-    console.log( sound );
     if (!sound) return;
-    console.log( "stop sound" );
     sound.pause();
     sound.currentTime = 0;
   };
