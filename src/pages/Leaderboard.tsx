@@ -121,9 +121,9 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     const secondLastDigit = Math.floor((num % 100) / 10);
 
     if (secondLastDigit === 1) {
-      return num + "th";
+      return num.toString() + "th";
     } else {
-      return num + suffix[lastDigit];
+      return num.toString() + suffix[lastDigit];
     }
   };
   const location = useLocation();
