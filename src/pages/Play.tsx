@@ -61,11 +61,11 @@ const Play = () => {
         />
       </div>
       <div
-        className="bg-[#F34348] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10 opacity-50"
-        // onClick={()=>{
-        //   navigate(ROUTES.PLAY.PICK_GAME);
-        //   localStorage.setItem("play_type","create");
-        //   }}
+        className="bg-[#F34348] rounded-[15px] flex pl-[1.188rem] py-[0.938rem] relative mb-10"
+        onClick={()=>{
+          navigate(ROUTES.PLAY.PICK_GAME);
+          localStorage.setItem("play_type","create");
+          }}
       >
         <div className="flex flex-col">
           <h3 className="font-lal text-[1.875rem] text-white leading-[2.979rem] tracking-[-0.25px] mb-1">

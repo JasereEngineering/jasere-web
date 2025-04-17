@@ -24,7 +24,7 @@ const SelectDifficulty = () => {
   const { levels, loading } = useSelector<RootState>(
     ({ game }) => game,
   ) as GameState;
-
+  
   const [level, setLevel] = useState(0);
 
   const handleClick = (level: any) => {

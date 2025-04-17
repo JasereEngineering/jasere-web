@@ -38,6 +38,7 @@ import * as ROUTES from "./routes";
 import CorrectSelectCategory from "./pages/games/correct/CorrectSelectCategory";
 import CorrectGame from "./pages/games/correct/CorrectGame";
 import ScrambledAvailableCategory from "./pages/games/scrambled/ScrambledAvailableCategory";
+import ScrambledAvailableTrivia from "./pages/games/scrambled/ScrambledAvailableTrivia";
 
 export default function App() {
   const location = useLocation();
@@ -202,6 +203,8 @@ export default function App() {
       element={<ScrambledAvailableCategory socket={socket} />} />
 
 
+<Route path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_TRIVIA}
+      element={<ScrambledAvailableTrivia socket={socket} />} />
 
       </Route>
 
