@@ -20,9 +20,11 @@ import {
 } from "../../../store/features/game";
 import * as ROUTES from "../../../routes";
 import { GameState } from "../../../types";
+import Input from "../../../components/forms/Input";
+import VanillaInput from "../../../components/forms/VanillaInput";
 // import FooterButton from "../../../components/forms/FooterButton";
 
-const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
+const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
   const [searchParams] = useSearchParams();
@@ -35,26 +37,23 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
   const [category, setCategory] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const navigateToCategoryTrivia = (category: string) => {
+  const handleClick = (category: string) => {
     
-    // if (category !== "new") dispatch(selectCategory(category));
-    // if (replay) {
-    //   dispatch(fetchTrivia());
-    // } else {
-    //   setCategory(category);
-    //   setTimeout(() => {
-    //     navigate(
-    //       category === "new"
-    //         ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
-    //         : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
-    //             gameTitle?.toLowerCase() as string,
-    //           ),
-    //     );
-    //   }, 500);
-    // }
-
-    navigate( ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_TRIVIA );
-
+    if (category !== "new") dispatch(selectCategory(category));
+    if (replay) {
+      dispatch(fetchTrivia());
+    } else {
+      setCategory(category);
+      setTimeout(() => {
+        navigate(
+          category === "new"
+            ? ROUTES.SCRAMBLED_WORDS.NEW_GAME
+            : ROUTES.PLAY.SELECT_DIFFICULTY_FOR(
+                gameTitle?.toLowerCase() as string,
+              ),
+        );
+      }, 500);
+    }
   };
 
   useEffect(() => {
@@ -84,6 +83,25 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
     // eslint-disable-next-line
   }, [triggerReplay, socket]);
 
+  // useEffect(() => {
+  //   socket?.on("start", (response: any) => {
+  //     if (response.statusCode !== "00") {
+  //       toast.error("an error occurred");
+  //       setLoader(false);
+  //     } else {
+  //       dispatch(joinGame(response.game_data));
+  //       navigate(
+  //         ROUTES.PLAY.BEGIN_GAME_FOR(
+  //           response.game_data.game_name.toLowerCase().replaceAll(" ", "-"),
+  //           response.game_data.game_session_id,
+  //         ),
+  //       );
+  //     }
+  //   });
+  // }, [gamePin, socket, dispatch, navigate]);
+
+  // console.log( categories );
+
   return (
     <AppLayout className="font-lal flex flex-col justify-between px-4 pt-[8rem] pb-[4.25rem]">
       {loading || loader ? <Loader /> : null}
@@ -101,12 +119,32 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
 
         <div className="flex justify-between">
           <h5 className="text-[1.375rem] ml-2 leading-[2.154rem] tracking-[-0.25px] capitalize">
-            Available Categories
+            Animals Categories
           </h5>
-
-          <img className="ml-auto" loading="lazy" src={check} alt="check" />
-          
         </div>
+
+        <div className="flex justify-between">
+          <p className="ml-2 bolder">
+          Select Trivias (2 of 15 selected)
+          </p>
+          {/* <h5 className=" ml-2 leading-[2.154rem] tracking-[-0.25px] capitalize">
+            Animals Categories
+          </h5> */}
+        </div>
+
+
+        <div className="ml-2 mt-3">
+
+
+          <VanillaInput
+          className="h-[3em] rounded-[7px]"
+            type="text"
+            placeholder="Search for a trivia"
+            value=""
+            onChange={()=>{}}
+          />
+        </div>
+
             
 
             <br />
@@ -114,7 +152,7 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
 
         {categories?.map((c, i) => (
           <div
-            className={`border rounded-[20px] px-5 py-3 flex ${
+            className={`bg-[#2C2C2C] rounded-[3px] px-5 py-3 flex ${
               category === c.category_id
                 ? `border-[${
                     colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
@@ -123,23 +161,23 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
                   }]`
                 : "border-white"
             } ${i === categories.length - 1 ? "mb-[9rem]" : "mb-3"}`}
-            onClick={() => navigateToCategoryTrivia(c.category_id)}
+            onClick={() => handleClick(c.category_id)}
             key={i}
-            style={{
-              backgroundColor:
-                category === c.category_id
-                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
-                  : "transparent",
-              borderColor:
-                category === c.category_id
-                  ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
-                  : "white",
-            }}
+            // style={{
+            //   backgroundColor:
+            //     category === c.category_id
+            //       ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+            //       : "transparent",
+            //   borderColor:
+            //     category === c.category_id
+            //       ? colorMap[gameTitle?.toLowerCase() as keyof typeof colorMap]
+            //       : "white",
+            // }}
           >
-            <h5 className="text-[1.375rem] leading-[2.154rem] tracking-[-0.25px] capitalize">
+            <p className=" capitalize">
               {c.category_name}
-            </h5>
-            <img loading="lazy" src={check} alt="check" />
+            </p>
+
             <img className="ml-auto" loading="lazy" src={check} alt="check" />
           </div>
         ))}
@@ -155,4 +193,4 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
   );
 };
 
-export default ScrambledAvailableCategory;
+export default ScrambledAvailableTrivia;
