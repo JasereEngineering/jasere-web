@@ -37,7 +37,7 @@ const ScrambledPresetTrivia = () => {
                 {titleMap[gameTitle?.toLowerCase() as keyof typeof titleMap]}
               </h1>
               <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px]">
-                Edit custom categories
+                Edit custom categories...
               </p>
             </div>
           </div>
