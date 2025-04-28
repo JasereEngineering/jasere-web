@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import { toast } from "react-toastify";
 
 import AppLayout from "../../../components/layouts/AppLayout";
 import Loader from "../../../components/misc/Loader";
@@ -16,11 +15,9 @@ import {
   fetchTrivia,
   selectCategory,
   setTriggerReplay,
-  joinGame,
 } from "../../../store/features/game";
 import * as ROUTES from "../../../routes";
 import { GameState } from "../../../types";
-import Input from "../../../components/forms/Input";
 import VanillaInput from "../../../components/forms/VanillaInput";
 // import FooterButton from "../../../components/forms/FooterButton";
 
@@ -38,7 +35,6 @@ const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
   const [loader, setLoader] = useState(false);
 
   const handleClick = (category: string) => {
-    
     if (category !== "new") dispatch(selectCategory(category));
     if (replay) {
       dispatch(fetchTrivia());
@@ -107,13 +103,11 @@ const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
       {loading || loader ? <Loader /> : null}
 
       <div>
-
         <div className="flex justify-between mb-6">
           <div>
             <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px] uppercase">
               {titleMap[gameTitle?.toLowerCase() as keyof typeof titleMap]}
             </h1>
-            
           </div>
         </div>
 
@@ -124,31 +118,23 @@ const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
         </div>
 
         <div className="flex justify-between">
-          <p className="ml-2 bolder">
-          Select Trivias (2 of 15 selected)
-          </p>
+          <p className="ml-2 bolder">Select Trivias (2 of 15 selected)</p>
           {/* <h5 className=" ml-2 leading-[2.154rem] tracking-[-0.25px] capitalize">
             Animals Categories
           </h5> */}
         </div>
 
-
         <div className="ml-2 mt-3">
-
-
           <VanillaInput
-          className="h-[3em] rounded-[7px]"
+            className="h-[3em] rounded-[7px]"
             type="text"
             placeholder="Search for a trivia"
             value=""
-            onChange={()=>{}}
+            onChange={() => {}}
           />
         </div>
 
-            
-
-            <br />
-
+        <br />
 
         {categories?.map((c, i) => (
           <div
@@ -174,21 +160,17 @@ const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
             //       : "white",
             // }}
           >
-            <p className=" capitalize">
-              {c.category_name}
-            </p>
+            <p className=" capitalize">{c.category_name}</p>
 
             <img className="ml-auto" loading="lazy" src={check} alt="check" />
           </div>
         ))}
       </div>
 
-
       {/* <button
       className="capitalize w-[3.2em] h-[3.2em] rounded-full bg-white font-lal text-[1.5rem] leading-[2.375rem] absolute right-10 tracking-[-0.1px] text-black flex fixed bottom-[4em]">
       
     </button> */}
-
     </AppLayout>
   );
 };

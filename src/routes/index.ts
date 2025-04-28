@@ -59,8 +59,22 @@ export const SCRAMBLED_WORDS = {
   NEW_GAME: "/scrambled-words/new-game",
   CREATE_QUESTIONS: "/scrambled-words/create-questions",
   GAME: "/scrambled-words/game/:gameSession",
-  AVAILABLE_CATEGORY: "/scrambled-words/available-category",
-  AVAILABLE_CATEGORY_TRIVIA: "/scrambled-words/category/available-trivia"
+  AVAILABLE_CATEGORY_TRIVIA: "/scrambled-words/category/available-trivia",
+  AVAILABLE_CATEGORY: "/:gameTitle/available-category",
+  AVAILABLE_CATEGORY_FOR: (gameTitle: string) =>
+    `/${gameTitle}/available-category`,
+  ADD_NEW_CATEGORY: "/:gameTitle/add-new-category",
+  ADD_NEW_CATEGORY_FOR: (gameTitle: string) => `/${gameTitle}/add-new-category`,
+  ADD_TRIVIA: "/:gameTitle/add-trivia",
+  ADD_TRIVIA_FOR: (gameTitle: string) => `/${gameTitle}/add-trivia`,
+  SAVED_TRIVIA: "/:gameTitle/saved-trivia",
+  SAVED_TRIVIA_FOR: (gameTitle: string) => `/${gameTitle}/saved-trivia`,
+  SELECT_TRIVIA: "/:gameTitle/select-trivia",
+  SELECT_TRIVIA_FOR: (gameTitle: string) => `/${gameTitle}/select-trivia`,
+  PRESET_TRIVIA: "/:gameTitle/preset-trivia",
+  PRESET_TRIVIA_FOR: (gameTitle: string) => `/${gameTitle}/preset-trivia`,
+  SUCCESS: "/:gameTitle/success",
+  SUCCESS_FOR: (gameTitle: string) => `/${gameTitle}/success`,
 };
 
 export const CORRECT = {

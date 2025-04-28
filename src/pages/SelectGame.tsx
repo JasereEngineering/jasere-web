@@ -68,9 +68,9 @@ const SelectGame = () => {
           {isPlayTypeCreate ? "CREATE A GAME" : "HOST A GAME"}
         </h1>
         <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
-          Select from our list of popular party games
+          Create or manage your games
         </p>
-        <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-4">
           {/* <GameCard name="Charades" image={charades} />
           <GameCard name="Scrambled words" image={scrambled} />
           <GameCard name="Lemon lemon" image={lemons} />

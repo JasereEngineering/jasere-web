@@ -39,6 +39,12 @@ import CorrectSelectCategory from "./pages/games/correct/CorrectSelectCategory";
 import CorrectGame from "./pages/games/correct/CorrectGame";
 import ScrambledAvailableCategory from "./pages/games/scrambled/ScrambledAvailableCategory";
 import ScrambledAvailableTrivia from "./pages/games/scrambled/ScrambledAvailableTrivia";
+import ScrambledAddNewCategory from "./pages/games/scrambled/ScrambledAddNewCategory";
+import ScrambledAddTrivia from "./pages/games/scrambled/ScrambledAddTrivia";
+import ScrambledSavedTrivia from "./pages/games/scrambled/ScrambledSavedTrivia";
+import ScrambledSuccess from "./pages/games/scrambled/ScrambledSuccess";
+import ScrambledSelectTrivia from "./pages/games/scrambled/ScrambledSelectTrivia";
+import ScrambledPresetTrivia from "./pages/games/scrambled/ScrambledPresetTrivia";
 
 export default function App() {
   const location = useLocation();
@@ -196,26 +202,56 @@ export default function App() {
           element={<CreateGame />}
         />
 
-      <Route path={ROUTES.SCRAMBLED_WORDS.CREATE_QUESTIONS}
-      element={<CreateScrambledWordsQuestions />} />
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.CREATE_QUESTIONS}
+          element={<CreateScrambledWordsQuestions />}
+        />
 
-<Route path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY}
-      element={<ScrambledAvailableCategory socket={socket} />} />
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY}
+          element={<ScrambledAvailableCategory socket={socket} />}
+        />
 
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.ADD_NEW_CATEGORY}
+          element={<ScrambledAddNewCategory />}
+        />
 
-<Route path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_TRIVIA}
-      element={<ScrambledAvailableTrivia socket={socket} />} />
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_TRIVIA}
+          element={<ScrambledAvailableTrivia socket={socket} />}
+        />
 
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.ADD_TRIVIA}
+          element={<ScrambledAddTrivia />}
+        />
+
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.SAVED_TRIVIA}
+          element={<ScrambledSavedTrivia />}
+        />
+
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.SUCCESS}
+          element={<ScrambledSuccess />}
+        />
+
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.SELECT_TRIVIA}
+          element={<ScrambledSelectTrivia />}
+        />
+
+        <Route
+          path={ROUTES.SCRAMBLED_WORDS.PRESET_TRIVIA}
+          element={<ScrambledPresetTrivia />}
+        />
       </Route>
-
-
-     
 
       <Route
         path="*"
         element={<Navigate to={ROUTES.PLAY.GET_STARTED} replace />}
       />
-
     </Routes>
   );
 }

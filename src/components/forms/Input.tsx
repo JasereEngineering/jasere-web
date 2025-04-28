@@ -62,14 +62,13 @@ const Input = ({
       ) : null}
       <div className="relative">
         <input
-          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[1rem] leading-[1.094rem] text-white w-full ${
+          className={`rounded-[4px] border-[1.5px] border-[#DADADA] h-12 bg-inherit px-3 py-[0.656rem] text-sm leading-[1.094rem] text-white w-full ${
             type === "password" ? "font-man" : "font-lex"
           } ${className ? className : ""}`}
           type={type}
           value={value}
           onChange={handleChange}
           placeholder={placeholder}
-          disabled={disabled}
           min={min}
           maxLength={maxLength}
         />

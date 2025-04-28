@@ -12,7 +12,7 @@ import * as ROUTES from "../routes";
 // import threePlayers from "../assets/images/3players.svg";
 // import fourPlayers from "../assets/images/4players.svg";
 // import fourPlayersDark from "../assets/images/4players-dark.svg";
-import FooterButton from "../components/forms/FooterButton";
+import RoundedButton from "../components/forms/RoundedButton";
 
 const CreateGame = () => {
   const [title, setTitle] = useState("");
@@ -107,9 +107,13 @@ const CreateGame = () => {
           </div>
         </div> */}
       </div>
-      <FooterButton
+      <RoundedButton
         text="Let's Play"
-        onClick={() =>  navigate(ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY) }
+        onClick={() =>
+          navigate(
+            ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_FOR("scrambled-words"),
+          )
+        }
         loading={false}
       />
     </AppLayout>
