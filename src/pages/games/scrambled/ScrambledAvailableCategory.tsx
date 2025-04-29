@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
 
 import AppLayout from "../../../components/layouts/AppLayout";
@@ -26,14 +26,14 @@ import { GameState } from "../../../types";
 const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
-  const [searchParams] = useSearchParams();
-  const replay = searchParams.get("replay");
+  // const [searchParams] = useSearchParams();
+  // const replay = searchParams.get("replay");
 
   const dispatch = useDispatch<AppDispatch>();
   const { categories, loading, game, triggerReplay, gamePin, trivia, time } =
     useSelector<RootState>(({ game }) => game) as GameState;
 
-  const [category, setCategory] = useState<string | null>(null);
+  const [category] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
 
   const navigateToCategoryTrivia = (category: string) => {

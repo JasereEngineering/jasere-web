@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-import passwordIcon from "../../assets/images/password-icon.svg";
+// import passwordIcon from "../../assets/images/password-icon.svg";
 
-import * as ROUTES from "../../routes";
+// import * as ROUTES from "../../routes";
 
 const VanillaInput = ({
   label,
@@ -32,7 +32,7 @@ const VanillaInput = ({
   hideForgotPassword?: boolean;
   maxLength?: number;
 }) => {
-  const [type, setType] = useState(initialType || "text");
+  const [type] = useState(initialType || "text");
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
