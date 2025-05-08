@@ -5,6 +5,9 @@ import { Socket } from "socket.io-client";
 
 import AppLayout from "../../../components/layouts/AppLayout";
 import Loader from "../../../components/misc/Loader";
+import VanillaInput from "../../../components/forms/VanillaInput";
+// import FooterButton from "../../../components/forms/FooterButton";
+
 import check from "../../../assets/images/check-sign-white.svg";
 
 import { titleMap, colorMap } from "../../../helpers/misc";
@@ -18,8 +21,6 @@ import {
 } from "../../../store/features/game";
 import * as ROUTES from "../../../routes";
 import { GameState } from "../../../types";
-import VanillaInput from "../../../components/forms/VanillaInput";
-// import FooterButton from "../../../components/forms/FooterButton";
 
 const ScrambledAvailableTrivia = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();

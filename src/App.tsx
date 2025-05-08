@@ -45,6 +45,11 @@ import ScrambledSavedTrivia from "./pages/games/scrambled/ScrambledSavedTrivia";
 import ScrambledSuccess from "./pages/games/scrambled/ScrambledSuccess";
 import ScrambledSelectTrivia from "./pages/games/scrambled/ScrambledSelectTrivia";
 import ScrambledPresetTrivia from "./pages/games/scrambled/ScrambledPresetTrivia";
+import TruthAndDareSetName from "./pages/games/truthAndDare/TruthAndDareSetName";
+import TruthAndDareLobby from "./pages/games/truthAndDare/TruthAndDareLobby";
+import TruthAndDareSelectPlayer from "./pages/games/truthAndDare/TruthAndDareSelectPlayer";
+import TruthAndDarePickYourCard from "./pages/games/truthAndDare/TruthAndDarePickYourCard";
+import TruthAndDareCard from "./pages/games/truthAndDare/TruthAndDareCard";
 
 export default function App() {
   const location = useLocation();
@@ -245,6 +250,31 @@ export default function App() {
         <Route
           path={ROUTES.SCRAMBLED_WORDS.PRESET_TRIVIA}
           element={<ScrambledPresetTrivia />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.SET_NAME}
+          element={<TruthAndDareSetName />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.LOBBY}
+          element={<TruthAndDareLobby />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.SELECT_PLAYER}
+          element={<TruthAndDareSelectPlayer />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.PICK_YOUR_CARD}
+          element={<TruthAndDarePickYourCard />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.CARD}
+          element={<TruthAndDareCard />}
         />
       </Route>
 

@@ -86,6 +86,14 @@ export const CORRECT = {
   GAME: "/correct/game/:gameSession",
 };
 
+export const TRUTH_AND_DARE = {
+  SET_NAME: "/truth-and-dare/set-name",
+  LOBBY: "/truth-and-dare/lobby",
+  SELECT_PLAYER: "/truth-and-dare/select-player",
+  PICK_YOUR_CARD: "/truth-and-dare/pick-your-card",
+  CARD: "/truth-and-dare/card",
+};
+
 export const LEMON = {
   DIFFICULTY: "/lemon/difficulty",
   CREATE_GAME: "/lemon/create-game",
