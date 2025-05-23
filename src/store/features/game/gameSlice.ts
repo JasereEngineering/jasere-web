@@ -43,28 +43,33 @@ export const createGame = createAsyncThunk(
     { getState },
   ) => {
     const {
-      game: { game, category, level },
+      game: { game },
     } = getState() as RootState;
 
-    return await request({
-      url: "/game/create",
+    const response = await request({
+      url: "/game/create/setup",
       method: "post",
       body: {
-        name,
         game_id: game,
-        category_id: category,
-        difficulty_level: level,
+        name,
+        step: 1,
       },
       onSuccess,
     });
+
+    if (onSuccess) {
+      onSuccess();
+    }
+
+    return response;
   },
 );
 
 export const fetchGameCategories = createAsyncThunk(
   "game/categories",
-  async (game_id: string) => {
+  async (game_session_id: string) => {
     return await request({
-      url: `/game/categories/${game_id}`,
+      url: `/game/setup/categories/${game_session_id}`,
       method: "get",
     });
   },
@@ -212,7 +217,7 @@ export const gameSlice = createSlice({
             state.levels = action.payload;
             break;
           case "game/categories/fulfilled":
-            state.categories = action.payload;
+            state.categories = action.payload.data;
             break;
           case "game/create/fulfilled":
             state.time = action.payload.data.time;

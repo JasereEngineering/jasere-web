@@ -21,22 +21,31 @@ import {
 } from "../../../store/features/game";
 import * as ROUTES from "../../../routes";
 import { GameState } from "../../../types";
-// import FooterButton from "../../../components/forms/FooterButton";
+
+interface Category {
+  category_id: string;
+  category_name: string;
+}
 
 const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
-  // const [searchParams] = useSearchParams();
-  // const replay = searchParams.get("replay");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { categories, loading, game, triggerReplay, gamePin, trivia, time } =
-    useSelector<RootState>(({ game }) => game) as GameState;
+  const {
+    categories = [],
+    loading,
+    gameSession,
+    triggerReplay,
+    gamePin,
+    trivia,
+    time,
+  } = useSelector<RootState>(({ game }) => game) as GameState;
 
-  const [category] = useState<string | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const [loader, setLoader] = useState(false);
 
-  const navigateToCategoryTrivia = (category: string) => {
+  const navigateToCategoryTrivia = (categoryId: string) => {
     // if (category !== "new") dispatch(selectCategory(category));
     // if (replay) {
     //   dispatch(fetchTrivia());
@@ -53,16 +62,19 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
     //   }, 500);
     // }
 
+    setCategory(categoryId);
     navigate(ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_TRIVIA);
   };
 
   useEffect(() => {
-    dispatch(fetchGameCategories(game as string));
+    if (gameSession) {
+      dispatch(fetchGameCategories(gameSession));
+    }
     dispatch(endGame());
-  }, [dispatch, game]);
+  }, [dispatch, gameSession]);
 
   useEffect(() => {
-    if (!categories.length) return;
+    if (!Array.isArray(categories)) return;
   }, [categories]);
 
   useEffect(() => {
@@ -80,8 +92,7 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
     return () => {
       if (socket) dispatch(setTriggerReplay(false));
     };
-    // eslint-disable-next-line
-  }, [triggerReplay, socket]);
+  }, [triggerReplay, socket, gamePin, trivia, time, dispatch]);
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between pt-[6.7rem] pb-[4.25rem]">
@@ -142,62 +153,58 @@ const ScrambledAvailableCategory = ({ socket }: { socket: Socket | null }) => {
         <br />
 
         <div className="px-[18px]">
-          {categories?.map((c, i) => (
-            <div
-              className={`border rounded-[20px] px-5 py-3 flex ${
-                category === c.category_id
-                  ? `border-[${
-                      colorMap[
-                        gameTitle?.toLowerCase() as keyof typeof colorMap
-                      ]
-                    }] bg-[${
-                      colorMap[
-                        gameTitle?.toLowerCase() as keyof typeof colorMap
-                      ]
-                    }]`
-                  : "border-white"
-              } ${i === categories.length - 1 ? "mb-[9rem]" : "mb-3"}`}
-              onClick={() => navigateToCategoryTrivia(c.category_id)}
-              key={i}
-              style={{
-                backgroundColor:
+          {Array.isArray(categories) &&
+            categories.map((c: Category, i: number) => (
+              <div
+                className={`border rounded-[20px] px-5 py-3 flex ${
                   category === c.category_id
-                    ? colorMap[
-                        gameTitle?.toLowerCase() as keyof typeof colorMap
-                      ]
-                    : "transparent",
-                borderColor:
-                  category === c.category_id
-                    ? colorMap[
-                        gameTitle?.toLowerCase() as keyof typeof colorMap
-                      ]
-                    : "white",
-              }}
-            >
-              <h5 className="text-[1.375rem] uppercase leading-[2.154rem] tracking-[-0.25px]">
-                {c.category_name}
-              </h5>
-              <img
-                loading="lazy"
-                src={yellowBadge}
-                alt="badge"
-                className="ml-[4px] mb-[6px]"
-              />
-              <img
-                className="ml-auto"
-                loading="lazy"
-                src={chevronRight}
-                alt="chevron right"
-              />
-            </div>
-          ))}
+                    ? `border-[${
+                        colorMap[
+                          gameTitle?.toLowerCase() as keyof typeof colorMap
+                        ]
+                      }] bg-[${
+                        colorMap[
+                          gameTitle?.toLowerCase() as keyof typeof colorMap
+                        ]
+                      }]`
+                    : "border-white"
+                } ${i === categories.length - 1 ? "mb-[9rem]" : "mb-3"}`}
+                onClick={() => navigateToCategoryTrivia(c.category_id)}
+                key={c.category_id}
+                style={{
+                  backgroundColor:
+                    category === c.category_id
+                      ? colorMap[
+                          gameTitle?.toLowerCase() as keyof typeof colorMap
+                        ]
+                      : "transparent",
+                  borderColor:
+                    category === c.category_id
+                      ? colorMap[
+                          gameTitle?.toLowerCase() as keyof typeof colorMap
+                        ]
+                      : "white",
+                }}
+              >
+                <h5 className="text-[1.375rem] uppercase leading-[2.154rem] tracking-[-0.25px]">
+                  {c.category_name}
+                </h5>
+                <img
+                  loading="lazy"
+                  src={yellowBadge}
+                  alt="badge"
+                  className="ml-[4px] mb-[6px]"
+                />
+                <img
+                  className="ml-auto"
+                  loading="lazy"
+                  src={chevronRight}
+                  alt="chevron right"
+                />
+              </div>
+            ))}
         </div>
       </div>
-
-      {/* <button
-      className="capitalize w-[3.2em] h-[3.2em] rounded-full bg-white font-lal text-[1.5rem] leading-[2.375rem] absolute right-10 tracking-[-0.1px] text-black flex fixed bottom-[4em]">
-      
-    </button> */}
     </AppLayout>
   );
 };

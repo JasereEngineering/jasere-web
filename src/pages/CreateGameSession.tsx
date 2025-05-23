@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../components/layouts/AppLayout";
-// import Button from "../components/forms/Button";
 import Input from "../components/forms/Input";
+import RoundedButton from "../components/forms/RoundedButton";
 
 import scrambled from "../assets/images/scrambled.jpg";
 
@@ -15,7 +15,6 @@ import { AppDispatch, RootState } from "../store";
 import { clearGameSession, createGame } from "../store/features/game";
 import { GameState } from "../types";
 import * as ROUTES from "../routes";
-import RoundedButton from "../components/forms/RoundedButton";
 
 const CreateGameSession = () => {
   const navigate = useNavigate();
@@ -24,29 +23,35 @@ const CreateGameSession = () => {
   const { user } = useAuth() as AuthContextType;
 
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, gameSession, sessionCreated } = useSelector<RootState>(
-    ({ game }) => game,
-  ) as GameState;
+  const { loading } = useSelector<RootState>(({ game }) => game) as GameState;
 
   const [name, setName] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user) {
-      dispatch(createGame({ name }));
+      dispatch(
+        createGame({
+          name,
+          onSuccess: () => {
+            navigate(
+              ROUTES.SCRAMBLED_WORDS.AVAILABLE_CATEGORY_FOR(
+                gameTitle as string,
+              ),
+            );
+          },
+        }),
+      );
     } else {
       navigate(`${ROUTES.AUTH.SIGNIN}?game_name=${name}`);
     }
   };
 
   useEffect(() => {
-    if (gameSession && sessionCreated) {
-      navigate(ROUTES.PLAY.START_GAME);
-    }
     return () => {
       dispatch(clearGameSession());
     };
-  }, [gameSession, sessionCreated, dispatch, navigate]);
+  }, [dispatch]);
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between pt-[6.7rem] pb-[4.25rem]">
@@ -87,12 +92,6 @@ const CreateGameSession = () => {
           />
         </div>
       </div>
-      {/* <Button
-        text="Next"
-        onClick={handleSubmit}
-        disabled={!name}
-        loading={loading}
-      /> */}
       <RoundedButton
         text="Next"
         onClick={handleSubmit}

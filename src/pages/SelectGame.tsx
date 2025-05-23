@@ -105,7 +105,11 @@ const SelectGame = () => {
                   }),
                 );
                 if (isPlayTypeCreate) {
-                  navigate(ROUTES.PLAY.CREATE_GAME);
+                  navigate(
+                    ROUTES.PLAY.CREATE_GAME_SESSION_FOR(
+                      name.toLowerCase().replaceAll(" ", "-"),
+                    ),
+                  );
                   return;
                 }
                 navigate(
