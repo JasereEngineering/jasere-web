@@ -110,7 +110,7 @@ const AppLayout = ({
       )}
 
       <div
-        className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] pt-[6.875rem] transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 bottom-0 bg-black w-[18.5rem] z-50 px-[2-25rem] py-[6.875rem] overflow-y-auto transform transition-transform duration-300 ease-in-out ${
           open ? "" : "-translate-x-full"
         }`}
       >
