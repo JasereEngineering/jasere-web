@@ -42,7 +42,7 @@ const CompleteSignUp = () => {
   }, [id, login, user]);
 
   return (
-    <AppLayout className="flex flex-col justify-between font-lal px-[3.875rem] pt-[9.5rem] pb-[4.25rem]">
+    <AppLayout className="flex flex-col justify-between font-lal px-6 lg:px-[3.875rem] pt-[9.5rem] pb-[4.25rem]">
       <div className="flex flex-col">
         <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px] mx-[-1rem]">
           SECURE YOUR ACCOUNT

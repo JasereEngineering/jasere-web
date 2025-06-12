@@ -273,7 +273,7 @@ const AppLayout = ({
       </div>
 
       <div
-        className={`flex justify-between items-center px-4 pt-[2.375rem] pb-1 fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
+        className={`flex justify-between items-center px-4 py-[36px] fixed top-0 bg-black z-40 border-b border-[#343434] w-full ${
           navClassName ? navClassName : ""
         }`}
       >
@@ -303,7 +303,7 @@ const AppLayout = ({
           loading="lazy"
           src={logo}
           alt="logo"
-          className={`cursor-pointer ${navClassName ? "w-[13.313rem] h-[2.063rem] mb-8" : "w-[14.313rem] h-[4.063rem] "}`}
+          className={`cursor-pointer ${navClassName ? "w-[129px] h-[44px] mb-8" : "w-[129px] h-[44px] "}`}
           onClick={() => navigate(ROUTES.PLAY.GET_STARTED)}
         />
         <button

@@ -50,6 +50,8 @@ import TruthAndDareLobby from "./pages/games/truthAndDare/TruthAndDareLobby";
 import TruthAndDareSelectPlayer from "./pages/games/truthAndDare/TruthAndDareSelectPlayer";
 import TruthAndDarePickYourCard from "./pages/games/truthAndDare/TruthAndDarePickYourCard";
 import TruthAndDareCard from "./pages/games/truthAndDare/TruthAndDareCard";
+import TruthAndDareAddQuestion from "./pages/games/truthAndDare/TruthAndDareAddQuestion";
+import TruthAndDareSavedQuestions from "./pages/games/truthAndDare/TruthAndDareSavedQuestions";
 
 export default function App() {
   const location = useLocation();
@@ -275,6 +277,16 @@ export default function App() {
         <Route
           path={ROUTES.TRUTH_AND_DARE.CARD}
           element={<TruthAndDareCard />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.ADD_QUESTION}
+          element={<TruthAndDareAddQuestion />}
+        />
+
+        <Route
+          path={ROUTES.TRUTH_AND_DARE.SAVED_QUESTIONS}
+          element={<TruthAndDareSavedQuestions />}
         />
       </Route>
 

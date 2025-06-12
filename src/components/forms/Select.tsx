@@ -29,7 +29,7 @@ const Select = ({
       ) : null}
       <div className="">
         <select
-          className={`rounded-[4px] border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[0.813rem] leading-[0.983rem] text-white w-full ${
+          className={`rounded-[4px] h-12 border-[1.5px] border-[#DADADA] bg-inherit px-3 py-[0.656rem] text-[0.813rem] leading-[0.983rem] text-white w-full ${
             className ? className : ""
           }`}
           value={value}

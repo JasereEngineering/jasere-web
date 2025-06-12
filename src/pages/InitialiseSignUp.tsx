@@ -52,7 +52,7 @@ const InitialiseSignUp = () => {
   }, [dispatch]);
 
   return (
-    <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem] pb-[4.25rem]">
+    <AppLayout className="flex flex-col font-lal px-6 lg:px-[3.875rem] pt-[9.5rem] pb-[4.25rem]">
       {emailSent ? (
         <div className="fixed inset-0 flex items-center justify-center bg-white/50 z-50 p-3">
           <div className="bg-black rounded-[27px] px-9 pt-[3.875rem] pb-[3.375rem] flex flex-col items-center w-full">

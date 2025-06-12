@@ -25,6 +25,7 @@ module.exports = {
         lex: ["Lexend"],
         lal: ["Lalezar"],
         man: ["Manrope"],
+        manjari: ["Manjari"],
       },
       boxShadow: {
         inner: "inset 0 50px 50px 0 rgba(0, 0, 0, 0.25)",

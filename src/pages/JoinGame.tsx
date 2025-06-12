@@ -50,7 +50,7 @@ const JoinGame = () => {
       className={`${
         page === 1
           ? "flex flex-col justify-between text-white px-4 pt-[7.5rem] pb-12"
-          : "flex flex-col font-lal px-[3.875rem] pt-[9.5rem] pb-[5.75rem]"
+          : "flex flex-col font-lal px-6 lg:px-[3.875rem] pt-[9.5rem] pb-[5.75rem]"
       }`}
     >
       {page === 1 ? (

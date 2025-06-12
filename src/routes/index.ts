@@ -92,6 +92,8 @@ export const TRUTH_AND_DARE = {
   SELECT_PLAYER: "/truth-and-dare/select-player",
   PICK_YOUR_CARD: "/truth-and-dare/pick-your-card",
   CARD: "/truth-and-dare/card",
+  ADD_QUESTION: "/truth-and-dare/add-question",
+  SAVED_QUESTIONS: "/truth-and-dare/saved-questions",
 };
 
 export const LEMON = {

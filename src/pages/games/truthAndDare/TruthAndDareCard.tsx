@@ -12,7 +12,7 @@ const TruthAndDareCard = () => {
 
         <div className="mt-6 px-6">
           <div
-            className="w-full h-[478px] rounded-[30px] bg-cover bg-center flex flex-col items-center justify-start p-[28px_32px]"
+            className="w-full h-[478px] max-w-[488px] rounded-[30px] bg-cover bg-center flex flex-col items-center justify-start p-[28px_32px]"
             style={{ backgroundImage: `url(${DareBackground})` }}
           >
             <div className="bg-white w-[111px] h-[111px] rounded-full gap-[3px] pt-[18px] px-[27px] flex flex-col items-center justify-center">
@@ -34,7 +34,7 @@ const TruthAndDareCard = () => {
 
         <div className="mt-6 px-6">
           <div
-            className="w-full h-[478px] rounded-[30px] bg-cover bg-center flex flex-col items-center justify-start p-[28px_32px]"
+            className="w-full h-[478px]  max-w-[488px] rounded-[30px] bg-cover bg-center flex flex-col items-center justify-start p-[28px_32px]"
             style={{ backgroundImage: `url(${TruthBackground})` }}
           >
             <div className="bg-black w-[111px] h-[111px] rounded-full gap-[3px] pt-[18px] px-[27px] flex flex-col items-center justify-center">

@@ -73,7 +73,7 @@ const Login = () => {
   }, [user, dispatch, gameName, navigate, createdGame, game, level]);
 
   return (
-    <AppLayout className="flex flex-col font-lal px-[3.875rem] pt-[9.5rem]">
+    <AppLayout className="flex flex-col font-lal px-6 lg:px-[3.875rem] pt-[9.5rem]">
       <h1 className="text-[1.875rem] text-white text-center leading-[2.979rem] tracking-[-0.25px]">
         SIGN IN TO CONTINUE
       </h1>
