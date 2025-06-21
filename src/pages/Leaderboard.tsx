@@ -11,23 +11,26 @@ import { toast } from "react-toastify";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
+import BottomModal from "../components/misc/BottomModal";
 
 import avatar from "../assets/images/avatar2.png";
 import share from "../assets/images/share.svg";
+import GoldTrophy from "../assets/images/trophy.svg";
+import SilverTrophy from "../assets/images/silverTrophy.svg";
+import BronzeTrophy from "../assets/images/bronzeTrophy.svg";
 
-import { avatarMap } from "../helpers/misc";
-import { RootState, AppDispatch } from "../store";
-import { endGame, joinGame, resetGame } from "../store/features/game";
-//import { playerColours } from "../helpers/misc";
-import { AuthState, GameState } from "../types";
-import * as ROUTES from "../routes";
-import BottomModal from "../components/misc/BottomModal";
 import replay from "../assets/images/replay.svg";
 import whatsapp from "../assets/images/whatsapp.svg";
 import twitter from "../assets/images/twitter.svg";
 import webSvg from "../assets/images/web-link.svg";
 import category from "../assets/images/category.svg";
 import pad from "../assets/images/game-pad.svg";
+
+import { avatarMap } from "../helpers/misc";
+import { RootState, AppDispatch } from "../store";
+import { endGame, joinGame, resetGame } from "../store/features/game";
+import { AuthState, GameState } from "../types";
+import * as ROUTES from "../routes";
 
 const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const navigate = useNavigate();
@@ -38,9 +41,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const {
-    //categoryName,
-    difficulty,
-    //gameTitle,
     gamePin,
     avatar: avatarImage,
     trivia,
@@ -53,7 +53,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const [result, setResult] = useState<any>([]);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const playerPositionRef = useRef<number>(0);
 
   console.log("username", username);
 
@@ -68,7 +67,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      // console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
         setLoading(false);
@@ -116,18 +114,54 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     dispatch,
     navigate,
   ]);
-  const leaderboardHeights: number[] = [7.25, 10.25, 13.25];
-  const numberToPosition = (num: number): string => {
-    const suffix = ["th", "st", "nd", "rd"];
-    const lastDigit = num % 10;
-    const secondLastDigit = Math.floor((num % 100) / 10);
 
-    if (secondLastDigit === 1) {
-      return num.toString() + "th";
-    } else {
-      return num.toString() + suffix[lastDigit];
+  const currentUserResult = result.find(
+    (res: any) => res.player_name.toLowerCase() === username?.toLowerCase(),
+  );
+  const userPosition = currentUserResult
+    ? result.findIndex(
+        (res: any) => res.player_name.toLowerCase() === username?.toLowerCase(),
+      ) + 1
+    : null;
+
+  const getPositionMessage = (position: number | null) => {
+    if (!position) return "";
+    switch (position) {
+      case 1:
+        return "Can’t touch this, Congrats Champ!";
+      case 2:
+        return "Congratulations, sitting pretty at second";
+      case 3:
+        return "Congrats, you made it to the podium!";
+      default:
+        return "You almost made it!, try harder next time";
     }
   };
+
+  const getTrophy = (position: number) => {
+    const numberToPosition = (num: number): string => {
+      const suffix = ["th", "st", "nd", "rd"];
+      const lastDigit = num % 10;
+      const secondLastDigit = Math.floor((num % 100) / 10);
+
+      if (secondLastDigit === 1) {
+        return num.toString() + "th";
+      }
+      return num.toString() + (suffix[lastDigit] || "th");
+    };
+
+    switch (position) {
+      case 1:
+        return { src: GoldTrophy, alt: "1st" };
+      case 2:
+        return { src: SilverTrophy, alt: "2nd" };
+      case 3:
+        return { src: BronzeTrophy, alt: "3rd" };
+      default:
+        return { src: undefined, alt: numberToPosition(position) };
+    }
+  };
+
   const location = useLocation();
   const modalOption = useRef<string>("");
   const query = new URLSearchParams(location.search);
@@ -161,256 +195,218 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   return (
     <AppLayout className="font-lal flex flex-col absolute pt-[8rem]">
       {!result.length || loading ? <Loader /> : null}
-      <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
+      <div className="flex flex-col items-center px-3 pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
           CONGRATULATIONS
         </h1>
-        <div
-          className={`grid grid-cols-${result.slice(0, 3).length || 0} gap-x-5 w-full items-center mt-2 mb-10`}
-        >
-          {result
-            .slice(0, 3)
-            .reverse()
-            .map((r: any, index: number) => (
-              <div className="place-self-end w-full" key={index}>
-                <div className="flex justify-center mb-2">
+        {currentUserResult && (
+          <div className="mt-4 flex flex-col items-center">
+            {result.length === 2 ? (
+              <img
+                src={userPosition === 1 ? GoldTrophy : SilverTrophy}
+                alt={userPosition === 1 ? "Gold Trophy" : "Silver Trophy"}
+                className="h-[88px] w-[88px]"
+              />
+            ) : (
+              <img
+                loading="lazy"
+                src={
+                  currentUserResult.avatar
+                    ? avatarMap[
+                        currentUserResult.avatar as keyof typeof avatarMap
+                      ]
+                    : avatar
+                }
+                alt="user avatar"
+                className="h-[75px] w-[75px] rounded-full"
+              />
+            )}
+            <p className="mt-5 text-xl text-center font-lal leading-[1.5rem] tracking-[-0.1px]">
+              {getPositionMessage(userPosition)}
+            </p>
+          </div>
+        )}
+
+        {result.length === 2 ? (
+          <div className="flex flex-col gap-4 my-8 w-full">
+            {result.map((res: any, index: number) => (
+              <div
+                key={res.player_name}
+                className={`px-4 py-3 rounded-xl flex items-center gap-6 ${
+                  index === 1 ? "w-[93%] mx-auto" : "w-full"
+                }`}
+                style={{
+                  background:
+                    index === 1
+                      ? "linear-gradient(90deg, #FBAF00 0%, #956800 100%)"
+                      : "#FFFFFF",
+                }}
+              >
+                <div className="flex flex-col items-center">
                   <img
                     loading="lazy"
                     src={
-                      r?.avatar
-                        ? avatarMap[r?.avatar as keyof typeof avatarMap]
+                      res.avatar
+                        ? avatarMap[res.avatar as keyof typeof avatarMap]
                         : avatar
                     }
-                    alt="avatar"
-                    className="h-[3.375rem] w-[3.375rem] rounded-full"
+                    alt={`${res.player_name}'s avatar`}
+                    className="w-12 h-12 rounded-full"
                   />
-                </div>
-
-                <div className="flex justify-center border-0 border-white z-10">
-                  <p className="font-thin text-[1.25rem]">{r.player_name}</p>
-                </div>
-                <div className="flex justify-center mb-5 border-0 border-white">
-                  <p className="font-light font-inter text-[0.85rem] tracking-tighter">
-                    {r.point} Point(s)
+                  <p
+                    className="text-sm font-bold"
+                    style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                  >
+                    {res.player_name.toLowerCase() === username?.toLowerCase()
+                      ? "You"
+                      : res.player_name}
                   </p>
                 </div>
-                <div
-                  style={{
-                    height: ` ${leaderboardHeights[index]}rem`,
-                  }}
-                  className={`flex place-items-center justify-center  bg-white text-black rounded-[15px] font-lal text-[2.7rem]`}
-                >
-                  <label>
-                    {result.findIndex(
-                      (res: any) => res.player_name === r.player_name,
-                    ) + 1}
-                  </label>
+
+                <div className="bg-[#30302F] w-[1px] h-[80%]" />
+
+                <div className="flex gap-4 items-start">
+                  <div className="flex flex-col items-start gap-2">
+                    <p
+                      className="text-sm"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      Points
+                    </p>
+                    <p
+                      className="font-manjari text-sm font-bold"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      {res.point || 0}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-start gap-2">
+                    <p
+                      className="text-sm"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      Time spent
+                    </p>
+                    <p
+                      className="font-manjari text-sm font-bold"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      N/A
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-start gap-2">
+                    <p
+                      className="text-sm"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      Position
+                    </p>
+                    <p
+                      className="font-manjari text-sm font-bold"
+                      style={{ color: index === 1 ? "#FFFFFF" : "#30302F" }}
+                    >
+                      {index === 0 ? "1st" : "2nd"}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
-        </div>
-        {result.length > 3 ? (
-          result.slice(3, result.length).map((r: any, i: number) => (
-            <div
-              key={i}
-              className={`w-full ${
-                !(
-                  (result[i].player_name || "").toLowerCase() ===
-                    (username || "").toLowerCase() ||
-                  // eslint-disable-next-line
-                  (
-                    (result[i + 1] && result[i + 1].player_name) ||
-                    ""
-                  ).toLowerCase() === (username || "").toLowerCase()
-                ) && "border-b border-[#EEEEEE]-50"
-              }`}
-            >
-              {(r.player_name || "").toLowerCase() ===
-              (username || "").toLowerCase() ? (
-                <div
-                  className={`flex justify-between items-center rounded-[25px] p-6 w-full mb-[0.625rem] h-[4.93rem] bg-[#FBAF00]
-                          }]`}
-                >
-                  <span className="hidden">
-                    {" "}
-                    {(playerPositionRef.current = 1)}{" "}
-                  </span>
-                  <div className="border-0 border-white">
-                    <img
-                      loading="lazy"
-                      src={
-                        r?.avatar
-                          ? avatarMap[r?.avatar as keyof typeof avatarMap]
-                          : avatar
-                      }
-                      alt="avatar"
-                      className="mr-1.5 h-[2rem] it w-[2rem] rounded-full"
-                    />
-                    <span className="font-lal text-[0.875rem] tracking-[-0.34px] capitalize">
-                      {r.player_name}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center">
-                    <div className="w-px bg-white h-10"></div>
-                  </div>
-
-                  <div className="place-items-center">
-                    <h3> Position </h3>
-                    <p>
-                      {numberToPosition(
-                        result.length <= result.slice(0, 3).length
-                          ? i + 1
-                          : i + 1 + 3,
-                      )}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3> Difficulty </h3>
-                    <p>{difficulty}</p>
-                  </div>
-
-                  <div>
-                    <h3> Points </h3>
-                    <p>{r.point}pts</p>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  className={`flex justify-between items-center rounded-[25px] } p-1.5 pr-3 w-full mb-[0.625rem] 
-                          }]`}
-                >
-                  <span style={{ display: "none" }}>
-                    {" "}
-                    {(playerPositionRef.current = 0)}{" "}
-                  </span>
-
-                  <div className="flex items-center">
-                    <span className="text-[2.7rem]">{i + 1 + 3}</span>
-                    <img
-                      loading="lazy"
-                      src={
-                        r.avatar
-                          ? avatarMap[r.avatar as keyof typeof avatarMap]
-                          : avatar
-                      }
-                      alt="avatar"
-                      className="mr-1.5 ml-3 h-[1.875rem] w-[1.875rem] rounded-full"
-                    />
-                    <span className="font-lal  text-[0.875rem] leading-[1.313rem] tracking-[-0.34px] capitalize">
-                      {r.player_name}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-row-reverse items-center gap-x-1">
-                    <span className="font-lex text-[0.688rem] leading-[0.859rem] tracking-[-0.34px] mr-6">
-                      {r.point}pts
-                    </span>
-                    {/* {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null} */}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))
+          </div>
         ) : (
-          <div className="w-full">
-            {result.findIndex((res: any) => res.player_name === username) >
-              -1 && (
-              <div
-                className={`flex justify-between items-center rounded-[25px] p-6 w-full mb-[0.625rem] h-[4.93rem] bg-[#FBAF00]
-                  }]`}
-              >
-                <span className="hidden">
-                  {" "}
-                  {(playerPositionRef.current = 1)}{" "}
-                </span>
-                <div className="border-0 border-white">
-                  <img
-                    loading="lazy"
-                    src={
-                      result[
-                        result.findIndex(
-                          (res: any) => res.player_name === username,
-                        )
-                      ].avatar
-                        ? avatarMap[
-                            result[
-                              result.findIndex(
-                                (res: any) => res.player_name === username,
-                              )
-                            ].avatar as keyof typeof avatarMap
-                          ]
-                        : avatar
-                    }
-                    alt="avatar"
-                    className="mr-1.5 h-[2rem] it w-[2rem] rounded-full"
-                  />
-                  <span className="font-lal text-[0.875rem] tracking-[-0.34px] capitalize">
-                    {
-                      result[
-                        result.findIndex(
-                          (res: any) => res.player_name === username,
-                        )
-                      ].player_name
-                    }
-                  </span>
+          <div className="px-4 py-3.5 my-8 bg-white rounded-xl w-full flex items-center gap-6">
+            <div className="flex flex-col items-center">
+              {userPosition !== null && getTrophy(userPosition).src ? (
+                <img
+                  src={getTrophy(userPosition).src}
+                  alt={getTrophy(userPosition).alt}
+                  className="w-12 h-12"
+                />
+              ) : userPosition !== null ? (
+                <div className="text-[55px] text-black font-bold">
+                  {userPosition}
                 </div>
+              ) : null}
+              {userPosition !== null && !getTrophy(userPosition).src ? (
+                <div className="text-sm text-[#30302F] font-bold">
+                  {getTrophy(userPosition).alt}
+                </div>
+              ) : null}
+            </div>
 
-                <div className="flex items-center">
-                  <div className="w-px bg-white h-10"></div>
-                </div>
+            <div className="bg-[#30302F] w-[1px] h-[80%]" />
 
-                <div className="place-items-center">
-                  <h3> Position </h3>
-                  <p>
-                    {numberToPosition(
-                      result.findIndex(
-                        (res: any) => res.player_name === username,
-                      ) + 1,
-                    )}
-                  </p>
-                </div>
-
-                <div>
-                  <h3> Difficulty </h3>
-                  <p>{difficulty}</p>
-                </div>
-
-                <div>
-                  <h3> Points </h3>
-                  <p>
-                    {
-                      result[
-                        result.findIndex(
-                          (res: any) => res.player_name === username,
-                        )
-                      ].point
-                    }
-                    pts
-                  </p>
-                </div>
+            <div className="flex gap-4 items-start">
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-[#30302F] text-sm">Points</p>
+                <p className="font-manjari text-[#30302F] text-sm">
+                  {currentUserResult?.point || 0}
+                </p>
               </div>
-            )}
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-[#30302F] text-sm">Time spent</p>
+                <p className="font-manjari text-[#30302F] text-sm">N/A</p>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-[#30302F] text-sm">Highest Score</p>
+                <p className="font-manjari text-[#30302F] text-sm">
+                  {result[0]?.point || 0}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 
         {!shareValue && (
           <div
             className="border border-white rounded-[30px] py-1 px-[0.625rem] mt-[0.625rem] flex items-center"
-            onClick={
-              handleShare
-              //   () => {
-              //   modalOption.current = "share";
-              //   setModal(true);
-              // }
-            }
+            onClick={handleShare}
           >
             <img loading="lazy" src={share} alt="share" className="mr-2" />
             <span className="font-lal text-[1rem] leading-[1.563rem] tracking-[-0.34px] cursor-pointer">
               Share
             </span>
           </div>
+        )}
+        {result.length >= 3 && (
+          <>
+            <h2 className="text-[22px] w-full text-white font-bold mb-2 mt-6 text-start">
+              Your performance:
+            </h2>
+            <div className="bg-[#2B2B2B] font-manjari rounded-[20px] w-full py-[27px] px-[18px]">
+              <div className="flex justify-between">
+                <span className="text-sm tracking-[-0.16px]">QUESTION 1</span>
+                <span className="text-[#24E95B]">+18 PTS</span>
+              </div>
+              <div className="flex justify-between mb-6">
+                <span className="text-white text-[10px]">Time Bonus</span>
+                <span className="text-[#24E95B] text-[10px]">+10 PTS</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm tracking-[-0.16px]">QUESTION 2</span>
+                <span className="text-[#24E95B]">+18 PTS</span>
+              </div>
+              <div className="flex justify-between mb-6">
+                <span className="text-white text-[10px]">Time Bonus</span>
+                <span className="text-[#24E95B] text-[10px]">+10 PTS</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm tracking-[-0.16px]">QUESTION 3</span>
+                <span className="text-[#24E95B] ">+18 PTS</span>
+              </div>
+              <div className="flex justify-between mb-6">
+                <span className="text-white text-[10px]">Time Bonus</span>
+                <span className="text-[#24E95B] text-[10px]">+10 PTS</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm tracking-[-0.16px]">QUESTION 4</span>
+                <span className="text-[#24E95B]">+18 PTS</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-white text-[10px]">Time Bonus</span>
+                <span className="text-[#24E95B] text-[10px]">+10 PTS</span>
+              </div>
+            </div>
+          </>
         )}
       </div>
 
@@ -560,37 +556,6 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
                   Share Link
                 </p>
               </div>
-
-              {/* <div
-              className="border border-white rounded-[9px] flex flex-col items-center pt-11"
-              onClick={() => {
-                navigate(ROUTES.CORRECT.CATEGORY + "?replay=true");
-              }}
-            >
-              <img
-                loading="lazy"
-                src={category}
-                alt="category"
-                className="mb-7 w-[3.375rem] h-[3.375rem]"
-              />
-              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
-                Snapchat
-              </p>
-            </div>
-
-            <div
-              className="border border-white rounded-[9px] flex flex-col items-center pt-11"
-            >
-              <img
-                loading="lazy"
-                src={category}
-                alt="category"
-                className="mb-7 w-[3.375rem] h-[3.375rem]"
-              />
-              <p className="text-[1rem] text-center leading-[1.567rem] tracking-[-0.1px] max-w-[6.375rem]">
-                Instagram
-              </p>
-            </div> */}
             </div>
           </div>
         )}

@@ -147,7 +147,7 @@ const GlobalLeaderboard = () => {
 
           <div className="bg-white w-[1px] h-[80%]" />
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="flex items-center gap-4 w-full justify-between">
             <div className="flex flex-col items-center gap-2">
               <p className="text-white text-sm">Points</p>
               <p className="font-manjari text-white text-sm">N/A</p>
