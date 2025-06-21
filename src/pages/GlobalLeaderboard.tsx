@@ -1,17 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
 import Loader from "../components/misc/Loader";
+import Share from "../components/forms/Share";
 
 import avatar from "../assets/images/avatar2.png";
-import crown from "../assets/images/crown.svg";
 import trophy from "../assets/images/trophy.svg";
+import First from "../assets/images/first-badge.svg";
+import Second from "../assets/images/second-badge.svg";
+import Third from "../assets/images/third-badge.svg";
+import ShareImg from "../assets/images/share.svg";
 
 import { RootState, AppDispatch } from "../store";
 import { UserState } from "../types";
 import { fetchLeaderboard } from "../store/features/user";
-import { avatarMap, playerColours } from "../helpers/misc";
+import { avatarMap } from "../helpers/misc";
+
+const leaderboardHeights = [5.5, 7.3125, 9.1875];
+const ordinalNumbers = ["1st", "2nd", "3rd"];
+const podiumStyles = [
+  { background: "linear-gradient(149.96deg, #AA3F29 7.03%, #914434 95.36%)" },
+  {
+    background: `
+      linear-gradient(160.79deg, #F5F2F2 1.89%, #BEB9B9 97.59%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))
+    `,
+  },
+  { background: "linear-gradient(167.76deg, #E7C579 1.43%, #FFB407 98.46%)" },
+];
 
 const GlobalLeaderboard = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,61 +37,193 @@ const GlobalLeaderboard = () => {
   ) as UserState;
 
   const [page, setPage] = useState(1);
+  const [showShare, setShowShare] = useState(false);
+  const [isSlidingOut, setIsSlidingOut] = useState<boolean>(false);
+  const shareComponentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dispatch(fetchLeaderboard({ page, limit: 10 }));
   }, [dispatch, page]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        shareComponentRef.current &&
+        !shareComponentRef.current.contains(event.target as Node)
+      ) {
+        setIsSlidingOut(true);
+        setTimeout(() => setShowShare(false), 300);
+      }
+    };
+
+    if (showShare) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showShare]);
+
+  const topThree =
+    leaderboard?.data
+      ?.slice()
+      .sort((a, b) => b.point - a.point)
+      .slice(0, 3) || [];
+
+  const badgeMap = [First, Second, Third];
+
   return (
     <AppLayout className="flex flex-col font-lal text-white px-4 pt-[7.5rem] pb-[4.875rem]">
       {loading ? <Loader /> : null}
-      <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px]">
-        LEADERBOARDS
+      <h1 className="text-[1.875rem] leading-[2.979rem] tracking-[-0.25px] text-center w-full">
+        LEADERBOARD
       </h1>
-      <p className="font-inter text-[0.875rem] leading-[1.094rem] tracking-[-0.4px] mb-6">
-        See the best players around you
-      </p>
-      <div className="flex flex-col items-center">
-        <img loading="lazy" src={trophy} alt="trophy" className="mb-2" />
-        <h2 className="text-center text-[1.451rem] leading-[2.274rem] tracking-[-0.45px]">
-          {leaderboard?.data[0]?.point.toLocaleString()} PTS
-        </h2>
-        <p className="text-center text-[0.875rem] leading-[1.371rem] tracking-[-0.45px] mb-[1.875rem]">
-          Current Highest Best
-        </p>
-        {leaderboard?.data.map((r: any, i: number) => (
+
+      <div className="flex flex-col items-center w-full">
+        {topThree.length > 0 && (
           <div
-            key={i}
-            className={`flex justify-between items-center rounded-[33px] p-1.5 pr-3 w-full mb-3 bg-[${
-              playerColours[i % playerColours.length]
-            }]`}
-            style={{
-              backgroundColor: playerColours[i % playerColours.length],
-            }}
+            className={`grid grid-cols-${topThree.length} gap-x-8 w-full items-center mt-2 px-4`}
           >
-            <div className="flex items-center">
-              <img
-                loading="lazy"
-                src={
-                  r.avatar
-                    ? avatarMap[r.avatar as keyof typeof avatarMap]
-                    : avatar
-                }
-                alt="avatar"
-                className="mr-1.5 h-[2.5rem] w-[2.5rem] rounded-full"
-              />
-              <span className="font-lal text-black text-[1.123rem] leading-[1.759rem] tracking-[-0.45px] capitalize">
-                {r.player_name}
-              </span>
+            {topThree
+              .slice()
+              .reverse()
+              .map((r: any, index: number) => (
+                <div className="place-self-end w-full" key={index}>
+                  <div className="flex justify-center mb-2">
+                    <img
+                      loading="lazy"
+                      src={
+                        r?.avatar
+                          ? avatarMap[r?.avatar as keyof typeof avatarMap]
+                          : avatar
+                      }
+                      alt="avatar"
+                      className="h-[3.375rem] w-[3.375rem] rounded-full"
+                    />
+                  </div>
+                  <div className="flex justify-center border-0 border-white z-10">
+                    <p className="font-thin text-[15px] tracking-[-0.34px] capitalize">
+                      {topThree.findIndex(
+                        (res: any) => res.player_name === r.player_name,
+                      ) === 0 && (
+                        <img
+                          loading="lazy"
+                          src={trophy}
+                          alt="trophy"
+                          className="inline-block h-[1.1875rem] w-[1.1875rem] mr-1"
+                        />
+                      )}
+                      {r.player_name}
+                    </p>
+                  </div>
+                  <div className="flex justify-center mb-5 border-0 border-white items-center gap-1">
+                    <img
+                      loading="lazy"
+                      src={
+                        badgeMap[
+                          topThree.findIndex(
+                            (res: any) => res.player_name === r.player_name,
+                          )
+                        ]
+                      }
+                      alt="badge"
+                      className="h-[0.75rem] w-[0.75rem]"
+                    />
+                    <p className="font-light font-manjari text-[11px] tracking-[0.01em]">
+                      {r.point} Point(s)
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      height: `${leaderboardHeights[index]}rem`,
+                      ...podiumStyles[index],
+                    }}
+                    className="flex place-items-center justify-center text-white rounded-[15px] font-lal text-[1.9375rem]"
+                  >
+                    <label>
+                      {
+                        ordinalNumbers[
+                          topThree.findIndex(
+                            (res: any) => res.player_name === r.player_name,
+                          )
+                        ]
+                      }
+                    </label>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+
+        <div
+          className="px-6 py-3 my-8 rounded-xl w-full flex items-center gap-4"
+          style={{
+            background: "linear-gradient(90deg, #FBAF00 0%, #956800 100%)",
+          }}
+        >
+          <div className="flex flex-col items-center">
+            <div className="bg-white min-w-9 min-h-9 rounded-full" />
+            <p className="text-white text-[15px] tracking-[-0.34px]">User</p>
+          </div>
+
+          <div className="bg-white w-[1px] h-[80%]" />
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-white text-sm">Points</p>
+              <p className="font-manjari text-white text-sm">N/A</p>
             </div>
-            <div className="flex flex-row-reverse items-center gap-x-1">
-              <span className="font-lex text-black text-[0.909rem] leading-[1.136rem] tracking-[-0.45px]">
-                {r.point}pts
-              </span>
-              {i === 0 ? <img loading="lazy" src={crown} alt="champ" /> : null}
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-white text-sm">Time spent</p>
+              <p className="font-manjari text-white text-sm">N/A</p>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-white text-sm">Position</p>
+              <p className="font-manjari text-white text-sm">N/A</p>
             </div>
           </div>
-        ))}
+        </div>
+
+        {leaderboard?.data
+          ?.slice()
+          .sort((a, b) => b.point - a.point)
+          .slice(3)
+          .map((r: any, i: number) => (
+            <div
+              key={i}
+              className={`flex justify-between items-center rounded-[33px] p-1.5 pr-3 w-full mb-3`}
+            >
+              <div className="flex items-center">
+                <span
+                  className={`font-lal text-white text-[1.123rem] leading-[1.759rem] tracking-[-0.45px] ${
+                    i + 4 < 10 ? "mr-6" : "mr-4"
+                  }`}
+                >
+                  {i + 4}
+                </span>
+                <img
+                  loading="lazy"
+                  src={
+                    r.avatar
+                      ? avatarMap[r.avatar as keyof typeof avatarMap]
+                      : avatar
+                  }
+                  alt="avatar"
+                  className="mr-3 h-[2.5rem] w-[2.5rem] rounded-full"
+                />
+                <span className="font-lal text-white text-[1.123rem] leading-[1.759rem] tracking-[-0.45px] capitalize">
+                  {r.player_name}
+                </span>
+              </div>
+              <div className="flex flex-row-reverse items-center gap-x-1">
+                <span className="font-manjari text-white text-[0.909rem] leading-[1.136rem] tracking-[-0.45px]">
+                  {r.point}pts
+                </span>
+              </div>
+            </div>
+          ))}
+
         {leaderboard &&
         +leaderboard.total > page * +leaderboard.limit &&
         !loading ? (
@@ -85,7 +234,30 @@ const GlobalLeaderboard = () => {
             Load More
           </div>
         ) : null}
+
+        <button
+          onClick={() => {
+            setShowShare(true);
+            setIsSlidingOut(false);
+          }}
+          className="mb-12 py-2 text-[22px] font-lal flex items-center gap-2 px-3 border-[1.38px] border-white rounded-full"
+        >
+          <img src={ShareImg} alt="share" className="w-6 h-6 mb-[2px]" />
+          Share
+        </button>
       </div>
+
+      {showShare && (
+        <div className="fixed inset-0 bg-[#49454569] bg-opacity-70 flex justify-center items-end z-50">
+          <div
+            ref={shareComponentRef}
+            className={`w-full bg-[#1e1e1e] p-4 text-white rounded-t-2xl shadow-2xl ${isSlidingOut ? "animate-slide-out" : "animate-slide-up"}`}
+            style={{ animationDuration: "0.3s" }}
+          >
+            <Share />
+          </div>
+        </div>
+      )}
     </AppLayout>
   );
 };
