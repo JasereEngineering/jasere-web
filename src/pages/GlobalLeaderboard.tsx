@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AppLayout from "../components/layouts/AppLayout";
@@ -37,33 +37,11 @@ const GlobalLeaderboard = () => {
   ) as UserState;
 
   const [page, setPage] = useState(1);
-  const [showShare, setShowShare] = useState(false);
-  const [isSlidingOut, setIsSlidingOut] = useState<boolean>(false);
-  const shareComponentRef = useRef<HTMLDivElement>(null);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchLeaderboard({ page, limit: 10 }));
   }, [dispatch, page]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        shareComponentRef.current &&
-        !shareComponentRef.current.contains(event.target as Node)
-      ) {
-        setIsSlidingOut(true);
-        setTimeout(() => setShowShare(false), 300);
-      }
-    };
-
-    if (showShare) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showShare]);
 
   const topThree =
     leaderboard?.data
@@ -237,8 +215,7 @@ const GlobalLeaderboard = () => {
 
         <button
           onClick={() => {
-            setShowShare(true);
-            setIsSlidingOut(false);
+            setModal(true);
           }}
           className="mb-12 py-2 text-[22px] font-lal flex items-center gap-2 px-3 border-[1.38px] border-white rounded-full"
         >
@@ -247,17 +224,7 @@ const GlobalLeaderboard = () => {
         </button>
       </div>
 
-      {showShare && (
-        <div className="fixed inset-0 bg-[#49454569] bg-opacity-70 flex justify-center items-end z-50">
-          <div
-            ref={shareComponentRef}
-            className={`w-full bg-[#1e1e1e] p-4 text-white rounded-t-2xl shadow-2xl ${isSlidingOut ? "animate-slide-out" : "animate-slide-up"}`}
-            style={{ animationDuration: "0.3s" }}
-          >
-            <Share />
-          </div>
-        </div>
-      )}
+      <Share onClose={() => setModal(false)} showModal={modal} />
     </AppLayout>
   );
 };

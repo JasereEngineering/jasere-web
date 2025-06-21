@@ -55,6 +55,8 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
   const [loading, setLoading] = useState(false);
   const playerPositionRef = useRef<number>(0);
 
+  console.log("username", username);
+
   useEffect(() => {
     socket?.on("reconnect", () => {
       socket?.emit("join", {
@@ -66,7 +68,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
     });
 
     socket?.on("start", (response: any) => {
-      console.log({ response });
+      // console.log({ response });
       if (response.statusCode !== "00") {
         toast.error("an error occurred");
         setLoading(false);
@@ -161,7 +163,7 @@ const Leaderboard = ({ socket }: { socket: Socket | null }) => {
       {!result.length || loading ? <Loader /> : null}
       <div className="flex flex-col items-center px-[2.813rem] pb-[8rem]">
         <h1 className="text-[1.875rem] text-center leading-[2.979rem] tracking-[-0.25px] uppercase">
-          LEADERBOARD
+          CONGRATULATIONS
         </h1>
         <div
           className={`grid grid-cols-${result.slice(0, 3).length || 0} gap-x-5 w-full items-center mt-2 mb-10`}

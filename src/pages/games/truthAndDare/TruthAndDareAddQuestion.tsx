@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import AppLayout from "../../../components/layouts/AppLayout";
@@ -18,39 +18,12 @@ import AIGenerateComponent from "../../../components/forms/AIGenerateComponent";
 function TruthAndDareAddQuestion() {
   const navigate = useNavigate();
   const { gameTitle } = useParams();
+  const [modal, setModal] = useState(false);
   const [question, setQuestion] = useState<string>("");
   const [penalty, setPenalty] = useState<string>("");
   const [questionType, setQuestionType] = useState<string>("");
   const [timeAllowed, setTimeAllowed] = useState<number>(10);
   const [isPenaltyActive, setIsPenaltyActive] = useState<boolean>(false);
-  const [showAIComponent, setShowAIComponent] = useState<boolean>(false);
-  const [isSlidingOut, setIsSlidingOut] = useState<boolean>(false);
-  const aiComponentRef = useRef<HTMLDivElement>(null);
-
-  const handleGenerateClick = () => {
-    setShowAIComponent(true);
-    setIsSlidingOut(false);
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        aiComponentRef.current &&
-        !aiComponentRef.current.contains(event.target as Node)
-      ) {
-        setIsSlidingOut(true);
-        setTimeout(() => setShowAIComponent(false), 300);
-      }
-    };
-
-    if (showAIComponent) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showAIComponent]);
 
   return (
     <AppLayout className="font-lal flex flex-col justify-between pt-[6.7rem] pb-[4.25rem]">
@@ -98,7 +71,9 @@ function TruthAndDareAddQuestion() {
           </div>
 
           <button
-            onClick={handleGenerateClick}
+            onClick={() => {
+              setModal(true);
+            }}
             className="mb-4 py-4 w-full flex items-center justify-between px-5 rounded-[20px] text-white text-xl"
             style={{
               background: "linear-gradient(90deg, #F7941D 0%, #B96501 100%)",
@@ -176,17 +151,7 @@ function TruthAndDareAddQuestion() {
         </button>
       </div>
 
-      {showAIComponent && (
-        <div className="fixed inset-0 bg-[#49454569] bg-opacity-70 flex justify-center items-end z-50">
-          <div
-            ref={aiComponentRef}
-            className={`w-full bg-[#1e1e1e] p-4 text-white rounded-t-2xl shadow-2xl ${isSlidingOut ? "animate-slide-out" : "animate-slide-up"}`}
-            style={{ animationDuration: "0.3s" }}
-          >
-            <AIGenerateComponent />
-          </div>
-        </div>
-      )}
+      <AIGenerateComponent onClose={() => setModal(false)} showModal={modal} />
     </AppLayout>
   );
 }
