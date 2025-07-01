@@ -108,3 +108,9 @@ export const LEMON = {
       participant ? "?player=participant" : ""
     }`,
 };
+
+export const TAP_TAP = {
+  HOW_TO_PLAY: "/tap-tap/how-to-play",
+  PLAY: "/tap-tap/play",
+  LEADERBOARD: "/tap-tap/leaderboard",
+};

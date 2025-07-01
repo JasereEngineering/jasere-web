@@ -52,6 +52,9 @@ import TruthAndDarePickYourCard from "./pages/games/truthAndDare/TruthAndDarePic
 import TruthAndDareCard from "./pages/games/truthAndDare/TruthAndDareCard";
 import TruthAndDareAddQuestion from "./pages/games/truthAndDare/TruthAndDareAddQuestion";
 import TruthAndDareSavedQuestions from "./pages/games/truthAndDare/TruthAndDareSavedQuestions";
+import HowToPlay from "./pages/games/tap/HowToPlay";
+import PlayTap from "./pages/games/tap/PlayTap";
+import TapLeaderboard from "./pages/games/tap/TapLeaderboard";
 
 export default function App() {
   const location = useLocation();
@@ -288,6 +291,12 @@ export default function App() {
           path={ROUTES.TRUTH_AND_DARE.SAVED_QUESTIONS}
           element={<TruthAndDareSavedQuestions />}
         />
+
+        <Route path={ROUTES.TAP_TAP.HOW_TO_PLAY} element={<HowToPlay />} />
+
+        <Route path={ROUTES.TAP_TAP.PLAY} element={<PlayTap />} />
+
+        <Route path={ROUTES.TAP_TAP.LEADERBOARD} element={<TapLeaderboard />} />
       </Route>
 
       <Route
